@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categorias</title>
+    <link href="../recursos/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../recursos/css/tablas.css" rel="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <main>
+        <div id="mainContent">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="d-flex align-items-center">
+                        <div class="col-md-2 col-sm-4 fs-3 text-dark">Categorias</div>
+                        <!-- Input con botón de búsqueda -->
+                        <div class="input-group me-2">
+                            <input type="text" class="form-control rounded custom-search-input" placeholder="Buscar" aria-label="Buscar" aria-describedby="button-addon2">
+                        </div>
+
+                        <!-- Botón Agregar -->
+                        <button type="button" class="btn btn-custom custom-add-btn"
+                         onclick="openCreate()">Agregar</button>
+                    </div>
+                </div>
+
+
+                <div class="modal fade" id="saveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                    aria-labelledby="modalTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="modalTitle"></h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <!-- Formulario para crear o actualizar un registro -->
+                            <form id="saveForm">
+                                <div class="modal-body row g-3">
+                                    <!-- Campo oculto para asignar el id del registro al momento de modificar -->
+                                    <input type="number" class="d-none" id="idUsuario" name="idUsuario">
+                                    <div class="col-sm-12 col-md-6">
+                                        <label for="Nombres" class="form-label">Nombre</label>
+                                        <input id="Nombre" type="text" name="Nombres" class="form-control rounded-5"
+                                            placeholder="Ingresa el nombre del material" required>
+                                    </div>
+                                </div>
+                                <div class="modal-footer col-sm-12 col-md-12 col-lg-12 justify-content-center">
+                                    <button type="submit" class="boton btn azul">Guardar</button>
+                                    <button type="reset" class="boton btn azul">Cancelar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="table-responsive mt-3">
+                    <table class="table table-striped table-hover rounded-3 overflow-hidden">
+                        <thead class="table-primary">
+                            <tr>
+                                <th scope="col" class="col-1">#</th>
+                                <th scope="col">Categorias</th>
+                                <th scope="col" class="col-1 justify-content">Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="">
+                            <!--<tr>
+                                <th scope="row">1</th>
+                                <td>Categoria A</td>
+                                <td class="col-1">
+                                    <div class="d-flex justify-content-around">
+                                        <button class="btn btn-sm btn-outline-secondary"><i class='bx bx-edit-alt'></i></button>
+                                        <button class="btn btn-sm btn-outline-danger"><i class='bx bx-trash'></i></button>
+                                    </div>
+                                </td>
+                            </tr> -->
+                        </tbody>
+                    </table>
+                </div>
+
+ 
+            </div>
+        </div>
+    </main>
+
+    <!-- Llamada al controlador del boostrap bundle javascript -->
+    <script type="text/javascript" src="../recursos/js/bootstrap.bundle.min.js"></script>
+    <!-- Llamada al controlador del componente javascript -->
+    <script type="text/javascript" src="../controladores/utilidades/components.js"></script>
+    <!-- Importación de la librería para generar los gráficos. Para más información https://www.chartjs.org/ -->
+    <script type="text/javascript" src="../recursos/js/sweetalert.min.js"></script>
+    <!-- Llamada al controlador del template javascript -->
+     <script type="text/javascript" src="../controladores/utilidades/template.js"></script>
+    <!-- Llamada al controlador del componente javascript -->
+    <script type="text/javascript" src="../controladores/privada/categoria.js"></script>
+</body>
+
+</html>

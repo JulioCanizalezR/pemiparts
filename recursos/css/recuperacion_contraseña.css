@@ -1,0 +1,82 @@
+body {
+    background-image: url('../img/fondo.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-family: Arial, sans-serif;
+  }
+  
+  .container {
+    background-color: rgba(46, 46, 46, 0.8);
+    width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    text-align: center;
+  }
+  
+  .form-container {
+    padding: 20px;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  label {
+    margin-bottom: 10px;
+    color: white;
+  }
+  
+  input[type="text"],
+  input[type="password"],
+  .button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 5px;
+  }
+  
+  .button {
+    background-color: rgba(33, 150, 243, 1);
+    color: white;
+    cursor: pointer;
+    border-radius: 100px; /* Redondear el botón */
+  }
+  
+  .button:hover {
+    background-color: rgba(33, 150, 243, 0.8);
+  }
+  
+  .form-links {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+  }
+  
+  .form-links a {
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  @media (max-width: 600px) {
+    .container {
+      width: 80%;
+    }
+  }
+  .iniciar{
+    color: white;
+  }
+  .botones{
+    color: white;
+  }

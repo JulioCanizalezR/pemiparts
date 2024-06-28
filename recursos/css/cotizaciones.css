@@ -1,0 +1,41 @@
+.celeste {
+    background-color: #00aae4;
+}
+
+.bg-custom {
+    background-color: #90CAF9;
+}
+
+.btn-custom {
+    background-color: #90CAF9;
+    color: #fff;
+}
+
+.text-custom {
+    color: #fff;
+}
+
+body{
+    background-color: #E3F2FD;
+}
+
+.search-bar{
+    background-color: white;
+    width: 70%;
+}
+
+.btn-agregar{
+    background-color: #90CAF9;
+}
+
+.table-primary {
+    --bs-table-bg: #42A5F5;
+    color: #90CAF9;
+}
+
+.custom-rounded {
+    border-radius: 30px; /* Ajusta este valor para obtener esquinas más o menos redondeadas */
+    background-color: #90CAF9; /* Color de fondo especificado */
+    color: white; /* Texto blanco para mejor contraste */
+}
+ 

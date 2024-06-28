@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entidades</title>
+    <link href="../recursos/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../recursos/css/tablas.css" rel="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <main>
+        <div id="mainContent">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="d-flex align-items-center">
+                        <div class="col-md-2 col-sm-4 fs-3 text-dark">Entidades</div>
+                        <!-- Input con botón de búsqueda -->
+                        <div class="input-group me-2">
+                            <input type="text" class="form-control rounded custom-search-input" placeholder="Buscar"
+                                aria-label="Buscar" aria-describedby="button-addon2">
+                        </div>
+
+                        <!-- Botón Agregar -->
+                        <button type="button" class="btn btn-custom custom-add-btn " data-bs-toggle="modal"
+                            data-bs-target="#exampleModal" onclick="openCreate()">Agregar</button>
+                    </div>
+                </div>
+
+                <table class="table table-striped rounded-3 overflow-hidden">
+                    <thead class="table-primary">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Producto</th>
+                            <th scope="col">Contenedor</th>
+                            <th scope="col">Existencias</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col">Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Producto A</td>
+                            <td>Almacen A</td>
+                            <td>12</td>
+                            <td>Disponible</td>
+                            <td class="col-1">
+                                <div class="d-flex justify-content-around">
+                                    <button class="btn btn-sm btn-outline-secondary"><i
+                                            class='bx bx-edit-alt'></i></button>
+                                    <button class="btn btn-sm btn-outline-danger"><i class='bx bx-trash'></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 45%">
+                        <div class="modal-content rounded-3">
+                            <div class="modal-header border-0">
+                                <h5 class="modal-title" id="exampleModalLabel">Crear Contenedor</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div class="row g-3">
+                                        <div class="col-sm-12">
+                                            <div class="form-floating mb-3">
+                                                <input type="text" class="form-control" id="campo1"
+                                                    placeholder="Nombres">
+                                                <label for="campo1">Nombres</label>
+                                            </div>
+                                            <div class="form-floating mb-3">
+                                                <input type="text" class="form-control" id="campo2"
+                                                    placeholder="Tiempo Inicial">
+                                                <label for="campo2">Tiempo Inicial</label>
+                                            </div>
+                                            <div class="form-floating mb-3">
+                                                <input type="text" class="form-control" id="campo3"
+                                                    placeholder="Tiempo Final">
+                                                <label for="campo3">Tiempo Final</label>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer justify-content-center border-0">
+                                            <button type="submit" class="btn btn-primary">Guardar</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Llamada al controlador del boostrap bundle javascript -->
+    <script type="text/javascript" src="../recursos/js/bootstrap.bundle.min.js"></script>
+    <!-- Llamada al controlador del componente javascript -->
+    <script type="text/javascript" src="../controladores/utilidades/components.js"></script>
+    <!-- Importación de la librería para generar los gráficos. Para más información https://www.chartjs.org/ -->
+    <script type="text/javascript" src="../recursos/js/sweetalert.min.js"></script>
+    <!-- Llamada al controlador del template javascript -->
+    <script type="text/javascript" src="../controladores/utilidades/template.js"></script>
+    <!-- Llamada al controlador del componente javascript -->
+    <script type="text/javascript" src="../controladores/privada/clientes.js"></script>
+</body>
+
+</html>

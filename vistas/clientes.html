@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil</title>
+    <link href="../recursos/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../recursos/css/tablas.css" rel="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <main>
+        <div id="mainContent">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="d-flex align-items-center">
+                        <div class="col-md-2 col-sm-4 fs-3 text-dark">Clientes</div>
+                        <!-- Input con botón de búsqueda -->
+                        <div class="input-group me-2">
+                            <input type="text" class="form-control rounded custom-search-input" placeholder="Buscar"
+                                aria-label="Buscar" aria-describedby="button-addon2">
+                        </div>
+
+                        <!-- Botón Agregar -->
+                        <button type="button" class="btn btn-custom custom-add-btn "
+                            onclick="openCreate()">Agregar</button>
+                    </div>
+                </div>
+
+                <table class="table table-striped rounded-3 overflow-hidden">
+                    <thead class="table-primary">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Apellido</th>
+                            <th scope="col">Correo</th>
+                            <th scope="col">Teléfono</th>
+                            <th scope="col">Fecha del Registro</th>
+                            <th scope="col">Nombre Empresa</th>
+                            <th scope="col">Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>Julio Cesar</td>
+                            <td>Canizalez Rivas</td>
+                            <td>hola@gmail.com</td>
+                            <td>7345-3223</td>
+                            <td>22/2/22</td>
+                            <td>PEMI</td>
+                            <td class="d-flex justify-content-around">
+                                <div class="col-1">
+                                    <img src="../recursos/img/Delete.svg" alt="" />
+                                </div>
+                                <div class="col-1">
+                                    <img src="../recursos/img/Edit.svg" alt="" />
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="modal fade" id="saveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                    aria-labelledby="modalTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="modalTitle"></h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="saveForm">
+                                    <div class="row g-3">
+                                        <div class="col-sm-6">
+                                            <div class="form-floating mb-3">
+                                                <input type="text" class="d-none" id="Nombres" name="Nombres"
+                                                    placeholder="Nombres">
+                                                <label for="campo1">Nombres</label>
+                                            </div>
+                                            <div class="form-floating mb-3">
+                                                <input type="text" class="d-none" id="Apellidos" name="Apellidos"
+                                                    placeholder="Apellidos">
+                                                <label for="campo2">Apellidos</label>
+                                            </div>
+                                            <div class="form-floating mb-3">
+                                                <input type="email" class="d-none" id="Correo" name="Correo"
+                                                    placeholder="Correo">
+                                                <label for="campo3">Correo</label>
+                                            </div>
+                                            <div class="form-floating mb-3">
+                                                <input type="text" class="d-none" id="NombreEmpresa"
+                                                    name="NombreEmpresa" placeholder="Nombre de la empresa">
+                                                <label for="campo4">Nombre de la empresa</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-floating mb-3">
+                                                <input type="text" class="d-none" id="Dirección" name="Dirección"
+                                                    placeholder="Dirección">
+                                                <label for="campo5">Dirección</label>
+                                            </div>
+                                            <div class="form-floating mb-3">
+                                                <input type="text" class="d-none" id="TeléfonoEmpresa"
+                                                    name="TeléfonoEmpresa" placeholder="Teléfono">
+                                                <label for="campo6">Teléfono</label>
+                                            </div>
+                                            <div class="form-floating mb-3">
+                                                <input type="date" class="d-none" id="FechaRegistro"
+                                                    name="FechaRegistro" placeholder="Fecha de registro">
+                                                <label for="campo7">Fecha de registro</label>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer justify-content-center border-0">
+                                            <button type="submit" class="btn btn-primary">Guardar</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Llamada al controlador del boostrap bundle javascript -->
+    <script type="text/javascript" src="../recursos/js/bootstrap.bundle.min.js"></script>
+    <!-- Llamada al controlador del componente javascript -->
+    <script type="text/javascript" src="../controladores/utilidades/components.js"></script>
+    <!-- Importación de la librería para generar los gráficos. Para más información https://www.chartjs.org/ -->
+    <script type="text/javascript" src="../recursos/js/sweetalert.min.js"></script>
+    <!-- Llamada al controlador del template javascript -->
+    <script type="text/javascript" src="../controladores/utilidades/template.js"></script>
+    <!-- Llamada al controlador del componente javascript -->
+    <script type="text/javascript" src="../controladores/privada/clientes.js"></script>
+</body>
+
+</html>

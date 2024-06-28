@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos</title>
+    <link href="../recursos/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link href="../recursos/css/productos.css" rel="stylesheet">
+</head>
+
+<body>
+    <main>
+        <div id="mainContent">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="d-flex align-items-center">
+                        <!-- Dropdown de Bootstrap -->
+                        <div class="dropdown me-2">
+                            <button class="btn btn-primary dropdown-toggle rounded custom-search-btn" type="button"
+                                id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                Categoría
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <li><a class="dropdown-item" href="#">Ligero</a></li>
+                                <li><a class="dropdown-item" href="#">Pesado</a></li>
+                                <li><a class="dropdown-item" href="#">Muy pesado</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Input con botón de búsqueda -->
+                        <div class="input-group me-2">
+                            <input type="text" class="form-control rounded custom-search-input" placeholder="Buscar"
+                                aria-label="Buscar" aria-describedby="button-addon2">
+                        </div>
+
+                        <!-- Botón de agregar -->
+                        <button type="button" class="btn btn-custom custom-add-btn"
+                            onclick="openCreate()">Agregar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container-fluid mt-4">
+                <div class="d-flex justify-content-end">
+                    <div class="col-2 me-1"></div>
+                    <div class="row d-flex text-center gy-5 gx-5" id="cards">
+                        <!-- Aquí se mostrarán las cartas -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Componente Modal para guardar un registro -->
+            <div class="modal fade" id="saveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                aria-labelledby="modalTitle" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="modalTitle"></h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <!-- Formulario para crear o actualizar un registro -->
+                        <form id="saveForm">
+                            <div class="modal-body row g-3">
+                                <!-- Campo oculto para asignar el id del registro al momento de modificar -->
+                                <input type="hidden" id="idProducto" name="idProducto">
+                                <div class="col-sm-12 col-md-6">
+                                    <label for="producto" class="form-label">Nombre del producto</label>
+                                    <input id="producto" type="text" name="producto" class="form-control rounded-5"
+                                        placeholder="Ingresa el nombre del material" required>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <label for="descripcion" class="form-label">Descripción</label>
+                                    <input id="descripcion" type="text" name="descripcion"
+                                        class="form-control rounded-5" placeholder="Ingresa la descripción del material"
+                                        required>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <label for="cantidad" class="form-label">Cantidad</label>
+                                    <input id="cantidad" type="text" name="cantidad" class="form-control rounded-5"
+                                        placeholder="Ingresa el nombre del material" required>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <label for="precio" class="form-label">Precio</label>
+                                    <input id="precio" type="text" name="precio" class="form-control rounded-5"
+                                        placeholder="Ingresa el nombre del material" required>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <label for="categoria" class="form-label">Categoría</label>
+                                    <select id="categoria" name="categoria" class="form-select rounded-5" required>
+                                    </select>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <label for="imagen" class="form-label">Imagen</label>
+                                    <input id="imagen" type="file" name="imagen" class="form-control rounded-5"
+                                        accept=".png, .jpg">
+                                </div>
+                            </div>
+                            <div class="modal-footer col-sm-12 col-md-12 col-lg-12 justify-content-center">
+                                <button type="submit" class="boton btn azul">Guardar</button>
+                                <button type="reset" class="boton btn azul">Cancelar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Componente Modal para guardar un registro -->
+            <div class="modal fade" id="saveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                aria-labelledby="modalTitle" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="modalTitle"></h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <!-- Formulario para crear o actualizar un registro -->
+                        <form id="saveForm">
+                            <div class="modal-body row g-3">
+                                <!-- Campo oculto para asignar el id del registro al momento de modificar -->
+                                <input type="hidden" id="idProducto" name="idProducto">
+                                <div class="col-sm-12 col-md-6">
+                                    <label for="producto" class="form-label">Nombre del producto</label>
+                                    <input id="producto" type="text" name="producto" class="form-control rounded-5"
+                                        placeholder="Ingresa el nombre del material" required>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <label for="descripcion" class="form-label">Descripción</label>
+                                    <input id="descripcion" type="text" name="descripcion"
+                                        class="form-control rounded-5" placeholder="Ingresa la descripción del material"
+                                        required>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <label for="cantidad" class="form-label">Cantidad</label>
+                                    <input id="cantidad" type="text" name="cantidad" class="form-control rounded-5"
+                                        placeholder="Ingresa el nombre del material" required>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <label for="precio" class="form-label">Precio</label>
+                                    <input id="precio" type="text" name="precio" class="form-control rounded-5"
+                                        placeholder="Ingresa el nombre del material" required>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <label for="categoria" class="form-label">Categoría</label>
+                                    <select id="categoria" name="categoria" class="form-select rounded-5" required>
+                                    </select>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <label for="imagen" class="form-label">Imagen</label>
+                                    <input id="imagen" type="file" name="imagen" class="form-control rounded-5"
+                                        accept=".png, .jpg">
+                                </div>
+                            </div>
+                            <div class="modal-footer col-sm-12 col-md-12 col-lg-12 justify-content-center">
+                                <button type="submit" class="boton btn azul">Guardar</button>
+                                <button type="reset" class="boton btn azul">Cancelar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Componente Modal para visualizar un registro -->
+            <div class="modal fade" id="seeModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                aria-labelledby="modalTitle" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-blue-principal-color">
+                            <h1 class="modal-title fs-5 text-dark" id="modalTitle2"></h1>
+                            <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <!-- Formulario para visualizar un registro -->
+                        <form id="seeForm">
+                            <div class="modal-body row g-3">
+                                <!-- Mitad izquierda con la imagen -->
+                                <div class="col-md-6">
+                                    <div class="bg-white">
+                                        <img class="imagen img-fluid"
+                                            src="https://upload.wikimedia.org/wikipedia/commons/6/68/HwacheonCentreLathe_460x1000.jpg"
+                                            alt="...">
+                                    </div>
+                                </div>
+                                <!-- Mitad derecha con el contenido -->
+                                <div class="col-md-6">
+                                    <h5>Nombre del producto: <span class="no-letter">Torno</span></h5>
+                                    <p class="letter">Tipo: <span class="no-letter">Muy pesado</span></p>
+                                    <p class="letter">Precio: <span class="no-letter">$2000.00</span></p>
+                                    <p class="letter">Cantidad: <span class="no-letter">20</span></p>
+                                    <p class="letter">Costo de producción: <span class="no-letter">$500.00</span></p>
+                                    <p class="letter">Descripción: <span class="no-letter">Lorem ipsum dolor sit amet,
+                                            consectetur adipiscing elit, sed do
+                                            eiusmod tempor incididunt ut labore et dolore magna aliqua laborum. </span>
+                                    </p>
+                                    <!-- Botones de acciones -->
+                                    <div class="d-flex justify-content-center">
+                                        <button type="button" class="btn azul rounded-5 me-4" title="Actualizar"
+                                            onclick="openUpdate()">
+                                            <i class='bx bx-edit-alt'></i>
+                                        </button>
+                                        <button type="button" class="btn azul rounded-5" title="Eliminar"
+                                            onclick="openDelete()">
+                                            <i class='bx bx-trash'></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+    <!-- Llamada al controlador del boostrap bundle javascript -->
+    <script type="text/javascript" src="../recursos/js/bootstrap.bundle.min.js"></script>
+    <!-- Llamada al controlador del componente javascript -->
+    <script type="text/javascript" src="../controladores/utilidades/components.js"></script>
+    <!-- Importación de la librería para generar los gráficos. Para más información https://www.chartjs.org/ -->
+    <script type="text/javascript" src="../recursos/js/sweetalert.min.js"></script>
+    <!-- Llamada al controlador del template javascript -->
+    <script type="text/javascript" src="../controladores/utilidades/template.js"></script>
+    <!-- Llamada al controlador del componente javascript -->
+    <script type="text/javascript" src="../controladores/privada/productos.js"></script>
+
+</body>
+
+</html>

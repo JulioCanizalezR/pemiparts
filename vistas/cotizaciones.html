@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pemi</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="../recursos/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../recursos/css/cotizaciones.css">
+</head>
+
+<body>
+    <main>
+        <div id="mainContent">
+            <div class="container">
+                <!--Buscador y boton de agregar-->
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <h3 class="m-0 me-4">Cotizaciones</h3>
+                    <form class="d-flex me-2 mb-0 flex-grow-1">
+                        <input class="form-control me-2 mb-0 search-bar" type="search" placeholder="Buscar"
+                            aria-label="Buscar">
+                        <button type="button" class="btn btn-light btn-agregar w-80" data-bs-toggle="modal"
+                            data-bs-target="#ModalForm">Agregar</button>
+                    </form>
+                </div>
+
+                <div class="container mt-5">
+                    <div class="p-5 custom-rounded">
+                        <div class="row w-100">
+                            <div class="col">
+                                <h3>01</h3>
+                                <h4>Julio Canizalez</h4>
+                                <h4>Envio: Camion</h4>
+                            </div>
+                            <div class="col">
+                                <h3 class="text-end">Activa</h3>
+                            </div>
+                        </div>
+                        <div class="row w-100 mt-auto">
+                            <div class="col">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h4>20/02/2024</h4>
+                                    <button class="btn btn-secondary">Ver más</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="container mt-5">
+                    <div class="p-5 custom-rounded">
+                        <div class="row w-100">
+                            <div class="col">
+                                <h3>01</h3>
+                                <h4>Julio Canizalez</h4>
+                                <h4>Envio: Camion</h4>
+                            </div>
+                            <div class="col">
+                                <br>
+                                <h3 class="text-start">Total</h3>
+                                <h3 class="text-start">Nº contenedor</h3>
+                            </div>
+                            <div class="col">
+                                <h3 class="text-end">Activa</h3>
+                            </div>
+                        </div>
+
+                        <div class="row w-100 mt-auto">
+                            <div class="col">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h4>20/02/2024</h4>
+                                    <div class="d-flex align-items-center">
+                                        <button class="btn btn-secondary me-2" data-bs-toggle="modal"
+                                            data-bs-target="#ModalForm2">Agregar</button>
+                                        <button class="btn btn-secondary me-2">Factura</button>
+                                        <button class="btn btn-secondary me-2">Ver más</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="ModalForm" tabindex="-1" aria-labelledby="ModalFormLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="ModalFormLabel">Agregar Producto</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="productForm">
+                                            <div class="row mb-3">
+                                                <div class="col">
+                                                    <label for="productName" class="form-label">Producto</label>
+                                                    <input type="text" class="form-control" id="productName" required>
+                                                </div>
+                                                <div class="col">
+                                                    <label for="productQuantity" class="form-label">Cantidad</label>
+                                                    <input type="number" class="form-control" id="productQuantity"
+                                                        required>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col">
+                                                    <!-- Botón Guardar -->
+                                                    <button type="submit" class="btn btn-custom btn-lg">Guardar</button>
+                                                </div>
+                                                <div class="col">
+                                                    <!-- Botón Cancelar -->
+                                                    <button type="button" class="btn btn-custom btn-lg"
+                                                        data-bs-dismiss="modal">Cancelar</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="ModalForm2" tabindex="-1" aria-labelledby="ModalFormLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="ModalFormLabel">Agregar Cotizacion</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form>
+                                            <div class="row">
+                                                <!-- Primera columna -->
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label for="fechaFinal" class="form-label">Fecha Final</label>
+                                                        <input type="date" class="form-control" id="fechaFinal"
+                                                            required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="costoEnvio" class="form-label">Costo de
+                                                            Envío</label>
+                                                        <input type="number" class="form-control" id="costoEnvio"
+                                                            required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="impuesto" class="form-label">Impuesto</label>
+                                                        <input type="number" class="form-control" id="impuesto">
+                                                    </div>
+                                                </div>
+                                                <!-- Segunda columna -->
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label for="tipoEnvio" class="form-label">Tipo de Envío</label>
+                                                        <select class="form-select" id="tipoEnvio" required>
+                                                            <option selected disabled value="">Seleccionar tipo de envío
+                                                            </option>
+                                                            <option value="Terrestre">Terrestre</option>
+                                                            <option value="Marítimo">Marítimo</option>
+                                                            <option value="Aéreo">Aéreo</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="impuestoEnvio" class="form-label">Impuesto de
+                                                            Envío</label>
+                                                        <input type="number" class="form-control" id="impuestoEnvio">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="numAlmacen" class="form-label">N° de Almacén</label>
+                                                        <input type="text" class="form-control" id="numAlmacen"
+                                                            required>
+                                                    </div>
+                                                </div>
+                                                <!-- Tercera columna -->
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label for="mensajeGarantia" class="form-label">Mensaje de
+                                                            Garantía</label>
+                                                        <textarea class="form-control" id="mensajeGarantia"
+                                                            rows="4"></textarea>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="estado" class="form-label">Estado</label>
+                                                        <input type="text" class="form-control" id="estado" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="container">
+                                                <div class="row">
+                                                    <div class="col text-center">
+                                                        <button type="submit" class="btn btn-custom">Guardar</button>
+                                                        <button type="button" class="btn btn-custom"
+                                                            data-bs-dismiss="modal">Cancelar</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+                                style="max-width: 45%">
+                                <div class="modal-content rounded-3">
+                                    <div class="modal-header border-0">
+                                        <h5 class="modal-title" id="exampleModalLabel">Crear Contenedor</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form>
+                                            <div class="row g-3">
+                                                <div class="col-sm-12">
+                                                    <div class="form-floating mb-3">
+                                                        <input type="text" class="form-control" id="campo1"
+                                                            placeholder="Nombres">
+                                                        <label for="campo1">Nombres</label>
+                                                    </div>
+                                                    <div class="form-floating mb-3">
+                                                        <input type="text" class="form-control" id="campo2"
+                                                            placeholder="Tiempo Inicial">
+                                                        <label for="campo2">Tiempo Inicial</label>
+                                                    </div>
+                                                    <div class="form-floating mb-3">
+                                                        <input type="text" class="form-control" id="campo3"
+                                                            placeholder="Tiempo Final">
+                                                        <label for="campo3">Tiempo Final</label>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer justify-content-center border-0">
+                                                    <button type="submit" class="btn btn-primary">Guardar</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br><br>
+                        <!-- Tabla -->
+                        <table class="table table-striped rounded-3 overflow-hidden">
+                            <thead class="table-primary">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Tiempo inicial</th>
+                                    <th scope="col">Tiempo final</th>
+                                    <th scope="col">Opciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>Almacen A</td>
+                                    <td>17/6/2024</td>
+                                    <td>23/8/2026</td>
+                                    <td class="col-1">
+                                        <div class="d-flex justify-content-around">
+                                            <button class="btn btn-sm btn-outline-secondary"><i
+                                                    class='bx bx-edit-alt'></i></button>
+                                            <button class="btn btn-sm btn-outline-danger"><i
+                                                    class='bx bx-trash'></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2</th>
+                                    <td>Almacen A</td>
+                                    <td>17/6/2024</td>
+                                    <td>23/8/2026</td>
+                                    <td class="col-1">
+                                        <div class="d-flex justify-content-around">
+                                            <button class="btn btn-sm btn-outline-secondary"><i
+                                                    class='bx bx-edit-alt'></i></button>
+                                            <button class="btn btn-sm btn-outline-danger"><i
+                                                    class='bx bx-trash'></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                </div>
+            </div>
+    </main>
+    <script type="text/javascript" src="../controladores/utilidades/components.js"></script>
+    <!-- Importación de la librería para generar los gráficos. Para más información https://www.chartjs.org/ -->
+    <script type="text/javascript" src="../recursos/js/chart.umd.min.js"></script>
+    <!-- Llamada al controlador del template javascript -->
+    <script type="text/javascript" src="../controladores/utilidades/template.js"></script>
+
+</body>
+
+</html>

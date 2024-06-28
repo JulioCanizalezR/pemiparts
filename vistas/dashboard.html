@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="../recursos/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../recursos/css/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="../recursos/css/inicio.css" rel="stylesheet">
+</head>
+
+<body>
+    <main>
+        <div id="mainContent">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="card custom-card h-100">
+                            <div class="card-body">
+                                <h5>Bienvenidos al programa de gestión de inventario</h5>
+                                <img src="../recursos/img/vector2.png" alt="Vector Image" class="img-fluid">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card custom-card h-100">
+                            <div class="card-body">
+                                <h4>Productos Almacenados</h4>
+                                <div class="chart-container">
+                                    <canvas id="myChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <div class="card custom-card">
+                            <div class="card-body">
+                                <i class="bi bi-bell notification-icon"></i>
+                                <h4>Notificaciones</h4>
+                                <p>Tienes 4 notificaciones pendientes</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </main>
+    <script type="text/javascript" src="../recursos/js/chart.umd.min.js"></script>
+    <script type="text/javascript" src="../recursos/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="../recursos/js/sweetalert.min.js"></script>
+    <script type="text/javascript" src="../controladores/utilidades/components.js"></script>
+    <script type="text/javascript" src="../controladores/utilidades/template.js"></script>
+    <script type="text/javascript" src="../controladores/privada/inicio.js"></script>
+</body>
+
+</html>

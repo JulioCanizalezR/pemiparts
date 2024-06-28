@@ -1,0 +1,79 @@
+#mainContent {
+    background-color: #E3F2FD;  
+}
+
+.custom-search-btn {
+    background-color: #1E88E5;
+}
+
+.custom-search-input {
+    background-color: #1E88E5 !important;
+    color: white !important;  
+}
+
+.custom-add-btn {
+    border-radius: 5px;
+    background-color: #90CAF9;
+    border: 0;
+    color: #ffffff; 
+    position: relative;
+    z-index: 10; 
+}
+
+.custom-search-input::placeholder {
+    color: rgba(255, 255, 255, 0.7); 
+    opacity: 1; 
+}
+
+.table {
+    margin-top: 20px;
+    border-radius: 15px;
+    border-collapse: collapse; /* Nueva regla */
+}
+
+.table-primary {
+    --bs-table-bg: #42A5F5;
+    color: white;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: #90CAF9;  
+}
+
+.table-striped > tbody > tr:nth-of-type(even) {
+    background-color: #42A5F5;  
+}
+
+.table-striped tbody tr,
+.table-striped tbody td,
+.table-striped tbody th,
+.table-primary tr,
+.table-primary th { /* Nuevas reglas */
+    margin: 0;
+    padding: 0;
+    border: none; /* Si es necesario */
+}
+
+.modal-content {
+    border-radius: 15px;
+}
+
+input[type="search"] {
+    border-radius: 15px;
+}
+
+button {
+    border-radius: 15px;
+}
+
+.table td, .table th {
+    padding: 0.75rem;  
+}
+
+.table .btn {
+    margin-right: 5px;  
+}
+
+.table .d-flex {
+    gap: 5px; 
+}

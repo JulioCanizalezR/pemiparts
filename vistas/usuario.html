@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuario</title>
+    <link href="../recursos/css/bootstrap.min.css" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="../recursos/css/productos.css" rel="stylesheet">
+</head>
+
+<body>
+    <main>
+        <div id="mainContent">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="d-flex align-items-center">
+                        <!--Texto-->
+                        <div class="col-2">
+                            <h3>Usuarios</h3>
+                        </div>
+                        <!-- Input con botón de búsqueda -->
+                        <div class="input-group me-2">
+                            <input type="text" class="form-control rounded custom-search-input" placeholder="Buscar"
+                                aria-label="Buscar" aria-describedby="button-addon2">
+                        </div>
+
+                        <!-- Botón de agregar -->
+                        <button type="button" class="btn btn-custom custom-add-btn"
+                            onclick="openCreate()">Agregar</button>
+                    </div>
+                </div>
+
+                <div class="container-fluid mt-4">
+                    <div class="d-flex justify-content-end">
+                        <div class="col-1"></div>
+                        <div class="row d-flex text-center gy-5 gx-5" id="cards">
+                            <!-- Aquí se mostrarán las cartas -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Componente Modal para guardar un registro -->
+                <div class="modal fade" id="saveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                    aria-labelledby="modalTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="modalTitle"></h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <!-- Formulario para crear o actualizar un registro -->
+                            <form id="saveForm">
+                                <div class="modal-body row g-3">
+                                    <!-- Campo oculto para asignar el id del registro al momento de modificar -->
+                                    <input type="number" class="d-none" id="idUsuario" name="idUsuario">
+                                    <div class="col-sm-12 col-md-6">
+                                        <label for="Nombres" class="form-label">Nombres</label>
+                                        <input id="Nombres" type="text" name="Nombres" class="form-control rounded-5"
+                                            placeholder="Ingresa el nombre del material" required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <label for="Apellidos" class="form-label">Apellidos</label>
+                                        <input id="Apellidos" type="text" name="Apellidos"
+                                            class="form-control rounded-5"
+                                            placeholder="Ingresa la descripción del material" required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <label for="Cargo" class="form-label">Cargo</label>
+                                        <input id="Cargo" type="text" name="Cargo" class="form-control rounded-5"
+                                            placeholder="Ingresa el nombre del material" required></input>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <label for="Email" class="form-label">Email</label>
+                                        <input id="Email" type="email" name="Email" class="form-control rounded-5"
+                                            required>
+                                        </inputs>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <label for="Telefono" class="form-label">Telefono</label>
+                                        <input id="Telefono" type="text" name="Telefono" class="form-control rounded-5"
+                                            required>
+                                        </input>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <label for="imagen" class="form-label">Imagen</label>
+                                        <input id="imagen" type="file" name="imagen" class="form-control rounded-5"
+                                            accept=".png, .jpg">
+                                    </div>
+                                </div>
+                                <div class="modal-footer col-sm-12 col-md-12 col-lg-12 justify-content-center">
+                                    <button type="submit" class="boton btn azul">Guardar</button>
+                                    <button type="reset" class="boton btn azul">Cancelar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Componente Modal para visualizar un registro -->
+                <div class="modal fade" id="seeModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                    aria-labelledby="modalTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header bg-blue-principal-color">
+                                <h1 class="modal-title fs-5 text-dark" id="modalTitle2"></h1>
+                                <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <!-- Formulario para visualizar un registro -->
+                            <form id="seeForm">
+                                <div class="modal-body row g-3">
+                                    <!-- Mitad izquierda con la imagen -->
+                                    <div class="col-md-6">
+                                        <div class="bg-white">
+                                            <img class="imagen img-fluid"
+                                                src="https://www.arideocean.com/wp-content/themes/arkahost/assets/images/default.png"
+                                                alt="">
+                                        </div>
+                                    </div>
+                                    <!-- Mitad derecha con el contenido -->
+                                    <div class="col-md-6">
+                                        <p class="letter">Nombres: <span class="no-letter" id="nombre">Juan Torres</span></P>
+                                        <p class="letter">Apellidos: <span class="no-letter" id="apellido">Campos Lopez</span></p>
+                                        <p class="letter">Cargo: <span class="no-letter" id="cargo">Empleado</span></p>
+                                        <p class="letter">Email: <span class="no-letter" id="email">Juan@gmail.com</span></p>
+                                        <p class="letter">Telefono: <span class="no-letter" id="telefono">7233-2134</span></p>
+                                        <!-- Botones de acciones -->
+                                        <div class="d-flex justify-content-center">
+                                            <button type="button" class="btn azul rounded-5 me-4" title="Actualizar" id="Actualizar">
+                                                <i class='bx bx-edit-alt'></i>
+                                            </button>
+                                            <button type="button" class="btn azul rounded-5" title="Eliminar" id="Eliminar">
+                                                <i class='bx bx-trash'></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- Llamada al controlador del boostrap bundle javascript -->
+    <script type="text/javascript" src="../recursos/js/bootstrap.bundle.min.js"></script>
+    <!-- Llamada al controlador del componente javascript -->
+    <script type="text/javascript" src="../controladores/utilidades/components.js"></script>
+    <!-- Importación de la librería para generar los gráficos. Para más información https://www.chartjs.org/ -->
+    <script type="text/javascript" src="../recursos/js/sweetalert.min.js"></script>
+    <!-- Llamada al controlador del template javascript -->
+    <script type="text/javascript" src="../controladores/utilidades/template.js"></script>
+    <!-- Llamada al controlador de usuario javascript -->
+    <script type="text/javascript" src="../controladores/privada/usuario.js"></script>
+</body>
+
+</html>
