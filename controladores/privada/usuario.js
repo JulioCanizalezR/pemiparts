@@ -170,45 +170,45 @@ const openUpdate = async (id) => {
 * Retorno: ninguno.
 */
 
-async function fillCards(form = null) {
-  const cargarCartas = document.getElementById("cards");
-  // Mostrar materiales de respaldo
-  try {
-    cargarCartas.innerHTML = "";
+  async function fillCards(form = null) {
+    const cargarCartas = document.getElementById("cards");
+    // Mostrar materiales de respaldo
+    try {
+      cargarCartas.innerHTML = "";
 
-    const DATA = await fetchData(Usuario_api, "readAll");
-    console.log(DATA);
-    if (DATA.status) {
-      DATA.dataset.forEach((row) => {
-        const cardsHtml = ` 
-        <div class="col-md-5 col-sm-12">
-                    <div class="tarjetas shadow d-flex align-items-center">
-                        <!-- Imagen a la izquierda -->
-                        <div class="col-6 bg-white tarjetas">
-                            <img class="img-fluid imagen"
-                                src="${SERVER_URL}images/usuarios/${row.imagen_usuario}"
-                                alt="...">
-                        </div>
-                        <!-- Textos a la derecha -->
-                        <div class="col-6">
-                            <p>Teléfono: <span>${row.numero_telefono}</span></p>
-                            <p>Nombre: <span>${row.nombre} ${row.apellido}</span></p>
-                            <p>Cargo: <span>${row.cargo}</span></p>
-                            <p>Email: <span>${row.correo_electronico}</span></p>
-                            <button class="btn botones azul rounded-5" onclick="readOne(${row.id_usuario})">Ver mas...</button>
-                        </div>
-                    </div>
-                </div>
-        `;
-        cargarCartas.innerHTML += cardsHtml;
-      });
-    } else {
-      console.log("Error al obtener los datos");
+      const DATA = await fetchData(Usuario_api, "readAll");
+      console.log(DATA);
+      if (DATA.status) {
+        DATA.dataset.forEach((row) => {
+          const cardsHtml = ` 
+          <div class="col-md-5 col-sm-12">
+                      <div class="tarjetas shadow d-flex align-items-center">
+                          <!-- Imagen a la izquierda -->
+                          <div class="col-6 bg-white tarjetas">
+                              <img class="img-fluid imagen"
+                                  src="${SERVER_URL}images/usuarios/${row.imagen_usuario}"
+                                  alt="...">
+                          </div>
+                          <!-- Textos a la derecha -->
+                          <div class="col-6">
+                              <p>Teléfono: <span>${row.numero_telefono}</span></p>
+                              <p>Nombre: <span>${row.nombre} ${row.apellido}</span></p>
+                              <p>Cargo: <span>${row.cargo}</span></p>
+                              <p>Email: <span>${row.correo_electronico}</span></p>
+                              <button class="btn botones azul rounded-5" onclick="readOne(${row.id_usuario})">Ver mas...</button>
+                          </div>
+                      </div>
+                  </div>
+          `;
+          cargarCartas.innerHTML += cardsHtml;
+        });
+      } else {
+        console.log("Error al obtener los datos");
+      }
+    } catch (error) {
+      console.error("Error al obtener datos de la API:", error);
     }
-  } catch (error) {
-    console.error("Error al obtener datos de la API:", error);
   }
-}
 
 async function fillCards(form = null) {
   const cargarCartas = document.getElementById("cards");

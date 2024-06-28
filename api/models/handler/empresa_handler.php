@@ -9,7 +9,7 @@ class EmpresaHandler
     /*
      *  Declaración de atributos para el manejo de datos.
      */
-    protected $id = null;
+    protected $id_empresa = null;
     protected $nombre_empresa = null;
 
     // Constante para establecer la ruta de las imágenes.
@@ -23,51 +23,51 @@ class EmpresaHandler
         $sql = 'SELECT id_empresa, nombre_empresa
                 FROM tb_empresas
                 WHERE nombre_empresa LIKE ? 
-                ORDER BY nombre';
+                ORDER BY nombre_empresa';
         $params = array($value, $value);
         return Database::getRows($sql, $params);
     }
 
     public function createRow()
     {
-        $sql = 'INSERT INTO tb_categorias(nombre)
+        $sql = 'INSERT INTO tb_empresas(nombre_empresa)
                 VALUES(?)';
-        $params = array($this->nombre);
+        $params = array($this->nombre_empresa);
         return Database::executeRow($sql, $params);
     }
 
     public function readAll()
     {
-        $sql = 'SELECT id_categoria, nombre
-                FROM tb_categorias
-                ORDER BY nombre';
+        $sql = 'SELECT id_empresa, nombre_empresa
+                FROM tb_empresas
+                ORDER BY nombre_empresa';
         return Database::getRows($sql);
     }
 
     public function readOne()
     {
-        $sql = 'SELECT id_categoria, nombre
-                FROM tb_categorias
-                WHERE id_categoria = ?';
-        $params = array($this->id);
+        $sql = 'SELECT id_empresa, nombre_empresa
+                FROM tb_empresas
+                WHERE id_empresa = ?';
+        $params = array($this->id_empresa);
         return Database::getRow($sql, $params);
     }
 
 
     public function updateRow()
     {
-        $sql = 'UPDATE tb_categorias
-                SET nombre = ?
-                WHERE id_categoria = ?';
-        $params = array($this->nombre, $this->id);
+        $sql = 'UPDATE tb_empresas
+                SET nombre_empresa = ?
+                WHERE id_empresa = ?';
+        $params = array($this->nombre_empresa, $this->id_empresa);
         return Database::executeRow($sql, $params);
     }
 
     public function deleteRow()
     {
-        $sql = 'DELETE FROM tb_categorias
-                WHERE id_categoria = ?';
-        $params = array($this->id);
+        $sql = 'DELETE FROM tb_empresas
+                WHERE id_empresa = ?';
+        $params = array($this->id_empresa);
         return Database::executeRow($sql, $params);
     }
 }

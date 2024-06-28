@@ -28,6 +28,7 @@ if (isset($_GET['action'])) {
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
+                    //falta ver esto de clave ya tengo sueño
                     !$usuario->setNombre($_POST['Nombres']) or
                     !$usuario->setApellido($_POST['Apellidos']) or
                     !$usuario->setCargo($_POST['Cargo']) or
