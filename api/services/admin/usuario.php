@@ -120,8 +120,8 @@ if (isset($_GET['action'])) {
                 if (
                     !$usuario->setNombre($_POST['nombreAdministrador']) or
                     !$usuario->setApellido($_POST['apellidoAdministrador']) or
-                    !$usuario->setCorreo($_POST['correoAdministrador']) or
-                    !$usuario->setAlias($_POST['correoUsuario'])
+                    !$usuario->setCorreo($_POST['correoAdministrador'])
+                /*    !$usuario->setAlias($_POST['correoUsuario']) */
                 ) {
                     $result['error'] = $usuario->getDataError();
                 } elseif ($usuario->editProfile()) {
