@@ -10,6 +10,7 @@ class UsuarioData extends UsuarioHandler
 {
     // Atributo genérico para manejo de errores.
     private $data_error = null;
+    private $filename = null;
 
     /*
      *  Métodos para validar y asignar valores de los atributos.
@@ -89,8 +90,23 @@ class UsuarioData extends UsuarioHandler
         }
     }
 
+    public function setImagen($file, $filename = null)
+    {
+        if (Validator::validateImageFile($file, 1000)) {
+            $this->imagen = Validator::getFileName();
+            return true;
+        } elseif (Validator::getFileError()) {
+            $this->data_error = Validator::getFileError();
+            return false;
+        } elseif ($filename) {
+            $this->imagen = $filename;
+            return true;
+        } else {
+            $this->imagen = 'default.png';
+            return true;
+        }
+    }
 
-    
     public function setClave($value)
     {
         if (Validator::validatePassword($value)) {
@@ -100,6 +116,22 @@ class UsuarioData extends UsuarioHandler
             $this->data_error = Validator::getPasswordError();
             return false;
         }
+    }
+
+    public function setFilename()
+    {
+        if ($data = $this->readFilename()) {
+            $this->filename = $data['imagen_usuario'];
+            return true;
+        } else {
+            $this->data_error = 'Imagen inexistente';
+            return false;
+        }
+    }
+
+    public function getFilename()
+    {
+        return $this->filename;
     }
 
     // Método para obtener el error de los datos.

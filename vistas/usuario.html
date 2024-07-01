@@ -56,37 +56,53 @@
                                     <!-- Campo oculto para asignar el id del registro al momento de modificar -->
                                     <input type="number" class="d-none" id="idUsuario" name="idUsuario">
                                     <div class="col-sm-12 col-md-6">
-                                        <label for="Nombres" class="form-label">Nombres</label>
-                                        <input id="Nombres" type="text" name="Nombres" class="form-control rounded-5"
-                                            placeholder="Ingresa el nombre del material" required>
+                                        <label for="nombreUsuario" class="form-label">Nombre</label>
+                                        <input id="nombreUsuario" type="text" name="nombreUsuario"
+                                            class="form-control rounded-5" placeholder="John" required>
                                     </div>
                                     <div class="col-sm-12 col-md-6">
-                                        <label for="Apellidos" class="form-label">Apellidos</label>
-                                        <input id="Apellidos" type="text" name="Apellidos"
-                                            class="form-control rounded-5"
-                                            placeholder="Ingresa la descripción del material" required>
+                                        <label for="apellidoUsuario" class="form-label">Apellido</label>
+                                        <input id="apellidoUsuario" type="text" name="apellidoUsuario"
+                                            class="form-control rounded-5" placeholder="Doe" required>
                                     </div>
                                     <div class="col-sm-12 col-md-6">
-                                        <label for="Cargo" class="form-label">Cargo</label>
-                                        <input id="Cargo" type="text" name="Cargo" class="form-control rounded-5"
-                                            placeholder="Ingresa el nombre del material" required></input>
-                                    </div>
-                                    <div class="col-sm-12 col-md-6">
-                                        <label for="Email" class="form-label">Email</label>
-                                        <input id="Email" type="email" name="Email" class="form-control rounded-5"
-                                            required>
+                                        <label for="correoUsuario" class="form-label">Correo Electrónico</label>
+                                        <input id="correoUsuario" type="email" name="correoUsuario"
+                                            class="form-control rounded-5" placeholder="johndoe@example.com" required>
                                         </inputs>
                                     </div>
                                     <div class="col-sm-12 col-md-6">
-                                        <label for="Telefono" class="form-label">Telefono</label>
-                                        <input id="Telefono" type="text" name="Telefono" class="form-control rounded-5"
-                                            required>
+                                        <label for="telefonoUsuario" class="form-label">Telefono</label>
+                                        <input id="telefonoUsuario" type="text" name="telefonoUsuario"
+                                            class="form-control rounded-5" placeholder="2454-7777" required>
                                         </input>
                                     </div>
                                     <div class="col-sm-12 col-md-6">
-                                        <label for="imagen" class="form-label">Imagen</label>
-                                        <input id="imagen" type="file" name="imagen" class="form-control rounded-5"
-                                            accept=".png, .jpg">
+                                        <label for="claveUsuario" class="form-label">Contraseña</label>
+                                        <input id="claveUsuario" type="password" name="claveUsuario"
+                                            class="form-control rounded-5" placeholder="Contraseña"
+                                            aria-label="Contraseña" required>
+                                        </input>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <label for="confirmarClave" class="form-label">Confirmar Contraseña</label>
+                                        <input id="confirmarClave" type="password" name="confirmarClave"
+                                            class="form-control rounded-5" placeholder="Confirmar Contraseña"
+                                            aria-label="Contraseña" required>
+                                        </input>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <label for="cargoUsuario" class="form-label">Cargo</label>
+                                        <select id="cargoUsuario" name="cargoUsuario" class="form-select rounded-3"
+                                            required>
+                                            <option value="0">Gerente</option>
+                                            <option value="1">Empleado</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <label for="imagenUsuario" class="form-label">Imagen</label>
+                                        <input id="imagenUsuario" type="file" name="imagenUsuario"
+                                            class="form-control rounded-5" accept=".png, .jpg">
                                     </div>
                                 </div>
                                 <div class="modal-footer col-sm-12 col-md-12 col-lg-12 justify-content-center">
@@ -100,7 +116,7 @@
 
                 <!-- Componente Modal para visualizar un registro -->
                 <div class="modal fade" id="seeModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-                    aria-labelledby="modalTitle" aria-hidden="true">
+                    aria-labelledby="modalTitle2" aria-hidden="true">
                     <div class="modal-dialog modal-lg modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header bg-blue-principal-color">
@@ -114,24 +130,30 @@
                                     <!-- Mitad izquierda con la imagen -->
                                     <div class="col-md-6">
                                         <div class="bg-white">
-                                            <img class="imagen img-fluid"
+                                            <img class="imagen img-fluid" id="imagen"
                                                 src="https://www.arideocean.com/wp-content/themes/arkahost/assets/images/default.png"
                                                 alt="">
                                         </div>
                                     </div>
                                     <!-- Mitad derecha con el contenido -->
                                     <div class="col-md-6">
-                                        <p class="letter">Nombres: <span class="no-letter" id="nombre">Juan Torres</span></P>
-                                        <p class="letter">Apellidos: <span class="no-letter" id="apellido">Campos Lopez</span></p>
+                                        <p class="letter">Nombres: <span class="no-letter" id="nombre">Juan
+                                                Torres</span></P>
+                                        <p class="letter">Apellidos: <span class="no-letter" id="apellido">Campos
+                                                Lopez</span></p>
                                         <p class="letter">Cargo: <span class="no-letter" id="cargo">Empleado</span></p>
-                                        <p class="letter">Email: <span class="no-letter" id="email">Juan@gmail.com</span></p>
-                                        <p class="letter">Telefono: <span class="no-letter" id="telefono">7233-2134</span></p>
+                                        <p class="letter">Email: <span class="no-letter"
+                                                id="email">Juan@gmail.com</span></p>
+                                        <p class="letter">Telefono: <span class="no-letter"
+                                                id="telefono">7233-2134</span></p>
                                         <!-- Botones de acciones -->
                                         <div class="d-flex justify-content-center">
-                                            <button type="button" class="btn azul rounded-5 me-4" title="Actualizar" id="Actualizar">
+                                            <button type="button" class="btn azul rounded-5 me-4" title="Actualizar"
+                                                id="Actualizar">
                                                 <i class='bx bx-edit-alt'></i>
                                             </button>
-                                            <button type="button" class="btn azul rounded-5" title="Eliminar" id="Eliminar">
+                                            <button type="button" class="btn azul rounded-5" title="Eliminar"
+                                                id="Eliminar">
                                                 <i class='bx bx-trash'></i>
                                             </button>
                                         </div>
@@ -141,6 +163,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </main>

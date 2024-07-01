@@ -2,8 +2,8 @@
 # | Custom error messages/pages                                        |
 # ----------------------------------------------------------------------
 
-ErrorDocument 403 /EXPO-PTC/recursos/error/403.html
-ErrorDocument 404 /EXPO-PTC/recursos/error/404.html
+ErrorDocument 403 /pemiparts/recursos/error/403.html
+ErrorDocument 404 /pemiparts/recursos/error/404.html
 
 # ----------------------------------------------------------------------
 # | Character encodings                                                |

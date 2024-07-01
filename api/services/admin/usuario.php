@@ -9,7 +9,7 @@ if (isset($_GET['action'])) {
     // Se instancia la clase correspondiente.
     $usuario = new UsuarioData;
     // Se declara e inicializa un arreglo para guardar el resultado que retorna la API.
-    $result = array('status' => 0, 'session' => 0, 'message' => null, 'dataset' => null, 'error' => null, 'exception' => null, 'username' => null);
+    $result = array('status' => 0, 'session' => 0, 'message' => null, 'dataset' => null, 'error' => null, 'exception' => null, 'username' => null, 'fileStatus' => null);
     // Se verifica si existe una sesión iniciada como administrador, de lo contrario se finaliza el script con un mensaje de error.
     if (isset($_SESSION['idUsuario'])) {
         $result['session'] = 1;
@@ -28,19 +28,23 @@ if (isset($_GET['action'])) {
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    //falta ver esto de clave ya tengo sueño
-                    !$usuario->setNombre($_POST['Nombres']) or
-                    !$usuario->setApellido($_POST['Apellidos']) or
-                    !$usuario->setCargo($_POST['Cargo']) or
-                    !$usuario->setCorreo($_POST['Email']) or
-                    !$usuario->setTelefono($_POST['Telefono'])
+                    !$usuario->setImagen($_FILES['imagenUsuario']) or
+                    !$usuario->setNombre($_POST['nombreUsuario']) or
+                    !$usuario->setApellido($_POST['apellidoUsuario']) or
+                    !$usuario->setTelefono($_POST['telefonoUsuario']) or
+                    !$usuario->setCargo($_POST['cargoUsuario']) or
+                    !$usuario->setCorreo($_POST['correoUsuario']) or
+                    !$usuario->setClave($_POST['claveUsuario'])
+
                 ) {
                     $result['error'] = $usuario->getDataError();
-                } elseif ($_POST['claveAdministrador'] != $_POST['confirmarClave']) {
+                } elseif ($_POST['claveUsuario'] != $_POST['confirmarClave']) {
                     $result['error'] = 'Contraseñas diferentes';
                 } elseif ($usuario->createRow()) {
                     $result['status'] = 1;
                     $result['message'] = 'Usuario creado correctamente';
+                    // Se asigna el estado del archivo después de insertar.
+                    $result['fileStatus'] = Validator::saveFile($_FILES['imagenUsuario'], $usuario::RUTA_IMAGEN);
                 } else {
                     $result['error'] = 'Ocurrió un problema al crear el usuario';
                 }
@@ -66,16 +70,20 @@ if (isset($_GET['action'])) {
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$usuario->setId($_POST['idUsuario']) or
-                    !$usuario->setNombre($_POST['Nombres']) or
-                    !$usuario->setApellido($_POST['Apellidos']) or
-                    !$usuario->setCargo($_POST['Cargo']) or
-                    !$usuario->setCorreo($_POST['Email']) or
-                    !$usuario->setTelefono($_POST['Telefono']) 
+                    !$usuario->setNombre($_POST['nombreUsuario']) or
+                    !$usuario->setFilename() or 
+                    !$usuario->setApellido($_POST['apellidoUsuario']) or
+                    !$usuario->setCargo($_POST['cargoUsuario']) or
+                    !$usuario->setCorreo($_POST['correoUsuario']) or
+                    !$usuario->setTelefono($_POST['telefonoUsuario']) or
+                    !$usuario->setImagen($_FILES['imagenUsuario'], $usuario->getFilename()) or
+                    !$usuario->setClave($_POST['claveUsuario']) 
                 ) {
                     $result['error'] = $usuario->getDataError();
                 } elseif ($usuario->updateRow()) {
                     $result['status'] = 1;
                     $result['message'] = 'Usuario modificado correctamente';
+                    $result['fileStatus'] = Validator::changeFile($_FILES['imagenUsuario'], $usuario::RUTA_IMAGEN, $usuario->getFilename());
                 } else {
                     $result['error'] = 'Ocurrió un problema al modificar el usuario';
                 }
@@ -88,6 +96,8 @@ if (isset($_GET['action'])) {
                 } elseif ($usuario->deleteRow()) {
                     $result['status'] = 1;
                     $result['message'] = 'Usuario eliminado correctamente';
+                    // Se asigna el estado del archivo después de eliminar.
+                    $result['fileStatus'] = Validator::deleteFile($usuario::RUTA_IMAGEN, $usuario->getFilename());
                 } else {
                     $result['error'] = 'Ocurrió un problema al eliminar el usuario';
                 }
@@ -121,7 +131,7 @@ if (isset($_GET['action'])) {
                     !$usuario->setNombre($_POST['nombreAdministrador']) or
                     !$usuario->setApellido($_POST['apellidoAdministrador']) or
                     !$usuario->setCorreo($_POST['correoAdministrador'])
-                /*    !$usuario->setAlias($_POST['correoUsuario']) */
+                    /*    !$usuario->setAlias($_POST['correoUsuario']) */
                 ) {
                     $result['error'] = $usuario->getDataError();
                 } elseif ($usuario->editProfile()) {
@@ -167,7 +177,7 @@ if (isset($_GET['action'])) {
                     !$usuario->setNombre($_POST['nombreUsuario']) or
                     !$usuario->setApellido($_POST['apellidoUsuario']) or
                     !$usuario->setTelefono($_POST['telefonoUsuario']) or
-                    !$usuario->setCargo('0') or   
+                    !$usuario->setCargo('0') or
                     !$usuario->setCorreo($_POST['correoUsuario']) or
                     !$usuario->setClave($_POST['claveUsuario'])
                 ) {

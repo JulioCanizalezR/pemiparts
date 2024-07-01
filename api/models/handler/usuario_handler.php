@@ -19,6 +19,7 @@ class UsuarioHandler
     protected $clave = null;
     protected $imagen = null;
 
+
     // Constante para establecer la ruta de las imágenes.
     const RUTA_IMAGEN = '../../images/usuarios/';
     /*
@@ -83,6 +84,15 @@ class UsuarioHandler
         return Database::executeRow($sql, $params);
     }
 
+    public function readFilename()
+    {
+        $sql = 'SELECT imagen_usuario
+                FROM tb_usuarios
+                WHERE id_usuario = ?';
+        $params = array($this->id);
+        return Database::getRow($sql, $params);
+    }
+
     /*
      *  Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
      */
@@ -125,9 +135,9 @@ class UsuarioHandler
     public function updateRow()
     {
         $sql = 'UPDATE tb_usuarios
-                SET nombre = ?, apellido = ?, cargo = ?, correo_electronico = ?, numero_telefono = ?, imagen_usuario = ?
+                SET nombre = ?, apellido = ?, cargo = ?, correo_electronico = ?, numero_telefono = ?, imagen_usuario = ?, contraseña = ?
                 WHERE id_usuario = ?';
-        $params = array($this->nombre, $this->apellido, $this->cargo, $this->correo, $this->telefono, $this->imagen, $this->id);
+        $params = array($this->nombre, $this->apellido, $this->cargo, $this->correo, $this->telefono, $this->imagen, $this->clave, $this->id);
         return Database::executeRow($sql, $params);
     }
 
