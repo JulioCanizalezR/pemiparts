@@ -62,6 +62,8 @@ const openCreate = () => {
   saveModal.show();
   modalTitle.textContent = "Crear Usuario";
   saveForm.reset();
+  sConfirmarClave.disabled = false;
+  sClave.disabled = false;
 };
 
 const readOne = async (id) => {
