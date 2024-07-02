@@ -130,8 +130,8 @@ const populateUpdateForm = (userData) => {
   sCargo.value = userData.cargo;
   sEmail.value = userData.correo_electronico;
   sTelefono.value = userData.numero_telefono;
-  sClave.value = userData.contraseña;
-  sConfirmarClave.value = userData.contraseña;
+  sClave.disabled = true;
+  sConfirmarClave.disabled = true;
 };
 
 const fillCards = async () => {
