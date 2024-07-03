@@ -20,6 +20,11 @@
     z-index: 10; 
 }
 
+img, svg {
+    vertical-align: middle;
+    width: 35px;
+}
+
 .custom-search-input::placeholder {
     color: rgba(255, 255, 255, 0.7); 
     opacity: 1; 
@@ -48,10 +53,10 @@
 .table-striped tbody td,
 .table-striped tbody th,
 .table-primary tr,
-.table-primary th { /* Nuevas reglas */
+.table-primary th {  
     margin: 0;
     padding: 0;
-    border: none; /* Si es necesario */
+    border: none;  
 }
 
 .modal-content {
@@ -76,4 +81,46 @@ button {
 
 .table .d-flex {
     gap: 5px; 
+}
+
+.custom-add-btn {
+    border-radius: 5px;
+    background-color: #90CAF9;
+    color: white;
+    position: relative;
+    z-index: 10;
+}
+
+.botones-azul {
+    background-color: #90CAF9;
+}
+
+.tarjeta {
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.tarjeta:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.8);
+}
+
+.azul {
+    background: #90CAF9;
+}
+
+.no-letter {
+    font-weight: normal;
+}
+
+.boton {
+    min-width: 200px;
+    color: #fff;
+    transition: color 0.3s;
+}
+
+.boton:hover {
+    color: #000;
 }

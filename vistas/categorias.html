@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Categorias</title>
+    <title>Empresas</title>
     <link href="../recursos/css/bootstrap.min.css" rel="stylesheet">
     <link href="../recursos/css/tablas.css" rel="stylesheet">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
@@ -23,80 +23,66 @@
                         </div>
 
                         <!-- Botón Agregar -->
-                        <button type="button" class="btn btn-custom custom-add-btn"
-                         onclick="openCreate()">Agregar</button>
+                        <button type="button" class="btn btn-custom custom-add-btn" data-bs-toggle="modal" data-bs-target="#saveModal" onclick="openCreate()">Agregar</button>
                     </div>
                 </div>
 
-
-                <div class="modal fade" id="saveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-                    aria-labelledby="modalTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-lg modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="modalTitle"></h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <!-- Formulario para crear o actualizar un registro -->
-                            <form id="saveForm">
-                                <div class="modal-body row g-3">
-                                    <!-- Campo oculto para asignar el id del registro al momento de modificar -->
-                                    <input type="number" class="d-none" id="idUsuario" name="idUsuario">
-                                    <div class="col-sm-12 col-md-6">
-                                        <label for="Nombres" class="form-label">Nombre</label>
-                                        <input id="Nombre" type="text" name="Nombres" class="form-control rounded-5"
-                                            placeholder="Ingresa el nombre del material" required>
-                                    </div>
-                                </div>
-                                <div class="modal-footer col-sm-12 col-md-12 col-lg-12 justify-content-center">
-                                    <button type="submit" class="boton btn azul">Guardar</button>
-                                    <button type="reset" class="boton btn azul">Cancelar</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-
-
-                <div class="table-responsive mt-3">
+                <div class="table-responsive">
                     <table class="table table-striped table-hover rounded-3 overflow-hidden">
                         <thead class="table-primary">
                             <tr>
                                 <th scope="col" class="col-1">#</th>
-                                <th scope="col">Categorias</th>
-                                <th scope="col" class="col-1 justify-content">Opciones</th>
+                                <th scope="col" class="col-7 justify-content-center">Categorias</th>
+                                <th scope="col" class="col-2">Opciones</th>
                             </tr>
                         </thead>
-                        <tbody id="">
-                            <!--<tr>
-                                <th scope="row">1</th>
-                                <td>Categoria A</td>
-                                <td class="col-1">
-                                    <div class="d-flex justify-content-around">
-                                        <button class="btn btn-sm btn-outline-secondary"><i class='bx bx-edit-alt'></i></button>
-                                        <button class="btn btn-sm btn-outline-danger"><i class='bx bx-trash'></i></button>
-                                    </div>
-                                </td>
-                            </tr> -->
-                        </tbody>
+                        <!-- Cuerpo de la tabla para mostrar un registro por fila -->
+                        <tbody id="tableBody"></tbody>
                     </table>
                 </div>
 
- 
+                <!-- Modal -->
+                <div class="modal fade" id="saveModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalTitle">Crear Categoria</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="saveForm">
+                                    <div class="row g-3">
+                                        <!-- Campo oculto para asignar el id del registro al momento de modificar -->
+                                        <input type="number" class="d-none" id="idCategoria" name="idCategoria">
+                                        <div class="col-12">
+                                            <div class="form-floating mb-3">
+                                                <input id="nombreCategoria" type="text" name="nombreCategoria" class="form-control" placeholder="Nombre" required>
+                                                <label for="nombreCategoria">Nombre</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-end">
+                                        <button type="submit" class="btn btn-primary">Guardar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Fin del Modal -->
+
             </div>
         </div>
     </main>
 
-    <!-- Llamada al controlador del boostrap bundle javascript -->
+    <!-- Llamada al controlador del bootstrap bundle javascript -->
     <script type="text/javascript" src="../recursos/js/bootstrap.bundle.min.js"></script>
     <!-- Llamada al controlador del componente javascript -->
     <script type="text/javascript" src="../controladores/utilidades/components.js"></script>
     <!-- Importación de la librería para generar los gráficos. Para más información https://www.chartjs.org/ -->
     <script type="text/javascript" src="../recursos/js/sweetalert.min.js"></script>
     <!-- Llamada al controlador del template javascript -->
-     <script type="text/javascript" src="../controladores/utilidades/template.js"></script>
+    <script type="text/javascript" src="../controladores/utilidades/template.js"></script>
     <!-- Llamada al controlador del componente javascript -->
     <script type="text/javascript" src="../controladores/privada/categoria.js"></script>
 </body>

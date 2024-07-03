@@ -1,13 +1,13 @@
 <?php
 // Se incluye la clase del modelo.
-require_once('../../models/data/empresa_data.php');
+require_once('../../models/data/categoria_data.php');
 
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
     // Se crea una sesión o se reanuda la actual para poder utilizar variables de sesión en el script.
     session_start();
     // Se instancia la clase correspondiente.
-    $Empresa = new EmpresaData;
+    $contenedor = new ContenedorData;
     // Se declara e inicializa un arreglo para guardar el resultado que retorna la API.
     $result = array('status' => 0, 'message' => null, 'dataset' => null, 'error' => null, 'exception' => null, 'fileStatus' => null);
     // Se verifica si existe una sesión iniciada como administrador, de lo contrario se finaliza el script con un mensaje de error.
@@ -17,7 +17,7 @@ if (isset($_GET['action'])) {
             case 'searchRows':
                 if (!Validator::validateSearch($_POST['search'])) {
                     $result['error'] = Validator::getSearchError();
-                } elseif ($result['dataset'] = $Empresa->searchRows()) {
+                } elseif ($result['dataset'] = $categoria->searchRows()) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
                 } else {
@@ -27,60 +27,60 @@ if (isset($_GET['action'])) {
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$Empresa->setNombre_empresa($_POST['nombreEmpresa']) 
+                    !$categoria->setNombre($_POST['nombreCategoria']) 
                 ) {
-                    $result['error'] = $Empresa->getDataError();
-                } elseif ($Empresa->createRow()) {
+                    $result['error'] = $categoria->getDataError();
+                } elseif ($categoria->createRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Empresa registrada correctamente';
+                    $result['message'] = 'Contenedor creado correctamente';
                     // Se asigna el estado del archivo después de insertar.
                 } else {
-                    $result['error'] = 'Ocurrió un problema al registrar la empresa';
+                    $result['error'] = 'Ocurrió un problema al crear la categoría';
                 }
                 break;
             case 'readAll':
-                if ($result['dataset'] = $Empresa->readAll()) {
+                if ($result['dataset'] = $categoria->readAll()) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
                 } else {
-                    $result['error'] = 'No existen Empresas registradas';
+                    $result['error'] = 'No existen contenedores registrados';
                 }
                 break;
             case 'readOne':
-                if (!$Empresa->setId_empresa($_POST['idEmpresa'])) {
-                    $result['error'] = $Empresa->getDataError();
-                } elseif ($result['dataset'] = $Empresa->readOne()) {
+                if (!$categoria->setId_categoria($_POST['idCategoria'])) {
+                    $result['error'] = $categoria->getDataError();
+                } elseif ($result['dataset'] = $categoria->readOne()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'Empresa inexistente';
+                    $result['error'] = 'Contenedor inexistente';
                 }
                 break;
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$Empresa->setId_empresa($_POST['idEmpresa']) or
-                    !$Empresa->setNombre_empresa($_POST['nombreEmpresa']) 
+                    !$categoria->setId_categoria($_POST['idCategoria']) or
+                    !$categoria->setNombre($_POST['nombreCategoria']) 
                 ) {
-                    $result['error'] = $Empresa->getDataError();
-                } elseif ($Empresa->updateRow()) {
+                    $result['error'] = $categoria->getDataError();
+                } elseif ($categoria->updateRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Empresa modificada correctamente';
+                    $result['message'] = 'Contenedor modificado correctamente';
                     // Se asigna el estado del archivo después de actualizar.
                 } else {
-                    $result['error'] = 'Ocurrió un problema al modificar la empresa';
+                    $result['error'] = 'Ocurrió un problema al modificar la categoría';
                 }
                 break;
             case 'deleteRow':
                 if (
-                    !$Empresa->setId_empresa($_POST['idEmpresa'])
+                    !$categoria->setId_categoria($_POST['idCategoria'])
                 ) {
-                    $result['error'] = $Empresa->getDataError();
-                } elseif ($Empresa->deleteRow()) {
+                    $result['error'] = $categoria->getDataError();
+                } elseif ($categoria->deleteRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Empresa eliminada correctamente';
+                    $result['message'] = 'Contenedor eliminado correctamente';
                     // Se asigna el estado del archivo después de eliminar.
                 } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar la empresa';
+                    $result['error'] = 'Ocurrió un problema al eliminar el contenedor';
                 }
                 break;
             default:

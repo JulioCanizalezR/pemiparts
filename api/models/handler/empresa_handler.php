@@ -40,7 +40,7 @@ class EmpresaHandler
     {
         $sql = 'SELECT id_empresa, nombre_empresa
                 FROM tb_empresas
-                ORDER BY nombre_empresa';
+                ORDER BY id_empresa';
         return Database::getRows($sql);
     }
 

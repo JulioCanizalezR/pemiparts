@@ -68,23 +68,30 @@ const generateSideBarHTML = async () => {
                         </li>
                         <li class="sidebar-item">
                             <a href="../vistas/categorias.html" class="sidebar-link">
-                                <i class="bi bi-Categoria-text"></i>
+                                <i class="bi bi-tag"></i>
                                 <span>Categorias</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
                             <a href="../vistas/empresas.html" class="sidebar-link">
-                                <i class="bi bi-empresas-text"></i>
+                                <i class="bi bi-buildings"></i>
                                 <span>Empresas</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
                             <a href="../vistas/entidades.html" class="sidebar-link">
-                                <i class="bi bi-entidades-text"></i>
+                                <i class="bi bi-card-checklist"></i>
                                 <span>Entidades</span>
                             </a>
                         </li>
+                        <li class="sidebar-item">
+                            <a href="../vistas/entidades.html" class="sidebar-link">
+                                <i class="bi bi-person-circle"></i>
+                                <span>Editar Perfil</span>
+                            </a>
+                        </li>                        
                     </ul>
+
                     <div class="sidebar-footer">
                         <a href="#" class="sidebar-link" onclick="logOut()" aria-label="Cerrar sesión">
                             <i class="lni lni-exit"></i>

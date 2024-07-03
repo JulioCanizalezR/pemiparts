@@ -11,16 +11,33 @@ if (isset($_GET['action'])) {
     // Se declara e inicializa un arreglo para guardar el resultado que retorna la API.
     $result = array('status' => 0, 'session' => 0, 'recaptcha' => 0, 'message' => null, 'error' => null, 'exception' => null, 'username' => null);
     // Se verifica si existe una sesión iniciada como cliente para realizar las acciones correspondientes.
-    if (isset($_SESSION['idCliente'])) {
+    if (isset($_SESSION['idUsuario'])) {
         $result['session'] = 1;
         // Se compara la acción a realizar cuando un cliente ha iniciado sesión.
         switch ($_GET['action']) {
+            case 'readAll':
+                if ($result['dataset'] = $usuario->readAll()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
+                } else {
+                    $result['error'] = 'No existen clientes registrados';
+                }
+                break;
+            case 'readOne':
+                if (!$usuario->setId($_POST['idUsuario'])) {
+                    $result['error'] = 'Cliente incorrecto';
+                } elseif ($result['dataset'] = $usuario->readOne()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Cliente inexistente';
+                }
+                break;
             case 'getUser':
                 if (isset($_SESSION['correoCliente'])) {
                     $result['status'] = 1;
                     $result['username'] = $_SESSION['correoCliente'];
                 } else {
-                    $result['error'] = 'Correo de usuario indefinido';
+                    $result['error'] = 'Correo de cliente indefinido';
                 }
                 break;
             case 'logOut':
@@ -66,10 +83,10 @@ if (isset($_GET['action'])) {
                     !$cliente->setApellido($_POST['apellidoCliente']) or
                     !$cliente->setCorreo($_POST['correoCliente']) or
                     !$cliente->setDireccion($_POST['direccionCliente']) or
-                    !$cliente->setDUI($_POST['duiCliente']) or
-                    !$cliente->setNacimiento($_POST['nacimientoCliente']) or
-                    !$cliente->setTelefono($_POST['telefonoCliente']) or
-                    !$cliente->setClave($_POST['claveCliente'])
+                  //  !$cliente->setDUI($_POST['duiCliente']) or
+                 //   !$cliente->setNacimiento($_POST['nacimientoCliente']) or
+                    !$cliente->setTelefono($_POST['telefonoCliente']) 
+                 //   !$cliente->setClave($_POST['claveCliente'])
                 ) {
                     $result['error'] = $cliente->getDataError();
                 } elseif ($_POST['claveCliente'] != $_POST['confirmarClave']) {
@@ -81,7 +98,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al registrar la cuenta';
                 }
                 break;
-            case 'logIn':
+         /*   case 'logIn':
                 $_POST = Validator::validateForm($_POST);
                 if (!$cliente->checkUser($_POST['correo'], $_POST['clave'])) {
                     $result['error'] = 'Datos incorrectos';
@@ -91,7 +108,8 @@ if (isset($_GET['action'])) {
                 } else {
                     $result['error'] = 'La cuenta ha sido desactivada';
                 }
-                break;
+                break; 
+                */
             default:
                 $result['error'] = 'Acción no disponible fuera de la sesión';
         }
