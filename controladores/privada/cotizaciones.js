@@ -169,24 +169,31 @@ const fillCards = async (form = null) => {
 };
 
 const createUserCard = (user) => {
-  const cargoField = user.cargo == 1 ? "Empleado" : "Gerente";
+  const envio = user.estado_envio == 1 ? "Entregado" : "Finalizado";
   return `
-    <div class="col-md-5 col-sm-12 mb-4">
-      <div class="tarjeta shadow d-flex align-items-center p-3">
-        <div class="col-4 p-2 d-flex justify-content-center align-items-center">
-          <img class="img-fluid rounded" src="${SERVER_URL}images/usuarios/${user.imagen_usuario}" alt="${user.nombre}">
-        </div>
-        <div class="col-8 p-2 d-flex flex-column">
-          <p class="text-secondary mb-1">Nombre: ${user.nombre} ${user.apellido}</p>
-          <p class="text-secondary mb-1">Cargo: ${cargoField}</p>
-          <p class="text-secondary mb-1">Correo: ${user.correo_electronico}</p>
-          <p class="text-secondary mb-1">Teléfono: ${user.numero_telefono}</p>
-          <div class="mt-auto d-flex justify-content-end">
-            <button class="btn btn-primary" onclick="readOne(${user.id_usuario})">Ver más</button>
-          </div>
-        </div>
-      </div>
-    </div>`;
+    <div class="container mt-5">
+                    <div class="p-5 custom-rounded">
+                        <div class="row w-100">
+                            <div class="col">
+                                <h3>${user.id_envio}</h3>
+                                <h4>${user.nombre_cliente}</h4>
+                                <h4>Envio: ${envio}</h4>
+                            </div>
+                            <div class="col">
+                                <h3 class="text-end">Activa</h3>
+                            </div>
+                        </div>
+                        <div class="row w-100 mt-auto">
+                            <div class="col">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h4>${user.fecha_estimada}</h4>
+                                    <button class="btn btn-secondary">Ver más</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+`;
 };
 
 

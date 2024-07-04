@@ -1,20 +1,16 @@
-.logo {
-    font-size: 48px;
-    /* Tamaño del icono */
-    color: white;
-    /* Color del icono */
-    text-decoration: none;
-    /* Eliminar subrayado del enlace */
-    margin-bottom: 20px;
-    /* Separación hacia abajo */
-}
-#cartpefil {
+
+.container {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh; /* Hace que el contenedor ocupe al menos la altura completa de la ventana */
-  padding: 20px;
+  height: 100vh; /* Ocupa toda la altura de la pantalla */
 }
+.card {
+  width: 100%; /* Ajusta el ancho según sea necesario */
+  max-width: 400px; /* Limita el ancho máximo para controlar la anchura */
+  margin: 0 auto; /* Centra horizontalmente la tarjeta */
+}
+
 .Usuario {
     font-size: 48px;
     /* Tamaño del icono */
@@ -64,9 +60,7 @@
     border-radius: 25px;
 }
 
-.fondo{
-    background-color: #9BD2FF;
-}
+
 
 .color-principal{
    background-color:  #E3F2FD;
