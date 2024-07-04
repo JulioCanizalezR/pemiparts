@@ -89,6 +89,7 @@ const readOne = async (id) => {
   }
 };
 
+
 const populateUserModal = (userData) => {
   seeModal.show();
   modalTitle2.value = "Información del Usuario";
