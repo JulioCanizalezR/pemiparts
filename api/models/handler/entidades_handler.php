@@ -37,7 +37,7 @@ class EntidadesHandler
         p.impuesto_producto,
         p.imagen_producto,
         p.precio_producto,
-        p.costo_producción_producto,
+        p.costo_produccion_producto,
         p.codigo_producto,
         p.id_categoria
         FROM 
@@ -79,7 +79,7 @@ class EntidadesHandler
         p.impuesto_producto,
         p.imagen_producto,
         p.precio_producto,
-        p.costo_producción_producto,
+        p.costo_produccion_producto,
         p.codigo_producto,
         p.id_categoria
         FROM 
@@ -106,7 +106,7 @@ class EntidadesHandler
         p.impuesto_producto,
         p.imagen_producto,
         ROUND(precio_producto, 2) AS precio_producto, 
-        p.costo_producción_producto,
+        p.costo_produccion_producto,
         p.codigo_producto,
         p.id_categoria,
         c.nombre
@@ -148,7 +148,7 @@ class EntidadesHandler
         p.impuesto_producto,
         p.imagen_producto,
         p.precio_producto,
-        p.costo_producción_producto,
+        p.costo_produccion_producto,
         p.codigo_producto,
         p.id_categoria
         FROM 
