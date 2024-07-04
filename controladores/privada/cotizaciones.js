@@ -93,7 +93,7 @@ const readOne = async (id) => {
 const populateUserModal = (userData) => {
   seeModal.show();
   modalTitle2.value = "Información de la cotizacion";
-  NombreAlmacen.textContent=userData
+  NombreAlmacen.textContent=userData.
   Tiempo_inicial.textContent= userData.tiempo_inicial;
   Tiempo_final.textContent= userData.tiempo_final;
   document.getElementById("Actualizar").onclick = () =>
