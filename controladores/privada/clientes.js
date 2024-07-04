@@ -6,6 +6,8 @@ const SAVE_MODAL = new bootstrap.Modal("#saveModal"),
 
   const TABLE_BODY = document.getElementById('tableBody')
 
+  const SEARCH_INPUT = document.getElementById("searchInput");
+
 // Constantes para establecer los elementos del formulario de guardar.
 const SAVE_FORM = document.getElementById("saveForm"),
   idCliente = document.getElementById("idCliente"),
@@ -19,6 +21,18 @@ telefonoCliente = document.getElementById("telefonoCliente");
 document.addEventListener('DOMContentLoaded', () => {
   // Llamada a la función para mostrar el encabezado y pie del documento.
   //loadTemplate();
+});
+
+SEARCH_INPUT.addEventListener("input", (event) => {
+  // Constante tipo objeto con los datos del formulario.
+  event.preventDefault();
+  const FORM = new FormData();
+  FORM.append("search", SEARCH_INPUT.value);
+  if (SEARCH_INPUT.value == "") {
+    fillTable();
+  }
+  // Llamada a la función para llenar la tabla con los resultados de la búsqueda.
+  fillTable(FORM);
 });
 
 SAVE_FORM.addEventListener("submit", async (event) => {
@@ -64,8 +78,10 @@ document.addEventListener("DOMContentLoaded", () => {
 const fillTable = async (form = null) => {
 
   TABLE_BODY.innerHTML = '';
+  TABLE_BODY.innerHTML = '';
   // Se verifica la acción a realizar.
-  (form) ? action = 'searchRows' : action = 'readAll';
+  let action;
+    form ? (action = "searchRows") : (action = "readAll");
   // Petición para obtener los registros disponibles.
   const DATA = await fetchData(Cliente_api, action, form);
   // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
@@ -162,3 +178,8 @@ const openUpdate = async (id) => {
     console.log(Error);
   }
 };
+
+var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+    return new bootstrap.Popover(popoverTriggerEl)
+})

@@ -37,7 +37,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         Apellido.value = ROW.apellido;
         Email.value = ROW.correo_electronico;
         Telefono.value = ROW.numero_telefono;
-        Clave.value = ROW.
+        Cargo.value = ROW.cargo;
+        Image.value = ROW.imagen_usuario;
+        Clave.value = ROW.correo_electronico;
     } else {
         sweetAlert(2, DATA.error, null);
     }

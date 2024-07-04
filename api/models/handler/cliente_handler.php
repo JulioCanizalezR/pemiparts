@@ -83,9 +83,10 @@ class ClienteHandler
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
-        $sql = 'SELECT id_cliente, nombre_cliente, apellido_cliente, correo_cliente, dui_cliente, telefono_cliente, nacimiento_cliente, direccion_cliente
+        $sql = 'SELECT id_cliente, nombre_cliente, apellido_cliente, correo_electronico_cliente, direccion_cliente, nombre_empresa, numero_telefono_cliente, fecha_registro_cliente
                 FROM tb_clientes
-                WHERE apellido_cliente LIKE ? OR nombre_cliente LIKE ? OR correo_cliente LIKE ?
+                INNER JOIN tb_empresas ON tb_clientes.id_empresa = tb_empresas.id_empresa
+                WHERE apellido_cliente LIKE ? OR nombre_cliente LIKE ? OR correo_electronico_cliente LIKE ?
                 ORDER BY apellido_cliente';
         $params = array($value, $value, $value);
         return Database::getRows($sql, $params);

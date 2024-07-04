@@ -34,7 +34,7 @@ class ClienteData extends ClienteHandler
             $this->data_error = 'El identificador de la empresa es incorrecto';
             return false;
         }
-    }
+    }   
 
     public function setNombre($value, $min = 2, $max = 50)
     {

@@ -7,7 +7,6 @@ const saveModal = new bootstrap.Modal("#saveModal"),
 const seeModal = new bootstrap.Modal("#seeModal"),
   modalTitle2 = document.getElementById("modalTitle2");
 
-const SEARCH_FORM = document.getElementById("searchForm");
 const SEARCH_INPUT = document.getElementById("searchInput");
 
 const saveForm = document.getElementById("saveForm"),

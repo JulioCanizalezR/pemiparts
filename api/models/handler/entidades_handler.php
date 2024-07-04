@@ -11,9 +11,10 @@ class EntidadesHandler
      */
  
     protected $id = null;
-    protected $nombre_almacenamiento = null;
-    protected $fecha_inicio = null;
-    protected $tiempo_final = null;
+    protected $id_almacenamiento = null;
+    protected $id_producto = null;
+    protected $existencias = null;
+    protected $estado = null;
  
     // Constante para establecer la ruta de las imágenes.
  
@@ -25,6 +26,8 @@ class EntidadesHandler
         $value = '%' . Validator::getSearchValue() . '%';
         $sql = 'SELECT 
         e.id_entidad,
+        e.id_almacenamiento,
+        e.id_producto,
         e.existencias,
         e.estado,
         a.nombre_almacenamiento,
@@ -44,19 +47,20 @@ class EntidadesHandler
         tb_almacenamientos a ON e.id_almacenamiento = a.id_almacenamiento
         INNER JOIN 
         tb_productos p ON e.id_producto = p.id_producto 
-        WHERE nombre_almacenamiento LIKE ?';
-        $params = array($value);
+        WHERE nombre_almacenamiento LIKE ? OR nombre_producto LIKE ?';
+        $params = array($value, $value);
         return Database::getRows($sql, $params);
     }
  
     public function createRow()
     {
-        $sql = 'INSERT INTO tb_almacenamientos (
-            nombre_almacenamiento,
-            tiempo_inicial,
-            tiempo_final)
-            VALUES(?,?,?)';
-        $params = array($this->nombre_almacenamiento,$this->fecha_inicio,$this->tiempo_final);
+        $sql = 'INSERT INTO tb_entidades (
+            id_almacenamiento,
+            id_producto,
+            existencias,
+            estado)
+            VALUES(?,?,?,?)';
+        $params = array($this->id_almacenamiento,$this->id_producto,$this->existencias,$this->estado);
         return Database::executeRow($sql, $params);
     }
  
@@ -64,6 +68,8 @@ class EntidadesHandler
     {
         $sql = 'SELECT 
         e.id_entidad,
+        e.id_almacenamiento,
+        e.id_producto,
         e.existencias,
         e.estado,
         a.nombre_almacenamiento,
@@ -98,16 +104,16 @@ class EntidadesHandler
  
     public function updateRow()
     {
-        $sql = 'UPDATE tb_almacenamientos
-                SET nombre_almacenamiento = ?, tiempo_inicial = ?, tiempo_final = ?
+        $sql = 'UPDATE tb_entidades
+                SET id_almacenamiento = ?, id_producto = ?, existencias = ?, estado = ?
                 WHERE id_entidad = ?';
-        $params = array($this->nombre_almacenamiento,$this->fecha_inicio,$this->tiempo_final, $this->id);
+        $params = array($this->id_almacenamiento,$this->id_producto,$this->existencias,$this->estado, $this->id);
         return Database::executeRow($sql, $params);
     }
  
     public function deleteRow()
     {
-        $sql = 'DELETE FROM tb_almacenamientos
+        $sql = 'DELETE FROM tb_entidades
                 WHERE id_entidad = ?';
         $params = array($this->id);
         return Database::executeRow($sql, $params);

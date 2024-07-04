@@ -17,10 +17,15 @@
                 <div class="row justify-content-center">
                     <div class="d-flex align-items-center">
                         <div class="col-md-2 col-sm-4 fs-3 text-dark">Clientes</div>
+                        <button type="button" class="btn me-2 mb-2" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Busca por el nombre, el apellido o el correo">
+                            <img src="../recursos/img/info.svg" width="18px" height="18px">
+                            </button>
+                        
                         <form id="searchForm" class="col-md-5 col-sm-12">
                             <input class="form-control me-2 mb-2" type="search" placeholder="Buscar" name="search"
                                 aria-label="Buscar" id="searchInput" />
                         </form>
+
                         <button type="button" class="btn btn-custom custom-add-btn" onclick="openCreate()">Agregar</button>
                     </div>
                 </div>
