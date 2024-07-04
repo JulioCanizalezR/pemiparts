@@ -24,7 +24,7 @@ class EmpresaHandler
                 FROM tb_empresas
                 WHERE nombre_empresa LIKE ? 
                 ORDER BY nombre_empresa';
-        $params = array($value, $value);
+        $params = array($value);
         return Database::getRows($sql, $params);
     }
 

@@ -68,19 +68,16 @@ class CategoriaData extends CategoriaHandler
         }
     }
 
-    public function setNombre($value, $min = 2, $max = 50)
+    public function setEstado($value, $min = 2, $max = 50)
     {
         if (!Validator::validateAlphanumeric($value)) {
-            $this->data_error = 'El nombre debe ser un valor alfanumérico';
-            return false;
-        } elseif(($this->checkDuplicate($value))) {
-            $this->data_error = 'La categoría ingresada ya existe';
+            $this->data_error = 'El estado debe ser un valor alfanumérico';
             return false;
         } elseif (Validator::validateLength($value, $min, $max)) {
-            $this->nombre = $value;
+            $this->estado = $value;
             return true;
         } else {
-            $this->data_error = 'El nombre debe tener una longitud entre ' . $min . ' y ' . $max;
+            $this->data_error = 'El estado debe tener una longitud entre ' . $min . ' y ' . $max;
             return false;
         }
     }

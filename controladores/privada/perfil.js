@@ -64,3 +64,9 @@ profileForm.addEventListener('submit', async (event) => {
     }
 });
 
+const openPassword = () => {
+  // Se abre la caja de diálogo que contiene el formulario.
+  PASSWORD_MODAL.show();
+  // Se restauran los elementos del formulario.
+  PASSWORD_FORM.reset();
+}

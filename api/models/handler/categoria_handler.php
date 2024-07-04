@@ -24,7 +24,7 @@ class CategoriaHandler
                 FROM tb_categorias
                 WHERE nombre LIKE ? 
                 ORDER BY nombre';
-        $params = array($value, $value);
+        $params = array($value);
         return Database::getRows($sql, $params);
     }
 

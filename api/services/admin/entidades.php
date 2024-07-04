@@ -1,13 +1,13 @@
 <?php
 // Se incluye la clase del modelo.
-require_once('../../models/data/contenedor_data.php');
+require_once('../../models/data/entidades_data.php');
 
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
     // Se crea una sesión o se reanuda la actual para poder utilizar variables de sesión en el script.
     session_start();
     // Se instancia la clase correspondiente.
-    $contenedor = new ContenedorData;
+    $entidad = new EntidadesData;
     // Se declara e inicializa un arreglo para guardar el resultado que retorna la API.
     $result = array('status' => 0, 'session' => 0, 'message' => null, 'error' => null, 'exception' => null, 'dataset' => null);
     // Se verifica si existe una sesión iniciada como cliente para realizar las acciones correspondientes.
@@ -19,7 +19,7 @@ if (isset($_GET['action'])) {
             case 'searchRows':
                 if (!Validator::validateSearch($_POST['search'])) {
                     $result['error'] = Validator::getSearchError();
-                } elseif ($result['dataset'] = $contenedor->searchRows()) {
+                } elseif ($result['dataset'] = $entidad->searchRows()) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
                 } else {
@@ -29,61 +29,63 @@ if (isset($_GET['action'])) {
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$contenedor->setContenedor($_POST['contenedor']) or
-                    !$contenedor->setFecha_inicio($_POST['fecha_inicial']) or
-                    !$contenedor->setTiempo_final($_POST['tiempo_final']) 
+                    !$entidad->setIdAlmacenamiento($_POST['almacenamiento']) or
+                    !$entidad->setIdProducto($_POST['producto']) or
+                    !$entidad->setExistencias($_POST['existencia']) or
+                    !$entidad->setEstado($_POST['estado'])
                 ) {
-                    $result['error'] = $contenedor->getDataError();
-                } elseif ($contenedor->createRow()) {
+                    $result['error'] = $entidad->getDataError();
+                } elseif ($entidad->createRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'contenedor creado correctamente';
+                    $result['message'] = 'Entidad creado correctamente';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al crear el contenedor';
+                    $result['error'] = 'Ocurrió un problema al crear el entidad';
                 }
                 break;
             case 'readAll':
-                if ($result['dataset'] = $contenedor->readAll()) {
+                if ($result['dataset'] = $entidad->readAll()) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
                 } else {
-                    $result['error'] = 'No existen contenedores registrados';
+                    $result['error'] = 'No existen entidades registrados';
                 }
                 break;
             case 'readOne':
-                if (!$contenedor->setId($_POST['idContenedor'])) {
-                    $result['error'] = $contenedor->getDataError();
-                } elseif ($result['dataset'] = $contenedor->readOne()) {
+                if (!$entidad->setId($_POST['idEntidad'])) {
+                    $result['error'] = $entidad->getDataError();
+                } elseif ($result['dataset'] = $entidad->readOne()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'Contenedor inexistente';
+                    $result['error'] = 'Entidad inexistente';
                 }
                 break;
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$contenedor->setId($_POST['idContenedor']) or
-                    !$contenedor->setContenedor($_POST['contenedor']) or
-                    !$contenedor->setFecha_inicio($_POST['fecha_inicial']) or
-                    !$contenedor->setTiempo_final($_POST['tiempo_final']) 
+                    !$entidad->setId($_POST['idEntidad']) or
+                    !$entidad->setIdAlmacenamiento($_POST['almacenamiento']) or
+                    !$entidad->setIdProducto($_POST['producto']) or
+                    !$entidad->setExistencias($_POST['aumentarExistencias']) or
+                    !$entidad->setEstado($_POST['estado'])
                 ) {
-                    $result['error'] = $contenedor->getDataError();
-                } elseif ($contenedor->updateRow()) {
+                    $result['error'] = $entidad->getDataError();
+                } elseif ($entidad->updateRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Contenedor modificado correctamente';
+                    $result['message'] = 'Entidad modificado correctamente';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al modificar el contenedor';
+                    $result['error'] = 'Ocurrió un problema al modificar el entidad';
                 }
                 break;
             case 'deleteRow':
                 if (
-                    !$contenedor->setId($_POST['idContenedor'])
+                    !$entidad->setId($_POST['idEntidad'])
                 ) {
-                    $result['error'] = $contenedor->getDataError();
-                } elseif ($contenedor->deleteRow()) {
+                    $result['error'] = $entidad->getDataError();
+                } elseif ($entidad->deleteRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Contenedor eliminado correctamente';
+                    $result['message'] = 'Entidad eliminado correctamente';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar el contenedor';
+                    $result['error'] = 'Ocurrió un problema al eliminar el entidad';
                 }
                 break;
             default:

@@ -101,14 +101,33 @@ class EntidadesHandler
         return Database::getRow($sql, $params);
     }
  
+    public function checkExistencias($cambio_existencias)
+    {
+    $sql = 'SELECT existencias
+            FROM tb_entidades
+            WHERE id_entidad = ?';
+    $params = array($this->id);
+    $row = Database::getRow($sql, $params);
+
+    if ($row) {
+        $existencias_actuales = $row['existencias'];
+        return ($existencias_actuales + $cambio_existencias) >= 0;
+    }
+    return false;
+    }
+ 
  
     public function updateRow()
     {
-        $sql = 'UPDATE tb_entidades
-                SET id_almacenamiento = ?, id_producto = ?, existencias = ?, estado = ?
-                WHERE id_entidad = ?';
-        $params = array($this->id_almacenamiento,$this->id_producto,$this->existencias,$this->estado, $this->id);
-        return Database::executeRow($sql, $params);
+        if($this->checkExistencias($this->existencias)){
+            $sql = 'UPDATE tb_entidades
+            SET id_almacenamiento = ?, id_producto = ?, existencias = existencias + ?, estado = ?
+            WHERE id_entidad = ?';
+            $params = array($this->id_almacenamiento,$this->id_producto,$this->existencias,$this->estado, $this->id);
+            return Database::executeRow($sql, $params);
+        } else {
+            return false;
+        }
     }
  
     public function deleteRow()
