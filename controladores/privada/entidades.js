@@ -92,7 +92,7 @@ const openUpdate = async (id) => {
     // Se inicializan los campos con los datos.
     const ROW = DATA.dataset;
     ID_ENTIDAD.value = ROW.id_entidad;
-    fillSelect(producto_api, 'readAll', 'producto', ROW.id_producto);
+    fillSelect(entidad_api, 'readProducts', 'producto', ROW.id_producto);
     fillSelect(contenedor_api, 'readAll', 'almacenamiento',ROW.id_almacenamiento);
     ESTADO.value = ROW.estado;
     EXISTENCIAS.value = ROW.existencias;
@@ -107,7 +107,7 @@ const openCreate = () => {
   MODAL_TITLE.textContent = "Crear contenedor";
   // Se prepara el formulario.
   SAVE_FORM.reset();
-  fillSelect(producto_api, 'readAll', 'producto' );
+  fillSelect(entidad_api, 'readProducts', 'producto' );
   fillSelect(contenedor_api, 'readAll', 'almacenamiento');
   EXISTENCIAS.disabled = false;
   AUMENTAR_EXISTENCIAS.disabled = true;

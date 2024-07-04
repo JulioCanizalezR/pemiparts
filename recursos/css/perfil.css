@@ -8,7 +8,13 @@
     margin-bottom: 20px;
     /* Separación hacia abajo */
 }
-
+#cartpefil {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Hace que el contenedor ocupe al menos la altura completa de la ventana */
+  padding: 20px;
+}
 .Usuario {
     font-size: 48px;
     /* Tamaño del icono */
@@ -31,7 +37,7 @@
     background-color: rgba(25, 118, 210, 1);
 }
 
-.contenedor-uno{
+.container{
     background-color: rgba(144, 202, 249, 1);
     width: 600px;
     height: 700px;

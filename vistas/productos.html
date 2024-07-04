@@ -30,10 +30,12 @@
                         </div>
 
                         <!-- Input con botón de búsqueda -->
-                        <div class="input-group me-2">
-                            <input type="text" class="form-control rounded custom-search-input" placeholder="Buscar"
-                                aria-label="Buscar" aria-describedby="button-addon2">
-                        </div>
+                         <!-- Input con botón de búsqueda -->
+                         <form id="searchForm" class="col-md-5 col-sm-12">
+                            <input class="form-control me-2 mb-2" type="search" placeholder="Buscar" name="search"
+                                aria-label="Buscar" id="searchInput" />
+                        </form>
+
 
                         <!-- Botón de agregar -->
                         <button type="button" class="btn btn-custom custom-add-btn"
@@ -68,33 +70,33 @@
                                 <div class="col-sm-12 col-md-6">
                                     <label for="nombreProducto" class="form-label">Nombre del producto</label>
                                     <input id="nombreProducto" type="text" name="nombreProducto" class="form-control rounded-5"
-                                        placeholder="Ingresa el nombre del material" required>
+                                        placeholder="Ingresa el nombre del producto" required>
                                 </div>
                                 <div class="col-sm-12 col-md-6">
                                     <label for="descripcionProducto" class="form-label">Descripción</label>
                                     <input id="descripcionProducto" type="text" name="descripcionProducto"
-                                        class="form-control rounded-5" placeholder="Ingresa la descripción del material"
+                                        class="form-control rounded-5" placeholder="Ingresa la descripción del producto"
                                         required>
                                 </div>
                                 <div class="col-sm-12 col-md-6">
                                     <label for="impuestoProducto" class="form-label">Impuesto</label>
                                     <input id="impuestoProducto" type="text" name="impuestoProducto" class="form-control rounded-5"
-                                        placeholder="Ingresa el impuesto del material" required>
+                                    step="0.01" min="0.01"  placeholder="Ingresa el impuesto (ej. 15.00)" required>
                                 </div>
                                 <div class="col-sm-12 col-md-6">
                                     <label for="costoProducto" class="form-label">Costo</label>
-                                    <input id="costoProducto" type="text" name="costoProducto" class="form-control rounded-5"
-                                        placeholder="Ingresa el costo del material" required>
+                                    <input id="costoProducto" type="number" name="costoProducto" class="form-control rounded-5"
+                                    step="0.01" min="0.01" placeholder="Ingresa el costo (ej. 500.00)" required>
                                 </div>
                                 <div class="col-sm-12 col-md-6">
                                     <label for="precioProducto" class="form-label">Precio</label>
-                                    <input id="precioProducto" type="text" name="precioProducto" class="form-control rounded-5"
-                                        placeholder="Ingresa el precio del material" required>
+                                    <input id="precioProducto" type="number" name="precioProducto" class="form-control rounded-5"
+                                    step="0.01" min="0.01" placeholder="Ingresa el precio (ej. 1000.00)" required>
                                 </div>
                                 <div class="col-sm-12 col-md-6">
-                                    <label for="codigoProducto" class="form-label">Codigo</label>
-                                    <input id="codigoProducto" type="text" name="codigoProducto" class="form-control rounded-5"
-                                        placeholder="Ingresa el código del material" required>
+                                    <label for="codigoProducto" class="form-label">Código</label>
+                                    <input id="codigoProducto" type="number" name="codigoProducto" class="form-control rounded-5"
+                                    step="0.01" min="0.01"placeholder="Ingresa el código del producto" required>
                                 </div>
                                 <div class="col-sm-12 col-md-6">
                                     <label for="categoriaProducto" class="form-label">Categoría</label>
@@ -151,11 +153,11 @@
                                     </p>
                                     <!-- Botones de acciones -->
                                     <div class="d-flex justify-content-center">
-                                        <button type="button" class="btn azul rounded-5 me-4" title="Actualizar" 
+                                        <button type="button" class="btn azul rounded-5 me-4" title="Actualizar" id="Actualizar"
                                             onclick="openUpdate()">
                                             <i class='bx bx-edit-alt'></i>
                                         </button>
-                                        <button type="button" class="btn azul rounded-5" title="Eliminar" 
+                                        <button type="button" class="btn azul rounded-5" title="Eliminar" id="Eliminar"
                                             onclick="openDelete()">
                                             <i class='bx bx-trash'></i>
                                         </button>

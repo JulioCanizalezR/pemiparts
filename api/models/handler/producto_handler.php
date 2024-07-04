@@ -62,7 +62,7 @@ class ProductoHandler
  
     public function readOne()
     {
-        $sql = 'SELECT id_producto, nombre_producto, descripcion_producto, impuesto_producto, imagen_producto, precio_producto, costo_produccion_producto, codigo_producto,  tb_categorias.nombre AS "nombre_categoria" , existencias
+        $sql = 'SELECT id_producto, nombre_producto, descripcion_producto, impuesto_producto, imagen_producto, precio_producto, costo_produccion_producto, codigo_producto,  tb_categorias.nombre AS "nombre_categoria" , existencias, id_categoria
                 FROM tb_productos
                 INNER JOIN tb_categorias USING(id_categoria)
                 LEFT JOIN tb_entidades USING (id_producto)
@@ -74,7 +74,7 @@ class ProductoHandler
     public function readFilename()
     {
         $sql = 'SELECT imagen_producto
-                FROM producto
+                FROM tb_productos
                 WHERE id_producto = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);
@@ -82,16 +82,17 @@ class ProductoHandler
  
     public function updateRow()
     {
-        $sql = 'UPDATE producto
-                SET imagen_producto = ?, nombre_producto = ?, descripcion_producto = ?, precio_producto = ?, estado_producto = ?, id_categoria = ?
+        $sql = 'UPDATE tb_productos
+                SET nombre_producto = ?, descripcion_producto = ?, impuesto_producto = ?, imagen_producto = ?,
+        precio_producto = ?, costo_produccion_producto = ?, codigo_producto = ?, id_categoria = ?
                 WHERE id_producto = ?';
-        $params = array($this->imagen, $this->nombre, $this->descripcion, $this->precio, $this->estado, $this->categoria, $this->id);
+        $params = array($this->nombre, $this->descripcion, $this->impuesto_producto, $this->imagen, $this->precio, $this->costo_produccion, $this->codigo, $this->categoria, $this->id);
         return Database::executeRow($sql, $params);
     }
  
     public function deleteRow()
     {
-        $sql = 'DELETE FROM producto
+        $sql = 'DELETE FROM tb_productos
                 WHERE id_producto = ?';
         $params = array($this->id);
         return Database::executeRow($sql, $params);

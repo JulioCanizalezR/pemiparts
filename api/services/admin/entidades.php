@@ -15,7 +15,7 @@ if (isset($_GET['action'])) {
         $result['session'] = 1;
         // Se compara la acción a realizar cuando un cliente ha iniciado sesión.
         switch ($_GET['action']) {
-            // Acción para agregar un producto al carrito de compras.
+                // Acción para agregar un producto al carrito de compras.
             case 'searchRows':
                 if (!Validator::validateSearch($_POST['search'])) {
                     $result['error'] = Validator::getSearchError();
@@ -44,6 +44,24 @@ if (isset($_GET['action'])) {
                 break;
             case 'readAll':
                 if ($result['dataset'] = $entidad->readAll()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
+                } else {
+                    $result['error'] = 'No existen entidades registrados';
+                }
+                break;
+            case 'readProducts':
+                if ($result['dataset'] = $entidad->readProducts()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
+                } else {
+                    $result['error'] = 'No existen entidades registrados';
+                }
+                break;
+            case 'getItems':
+                if (!$entidad->setIdAlmacenamiento($_POST['idContenedor'])) {
+                    $result['error'] = $entidad->getDataError();
+                } elseif ($result['dataset'] = $entidad->readAllForContainer()) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
                 } else {

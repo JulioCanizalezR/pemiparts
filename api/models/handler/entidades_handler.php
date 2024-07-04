@@ -91,6 +91,48 @@ class EntidadesHandler
         return Database::getRows($sql);
     }
  
+    public function readAllForContainer()
+    {
+        $sql = 'SELECT 
+        e.id_entidad,
+        e.id_almacenamiento,
+        e.id_producto,
+        e.existencias,
+        e.estado,
+        a.nombre_almacenamiento,
+        a.tiempo_inicial,
+        a.tiempo_final,
+        p.nombre_producto,
+        p.impuesto_producto,
+        p.imagen_producto,
+        ROUND(precio_producto, 2) AS precio_producto, 
+        p.costo_producción_producto,
+        p.codigo_producto,
+        p.id_categoria,
+        c.nombre
+        FROM 
+        tb_entidades e
+        INNER JOIN 
+        tb_almacenamientos a ON e.id_almacenamiento = a.id_almacenamiento
+        INNER JOIN 
+        tb_productos p ON e.id_producto = p.id_producto
+        INNER JOIN 
+        tb_categorias c ON p.id_categoria = c.id_categoria
+        WHERE e.id_almacenamiento = ?';
+        $params = array($this->id_almacenamiento);
+        return Database::getRows($sql, $params);
+    }
+
+    
+    public function readProducts()
+    {
+        $sql = 'SELECT id_producto, nombre_producto
+                FROM tb_productos
+                INNER JOIN tb_categorias USING(id_categoria)
+                ORDER BY nombre_producto;';
+        return Database::getRows($sql);
+    }
+
     public function readOne()
     {
         $sql = 'SELECT 

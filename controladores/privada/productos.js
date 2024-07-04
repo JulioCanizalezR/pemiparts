@@ -5,6 +5,9 @@ const saveModal = new bootstrap.Modal("#saveModal"),
 const seeModal = new bootstrap.Modal("#seeModal"),
   modalTitle2 = document.getElementById("modalTitle2");
 
+  const SEARCH_INPUT = document.getElementById("searchInput");
+
+
 const saveForm = document.getElementById("saveForm"),
   sidProducto = document.getElementById("idProducto"),
   sNombreProducto = document.getElementById("nombreProducto"),
@@ -76,15 +79,17 @@ const readOne = async (id) => {
 const populateProductModal = (productData) => {
   seeModal.show();
   modalTitle2.value = "Información del Producto";
+  const priceProduct = parseFloat(productData.precio_producto).toFixed(2);
   idProducto.value = productData.id_producto;
   nombreProducto.textContent = productData.nombre_producto;
   categoriaProducto.textContent = productData.nombre_categoria;
-  precioProducto.textContent = productData.precio_producto;
+  precioProducto.textContent = priceProduct;
   cantidadProducto.textContent = productData.existencias;
   descripcionProducto.textContent = productData.descripcion_producto;
+  costoProducto.textContent = productData.costo_produccion_producto;
   imagenProducto.src = `${SERVER_URL}images/productos/${productData.imagen_producto}`;
-  openUpdate(productData.id_producto);
-   openDelete(productData.id_producto);
+  document.getElementById('Actualizar').onclick = () => openUpdate(productData.id_producto);
+  document.getElementById('Eliminar').onclick = () => openDelete(productData.id_producto);
 };
 
 const openDelete = async (id) => {
@@ -93,8 +98,8 @@ const openDelete = async (id) => {
     const formData = new FormData();
     formData.append('idProducto', id);
     const data = await fetchData(PRODUCTO_API, 'deleteRow', formData);
-
     if (data.status) {
+      seeModal.hide();
       await sweetAlert(1, data.message, true);
       fillCards();
     } else {
@@ -121,17 +126,23 @@ const populateUpdateForm = (productData) => {
   modalTitle.textContent = "Actualizar el Producto";
   saveForm.reset();
   sidProducto.value = productData.id_producto;
-  sNombreProducto.value = productData.nombre;
-  sDescripcionProducto.value = productData.descripcion;
-  sCantidadProducto.value = productData.cantidad;
-  sPrecioProducto.value = productData.precio;
-  sCategoriaProducto.value = productData.categoria;
+  sNombreProducto.value = productData.nombre_producto;
+  sDescripcionProducto.value = productData.descripcion_producto;
+  sImpuestoProducto.value = productData.impuesto_producto;
+  sCostoProducto.value = productData.costo_produccion_producto;
+  sPrecioProducto.value = productData.precio_producto;
+  sCodigoProducto.value = productData.codigo_producto;
+  fillSelect(CATEGORIA_API, 'readAll', 'categoriaProducto', productData.id_categoria);
+  
+  
 };
 
-const fillCards = async () => {
+const fillCards = async (form = null) => {
   const cardsContainer = document.getElementById("cards");
   try {
     cardsContainer.innerHTML = "";
+    let action;
+    form ? (action = "searchRows") : (action = "readAll");
     const data = await fetchData(PRODUCTO_API, "readAll");
     if (data.status) {
       data.dataset.forEach(product => {
@@ -139,7 +150,6 @@ const fillCards = async () => {
         cardsContainer.innerHTML += productCard;
       });
     } else {
-      console.error("Error al obtener los datos:", data.error);
       sweetAlert(2, data.error, false);
     }
   } catch (error) {
@@ -158,7 +168,7 @@ const createProductCard = (product) => {
         </div>
         <div class="col-8 p-2 d-flex flex-column">
           <p class="text-secondary mb-1">Nombre: ${product.nombre_producto}</p>
-          <p class="text-secondary mb-1">Descripción: ${product.descripción_producto}</p>
+          <p class="text-secondary mb-1">Descripción: ${product.descripcion_producto}</p>
           <p class="text-secondary mb-1">Cantidad: ${product.existencias}</p>
           <p class="text-secondary mb-1">Precio: $${precioRedondeado}</p>
           <p class="text-secondary mb-1">Categoría: ${product.nombre_categoria}</p>
@@ -170,3 +180,8 @@ const createProductCard = (product) => {
     </div>`;
 };
 
+
+var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+    return new bootstrap.Popover(popoverTriggerEl)
+})

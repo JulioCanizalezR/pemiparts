@@ -10,27 +10,35 @@
     <link rel="stylesheet" href="../recursos/css/inicio_sesion.css">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.3/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        #cartpefil {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Hace que el contenedor ocupe al menos la altura completa de la ventana */
+            padding: 20px;
+        }
+    </style>
 </head>
 
 <body>
     <main>
-
-
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card mt-4">
-                        <div class="card-header bg-primary text-white text-center">
-                            <img src="https://via.placeholder.com/100" class="rounded-circle" alt="Avatar">
-                            <h2 id="nombreUsuario"></h2>
-                            <h5>Cargo: gerente</h5>
-                        </div>
-                        <div class="card-body">
-                            <p><strong>Teléfono:</strong> 12345678</p>
-                            <p><strong>Correo:</strong> JuanT@Gmail.com</p>
-                            <div class="d-flex justify-content-center">
-                                <button class="btn btn-primary m-2">Editar perfil</button>
-                                <button class="btn btn-secondary m-2">Cerrar sesión</button>
+        <div class="justify-content-center align-items-center text-center" id="cartpefil">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 ">
+                        <div class="card mt-4">
+                            <div class="card-header bg-primary text-white text-center">
+                                <img src="https://via.placeholder.com/100" class="rounded-circle" alt="Avatar">
+                                <h2 id="nombreUsuario">Juan Torres</h2>
+                                <h5>Cargo: gerente</h5>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Teléfono:</strong> 12345678</p>
+                                <p><strong>Correo:</strong> JuanT@Gmail.com</p>
+                                <div class="d-flex justify-content-center">
+                                    <button class="btn btn-primary m-2" data-bs-toggle="modal" data-bs-target="#seeModal">Editar perfil</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -45,98 +53,73 @@
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header bg-blue-principal-color">
-                        <h1 class="modal-title fs-5 text-dark" id="modalTitle2"></h1>
+                        <h1 class="modal-title fs-5 text-dark" id="modalTitle2">Editar Perfil</h1>
                         <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
                     <!-- Formulario para visualizar un registro -->
                     <form id="seeForm">
                         <div class="modal-body row g-3">
-                            <!-- Mitad izquierda con la imagen -->
-                            <div class="col-md-6">
-                                <div class="bg-white">
-                                    <img class="imagen img-fluid" id="imagen"
-                                        src="https://www.arideocean.com/wp-content/themes/arkahost/assets/images/default.png"
-                                        alt="">
-                                </div>
+                            <!-- Campo oculto para asignar el id del registro al momento de modificar -->
+                            <input type="number" class="d-none" id="idUsuario" name="idUsuario">
+                            <div class="col-sm-12 col-md-6">
+                                <label for="nombreUsuario" class="form-label">Nombre</label>
+                                <input id="nombreUsuario" type="text" name="nombreUsuario"
+                                    class="form-control rounded-5" placeholder="John" required>
                             </div>
-                            <!-- Mitad derecha con el contenido -->
-                            <div class="col-md-6">
-                                <p class="letter">Nombres: <span class="no-letter" id="nombre">Juan
-                                        Torres</span></P>
-                                <p class="letter">Apellidos: <span class="no-letter" id="apellido">Campos
-                                        Lopez</span></p>
-                                <p class="letter">Cargo: <span class="no-letter" id="cargo">Empleado</span></p>
-                                <p class="letter">Email: <span class="no-letter" id="email">Juan@gmail.com</span>
-                                </p>
-                                <p class="letter">Telefono: <span class="no-letter" id="telefono">7233-2134</span>
-                                </p>
-                                <!-- Botones de acciones -->
-                                <div class="d-flex justify-content-center">
-                                    <button type="button" class="btn azul rounded-5 me-4" title="Actualizar"
-                                        id="Actualizar">
-                                        <i class='bx bx-edit-alt'></i>
-                                    </button>
-                                    <button type="button" class="btn azul rounded-5" title="Eliminar" id="Eliminar">
-                                        <i class='bx bx-trash'></i>
-                                    </button>
-                                </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="apellidoUsuario" class="form-label">Apellido</label>
+                                <input id="apellidoUsuario" type="text" name="apellidoUsuario"
+                                    class="form-control rounded-5" placeholder="Doe" required>
                             </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="correoUsuario" class="form-label">Correo Electrónico</label>
+                                <input id="correoUsuario" type="email" name="correoUsuario"
+                                    class="form-control rounded-5" placeholder="johndoe@example.com" required>
+                                </inputs>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="telefonoUsuario" class="form-label">Telefono</label>
+                                <input id="telefonoUsuario" type="text" name="telefonoUsuario"
+                                    class="form-control rounded-5" placeholder="2454-7777" required>
+                                </input>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="claveUsuario" class="form-label">Contraseña</label>
+                                <input id="claveUsuario" type="password" name="claveUsuario"
+                                    class="form-control rounded-5" placeholder="Contraseña"
+                                    aria-label="Contraseña" required>
+                                </input>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="confirmarClave" class="form-label">Confirmar Contraseña</label>
+                                <input id="confirmarClave" type="password" name="confirmarClave"
+                                    class="form-control rounded-5" placeholder="Confirmar Contraseña"
+                                    aria-label="Contraseña" required>
+                                </input>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="cargoUsuario" class="form-label">Cargo</label>
+                                <select id="cargoUsuario" name="cargoUsuario" class="form-select rounded-3"
+                                    required>
+                                    <option value="0">Gerente</option>
+                                    <option value="1">Empleado</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="imagenUsuario" class="form-label">Imagen</label>
+                                <input id="imagenUsuario" type="file" name="imagenUsuario"
+                                    class="form-control rounded-5" accept=".png, .jpg">
+                            </div>
+                        </div>
+                        <div class="modal-footer col-sm-12 col-md-12 col-lg-12 justify-content-center">
+                            <button type="submit" class="boton btn azul">Guardar</button>
+                            <button type="reset" class="boton btn azul">Cancelar</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="seeModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-            aria-labelledby="modalTitle2" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header bg-blue-principal-color">
-                        <h1 class="modal-title fs-5 text-dark" id="modalTitle2"></h1>
-                        <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                    </div>
-                    <!-- Formulario para visualizar un registro -->
-                    <form id="seeForm">
-                        <div class="modal-body row g-3">
-                            <!-- Mitad izquierda con la imagen -->
-                            <div class="col-md-6">
-                                <div class="bg-white">
-                                    <img class="imagen img-fluid" id="imagen"
-                                        src="https://www.arideocean.com/wp-content/themes/arkahost/assets/images/default.png"
-                                        alt="">
-                                </div>
-                            </div>
-                            <!-- Mitad derecha con el contenido -->
-                            <div class="col-md-6">
-                                <p class="letter">Nombres: <span class="no-letter" id="nombre">Juan
-                                        Torres</span></P>
-                                <p class="letter">Apellidos: <span class="no-letter" id="apellido">Campos
-                                        Lopez</span></p>
-                                <p class="letter">Cargo: <span class="no-letter" id="cargo">Empleado</span></p>
-                                <p class="letter">Email: <span class="no-letter" id="email">Juan@gmail.com</span>
-                                </p>
-                                <p class="letter">Telefono: <span class="no-letter" id="telefono">7233-2134</span>
-                                </p>
-                                <!-- Botones de acciones -->
-                                <div class="d-flex justify-content-center">
-                                    <button type="button" class="btn azul rounded-5 me-4" title="Actualizar"
-                                        id="Actualizar">
-                                        <i class='bx bx-edit-alt'></i>
-                                    </button>
-                                    <button type="button" class="btn azul rounded-5" title="Eliminar" id="Eliminar">
-                                        <i class='bx bx-trash'></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-
-        </div>
-
     </main>
 
     <script type="text/javascript" src="../controladores/utilidades/template.js"></script>
