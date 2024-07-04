@@ -85,7 +85,7 @@ const generateSideBarHTML = async () => {
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a href="../vistas/entidades.html" class="sidebar-link">
+                            <a href="../vistas/perfil.html" class="sidebar-link">
                                 <i class="bi bi-person-circle"></i>
                                 <span>Editar Perfil</span>
                             </a>
