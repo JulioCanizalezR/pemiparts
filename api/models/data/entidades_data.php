@@ -6,7 +6,7 @@ require_once('../../models/handler/entidades_handler.php');
 /*
  *  Clase para manejar el encapsulamiento de los datos de la tabla CATEGORIA.
  */
-class CategoriaData extends CategoriaHandler
+class EntidadesData extends EntidadesHandler
 {
     /*
      *  Atributos adicionales.

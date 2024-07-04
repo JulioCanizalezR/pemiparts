@@ -34,7 +34,6 @@ class EntidadesHandler
         a.tiempo_inicial,
         a.tiempo_final,
         p.nombre_producto,
-        p.descripcion_producto,
         p.impuesto_producto,
         p.imagen_producto,
         p.precio_producto,
@@ -54,6 +53,7 @@ class EntidadesHandler
  
     public function createRow()
     {
+        $this->estado = 'Disponible';
         $sql = 'INSERT INTO tb_entidades (
             id_almacenamiento,
             id_producto,
@@ -76,7 +76,6 @@ class EntidadesHandler
         a.tiempo_inicial,
         a.tiempo_final,
         p.nombre_producto,
-        p.descripcion_producto,
         p.impuesto_producto,
         p.imagen_producto,
         p.precio_producto,
@@ -94,9 +93,29 @@ class EntidadesHandler
  
     public function readOne()
     {
-        $sql = 'SELECT id_entidad, nombre_almacenamiento,tiempo_inicial,tiempo_final
-                FROM tb_almacenamientos
-                WHERE id_entidad = ?';
+        $sql = 'SELECT 
+        e.id_entidad,
+        e.id_almacenamiento,
+        e.id_producto,
+        e.existencias,
+        e.estado,
+        a.nombre_almacenamiento,
+        a.tiempo_inicial,
+        a.tiempo_final,
+        p.nombre_producto,
+        p.impuesto_producto,
+        p.imagen_producto,
+        p.precio_producto,
+        p.costo_producción_producto,
+        p.codigo_producto,
+        p.id_categoria
+        FROM 
+        tb_entidades e
+        INNER JOIN 
+        tb_almacenamientos a ON e.id_almacenamiento = a.id_almacenamiento
+        INNER JOIN 
+        tb_productos p ON e.id_producto = p.id_producto
+        WHERE id_entidad = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);
     }
@@ -115,7 +134,6 @@ class EntidadesHandler
     }
     return false;
     }
- 
  
     public function updateRow()
     {

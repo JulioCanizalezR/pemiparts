@@ -1,227 +1,168 @@
-// Constantes para establecer los elementos del componente Modal.
-const SAVE_MODAL = new bootstrap.Modal('#saveModal'),
-    MODAL_TITLE = document.getElementById('modalTitle');
+const PRODUCTO_API = "services/admin/producto.php";
+const CATEGORIA_API = "services/admin/categoria.php"
+const saveModal = new bootstrap.Modal("#saveModal"),
+  modalTitle = document.getElementById("modalTitle");
+const seeModal = new bootstrap.Modal("#seeModal"),
+  modalTitle2 = document.getElementById("modalTitle2");
 
-const SEE_MODAL = new bootstrap.Modal('#seeModal'),
-    MODAL_TITLE2 = document.getElementById('modalTitle2');
+const saveForm = document.getElementById("saveForm"),
+  sidProducto = document.getElementById("idProducto"),
+  sNombreProducto = document.getElementById("producto"),
+  sDescripcionProducto = document.getElementById("descripcion"),
+  sCantidadProducto = document.getElementById("cantidad"),
+  sPrecioProducto = document.getElementById("precio"),
+  sCategoriaProducto = document.getElementById("categoria"),
+  sImagenProducto = document.getElementById("imagen");
 
+const seeForm = document.getElementById("seeForm"),
+  idProducto = document.getElementById("idProducto"),
+  nombreProducto = document.getElementById("nombre"),
+  descripcionProducto = document.getElementById("descripcion"),
+  cantidadProducto = document.getElementById("cantidad"),
+  precioProducto = document.getElementById("precio"),
+  categoriaProducto = document.getElementById("categoria"),
+  imagenProducto = document.getElementById("imagen");
 
-// Constantes para establecer los elementos del formulario de guardar.
-const SAVE_FORM = document.getElementById('saveForm'),
-    ID_PRODUCTO = document.getElementById('idProducto'),
-    NOMBRE_PRODUCTO = document.getElementById('producto'),
-    DESCRIPCION_PRODUCTO = document.getElementById('descripcion'),
-    CANTIDAD_PRODUCTO = document.getElementById('cantidad'),
-    PRECIO_PRODUCTO = document.getElementById('precio'),
-    CATEGORIA_PRODUCTO = document.getElementById('categoria'),
-    IMAGEN_PRODUCTO = document.getElementById('imagen');
-
-
-
-/*
-*   Función para preparar el formulario al momento de insertar un registro.
-*   Parámetros: ninguno.
-*   Retorno: ninguno.
-*/
-const openCreate = () => {
-    // Se muestra la caja de diálogo con su título.
-    SAVE_MODAL.show();
-    MODAL_TITLE.textContent = 'Crear producto';
-    // Se prepara el formulario.
-    SAVE_FORM.reset();
-    fillSelected(lista_datos_categorias, 'readAll', 'categoria');
-}
-
-/*
-* Función asíncrona para preparar el formulario al momento de actualizar un registro.
-* Parámetros: id (identificador del registro seleccionado).
-* Retorno: ninguno.
-*/
-const openUpdate = () => {
-    // Se muestra la caja de diálogo con su título.
-    SEE_MODAL.hide();
-    SAVE_MODAL.show();
-    MODAL_TITLE.textContent = 'Actualizar el producto';
-}
-
-/*
-*   Función asíncrona para eliminar un registro.
-*   Parámetros: id (identificador del registro seleccionado).
-*   Retorno: ninguno.
-*/
-const openDelete = async (id) => {
-    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
-    const RESPONSE = await confirmAction('¿Desea cancelar el registro de datos?');
-    console.log('Resultado de la confirmación:', RESPONSE);
-    if (RESPONSE === true) {
-        SEE_MODAL.hide();
-    }
-}
-
-const openInfo = () => {
-    // Se muestra la caja de diálogo con su título.
-    SEE_MODAL.show();
-    MODAL_TITLE2.textContent = 'Información del producto';
-}
-
-// Método del evento para cuando el documento ha cargado.
-document.addEventListener('DOMContentLoaded', () => {
-    // Llamada a la función para mostrar el encabezado y pie del documento.
-    fillCards();
+document.addEventListener("DOMContentLoaded", () => {
+  fillCards();
 });
 
+saveForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  await saveOrUpdateProduct();
+});
 
-const lista_datos_categorias = [
-    {
-        categoria: "Ligera",
-        id: 1,
-    },
-    {
-        categoria: 'Pesada',
-        id: 2,
-    },
-    {
-        categoria: 'Muy pesada',
-        id: 3,
-    }
-];
+seeForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  await saveOrUpdateProduct();
+});
 
-const lista_datos = [
-    {
-        imagen: 'https://upload.wikimedia.org/wikipedia/commons/6/68/HwacheonCentreLathe_460x1000.jpg',
-        producto: 'Torno',
-        tipo: 'Pesado',
-        precio: '$ 2000.00',
-        id: 1
-    },
-    {
-        imagen: 'https://upload.wikimedia.org/wikipedia/commons/6/68/HwacheonCentreLathe_460x1000.jpg',
-        producto: 'Torno',
-        tipo: 'Pesado',
-        precio: '$ 2000.00',
-        id: 2
-    },
-    {
-        imagen: 'https://upload.wikimedia.org/wikipedia/commons/6/68/HwacheonCentreLathe_460x1000.jpg',
-        producto: 'Torno',
-        tipo: 'Pesado',
-        precio: '$ 2000.00',
-        id: 3
-    },
-    {
-        imagen: 'https://upload.wikimedia.org/wikipedia/commons/6/68/HwacheonCentreLathe_460x1000.jpg',
-        producto: 'Torno',
-        tipo: 'Pesado',
-        precio: '$ 2000.00',
-        id: 4
-    },
-    {
-        imagen: 'https://upload.wikimedia.org/wikipedia/commons/6/68/HwacheonCentreLathe_460x1000.jpg',
-        producto: 'Torno',
-        tipo: 'Pesado',
-        precio: '$ 2000.00',
-        id: 5
-    },
-    {
-        imagen: 'https://upload.wikimedia.org/wikipedia/commons/6/68/HwacheonCentreLathe_460x1000.jpg',
-        producto: 'Torno',
-        tipo: 'Pesado',
-        precio: '$ 2000.00',
-        id: 6
-    },
-    {
-        imagen: 'https://upload.wikimedia.org/wikipedia/commons/6/68/HwacheonCentreLathe_460x1000.jpg',
-        producto: 'Torno',
-        tipo: 'Pesado',
-        precio: '$ 2000.00',
-        id: 7
-    },
-    {
-        imagen: 'https://upload.wikimedia.org/wikipedia/commons/6/68/HwacheonCentreLathe_460x1000.jpg',
-        producto: 'Torno',
-        tipo: 'Pesado',
-        precio: '$ 2000.00',
-        id: 8
-    },
-    {
-        imagen: 'https://upload.wikimedia.org/wikipedia/commons/6/68/HwacheonCentreLathe_460x1000.jpg',
-        producto: 'Torno',
-        tipo: 'Pesado',
-        precio: '$ 2000.00',
-        id: 9
-    },
-    {
-        imagen: 'https://upload.wikimedia.org/wikipedia/commons/6/68/HwacheonCentreLathe_460x1000.jpg',
-        producto: 'Torno',
-        tipo: 'Pesado',
-        precio: '$ 2000.00',
-        id: 10
-    },
-    {
-        imagen: 'https://upload.wikimedia.org/wikipedia/commons/6/68/HwacheonCentreLathe_460x1000.jpg',
-        producto: 'Torno pesado',
-        tipo: 'Pesado',
-        precio: '$ 2000.00',
-        id: 11
-    },
-];
+const saveOrUpdateProduct = async () => {
+  const action = sidProducto.value ? "updateRow" : "createRow";
+  const formData = new FormData(saveForm);
+  const data = await fetchData(PRODUCTO_API, action, formData);
 
-/*
-* Función asíncrona para llenar las cartas con los registros disponibles.
-* Parámetros: form (formulario de búsqueda).
-* Retorno: ninguno.
-*/
-async function fillCards(form = null) {
-    const cargarCartas = document.getElementById('cards');
-    // Mostrar materiales de respaldo
-    lista_datos.forEach(row => {
-        const cardsHtml = `
-        <div class="col-md-5 col-sm-12">
-            <div class="tarjetas shadow d-flex align-items-center">
-                <!-- Imagen a la izquierda -->
-                <div class="col-6 bg-white tarjetas">
-                    <img class="img-fluid imagen"
-                        src="${row.imagen}"
-                        alt="...">
-                </div>
-                <!-- Textos a la derecha -->
-                <div class="col-6">
-                    <h3>${row.producto}</h3>
-                    <p>Tipo: <span>${row.tipo}</span></p>
-                    <p>Precio: <span>${row.precio}</span></p>
-                    <button class="btn botones-azul rounded-5" onclick="openInfo()">Ver mas...</button>
-                </div>
-            </div>
-        </div>
-        `;
-        cargarCartas.innerHTML += cardsHtml;
-    })
-}
-
-
-// Función para poblar un combobox (select) con opciones
-const fillSelected = (data, action, selectId, selectedValue = null) => {
-    const selectElement = document.getElementById(selectId);
-
-    // Limpiar opciones previas del combobox
-    selectElement.innerHTML = '';
-
-    // Crear opción por defecto
-    const defaultOption = document.createElement('option');
-    defaultOption.value = '';
-    defaultOption.textContent = 'Selecciona la categoría';
-    selectElement.appendChild(defaultOption);
-
-    // Llenar el combobox con los datos proporcionados
-    data.forEach(item => {
-        const option = document.createElement('option');
-        option.value = item.id;
-        option.textContent = item.categoria;
-        selectElement.appendChild(option);
-    });
-
-    // Seleccionar el valor especificado si se proporciona
-    if (selectedValue !== null) {
-        selectElement.value = selectedValue;
-    }
+  if (data.status) {
+    saveModal.hide();
+    sweetAlert(1, data.message, true);
+    fillCards();
+  } else {
+    sweetAlert(4, data.error, true);
+  }
 };
+
+const openCreate = () => {
+  saveModal.show();
+  modalTitle.textContent = "Crear Producto";
+  saveForm.reset();
+  fillSelect(CATEGORIA_API, 'readAll', 'categoriaProducto');
+};
+
+const readOne = async (id) => {
+  const formData = new FormData();
+  formData.append("idProducto", id);
+  const data = await fetchData(PRODUCTO_API, "readOne", formData);
+
+  if (data.status) {
+    populateProductModal(data.dataset);
+  } else {
+    sweetAlert(4, data.error, true);
+  }
+};
+
+const populateProductModal = (productData) => {
+  seeModal.show();
+  modalTitle2.value = "Información del Producto";
+  nombreProducto.textContent = productData.nombre;
+  descripcionProducto.textContent = productData.descripcion;
+  cantidadProducto.textContent = productData.cantidad;
+  precioProducto.textContent = productData.precio;
+  categoriaProducto.textContent = productData.categoria;
+  imagenProducto.src = `${SERVER_URL}images/productos/${productData.imagen}`;
+  document.getElementById('Actualizar').onclick = () => openUpdate(productData.id_producto);
+  document.getElementById('Eliminar').onclick = () => openDelete(productData.id_producto);
+};
+
+const openDelete = async (id) => {
+  const response = await confirmAction('¿Desea eliminar el producto de forma permanente?');
+  if (response) {
+    const formData = new FormData();
+    formData.append('idProducto', id);
+    const data = await fetchData(PRODUCTO_API, 'deleteRow', formData);
+
+    if (data.status) {
+      await sweetAlert(1, data.message, true);
+      fillCards();
+    } else {
+      sweetAlert(2, data.error, false);
+    }
+  }
+};
+
+const openUpdate = async (id) => {
+  seeModal.hide();
+  const formData = new FormData();
+  formData.append("idProducto", id);
+  const data = await fetchData(PRODUCTO_API, "readOne", formData);
+
+  if (data.status) {
+    populateUpdateForm(data.dataset);
+  } else {
+    sweetAlert(2, data.error, false);
+  }
+};
+
+const populateUpdateForm = (productData) => {
+  saveModal.show();
+  modalTitle.textContent = "Actualizar el Producto";
+  saveForm.reset();
+  sidProducto.value = productData.id_producto;
+  sNombreProducto.value = productData.nombre;
+  sDescripcionProducto.value = productData.descripcion;
+  sCantidadProducto.value = productData.cantidad;
+  sPrecioProducto.value = productData.precio;
+  sCategoriaProducto.value = productData.categoria;
+};
+
+const fillCards = async () => {
+  const cardsContainer = document.getElementById("cards");
+  try {
+    cardsContainer.innerHTML = "";
+    const data = await fetchData(PRODUCTO_API, "readAll");
+    if (data.status) {
+      data.dataset.forEach(product => {
+        const productCard = createProductCard(product);
+        cardsContainer.innerHTML += productCard;
+      });
+    } else {
+      console.error("Error al obtener los datos:", data.error);
+      sweetAlert(2, data.error, false);
+    }
+  } catch (error) {
+    console.error("Error al obtener datos de la API:", error);
+    sweetAlert(2, error, false);
+  }
+};
+
+const createProductCard = (product) => {
+    const precioRedondeado = parseFloat(product.precio_producto).toFixed(2);
+  return `
+    <div class="col-md-5 col-sm-12 mb-4">
+      <div class="tarjeta shadow d-flex align-items-center p-3">
+        <div class="col-4 p-2 d-flex justify-content-center align-items-center">
+          <img class="img-fluid rounded" src="${SERVER_URL}images/productos/${product.imagen_producto}" alt="${product.nombre_producto}">
+        </div>
+        <div class="col-8 p-2 d-flex flex-column">
+          <p class="text-secondary mb-1">Nombre: ${product.nombre_producto}</p>
+          <p class="text-secondary mb-1">Descripción: ${product.descripción_producto}</p>
+          <p class="text-secondary mb-1">Cantidad: ${product.existencias}</p>
+          <p class="text-secondary mb-1">Precio: $${precioRedondeado}</p>
+          <p class="text-secondary mb-1">Categoría: ${product.nombre_categoria}</p>
+          <div class="mt-auto d-flex justify-content-end">
+            <button class="btn btn-primary" onclick="readOne(${product.id_producto})">Ver más</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+};
+

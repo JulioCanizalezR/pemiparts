@@ -4,23 +4,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil</title>
+    <title>Clientes</title>
     <link href="../recursos/css/bootstrap.min.css" rel="stylesheet">
     <link href="../recursos/css/tablas.css" rel="stylesheet">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 </head>
 
 <body>
+
     <main>
         <div id="mainContent">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="d-flex align-items-center">
                         <div class="col-md-2 col-sm-4 fs-3 text-dark">Clientes</div>
+                        <!-- Boton de informacion-->
                         <button type="button" class="btn me-2 mb-2" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Busca por el nombre, el apellido o el correo">
                             <img src="../recursos/img/info.svg" width="18px" height="18px">
                             </button>
-                        
+                        <!-- Buscador  -->
                         <form id="searchForm" class="col-md-5 col-sm-12">
                             <input class="form-control me-2 mb-2" type="search" placeholder="Buscar" name="search"
                                 aria-label="Buscar" id="searchInput" />
@@ -43,9 +45,12 @@
                             <th scope="col">Opciones</th>
                         </tr>
                     </thead>
+
+                    <!-- Aqui se cargaran las filas -->
                     <tbody id="tableBody"></tbody>
                 </table>
 
+                <!-- Modal -->
                 <div class="modal fade" id="saveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
                     aria-labelledby="modalTitle" aria-hidden="true">
                     <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -147,10 +152,14 @@
             </div>
         </div>
     </main>
-
+    <!-- Bootstrap -->
     <script type="text/javascript" src="../recursos/js/bootstrap.bundle.min.js"></script>
-    <script type="text/javascript" src="../controladores/utilidades/components.js"></script>
+    
+    <!-- Alertas-->
     <script type="text/javascript" src="../recursos/js/sweetalert.min.js"></script>
+
+    <!-- Controladores -->
+    <script type="text/javascript" src="../controladores/utilidades/components.js"></script>
     <script type="text/javascript" src="../controladores/utilidades/template.js"></script>
     <script type="text/javascript" src="../controladores/privada/clientes.js"></script>
 </body>

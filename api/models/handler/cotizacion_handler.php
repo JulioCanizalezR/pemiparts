@@ -9,6 +9,7 @@ class CotizacionHandler
 
 
     protected $id_cotizacion = null;
+    protected $detalle_envio = null;
     protected $estado_envio = null;
     protected $fecha_estimada = null;
     protected $numero_seguimiento = null;
@@ -26,21 +27,28 @@ class CotizacionHandler
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
-        $sql = 'SELECT id_almacenamiento,nombre_almacenamiento,tiempo_inicial,tiempo_final
-                FROM tb_almacenamientos
-                WHERE nombre_almacenamiento LIKE ?';
+        $sql = 'SELECT id_envio, estado_envio, fecha_estimada,numero_seguimiento,
+        etiqueta_edificacion, id_cliente, nombre_cliente 
+        FROM tb_envios 
+        INNER JOIN tb_clientes USING(id_cliente)
+        WHERE nombre_cliente LIKE ?';
         $params = array($value);
         return Database::getRows($sql, $params);
     }
  
     public function createRow()
     {
-        $sql = 'INSERT INTO tb_almacenamientos (
-            nombre_almacenamiento,
-            tiempo_inicial,
-            tiempo_final)
-            VALUES(?,?,?)';
-        $params = array($this->nombre_almacenamiento,$this->fecha_inicio,$this->tiempo_final);
+        $sql = 'INSERT INTO tb_detalle_envios (
+            id_detalle_envio, 
+            id_envio, 
+            medio_envio, 
+            costo_envio, 
+            impuesto_envio, 
+            id_entidad, 
+            cantidad_entidad, 
+            direccion_envio
+        )VALUES(?,?,?,?,?,?,?,?)';
+        $params = array($this->detalle_envio,$this->fecha_inicio,$this->tiempo_final);
         return Database::executeRow($sql, $params);
     }
  

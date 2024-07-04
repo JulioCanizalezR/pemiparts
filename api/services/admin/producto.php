@@ -11,7 +11,7 @@ if (isset($_GET['action'])) {
     // Se declara e inicializa un arreglo para guardar el resultado que retorna la API.
     $result = array('status' => 0, 'message' => null, 'dataset' => null, 'error' => null, 'exception' => null, 'fileStatus' => null);
     // Se verifica si existe una sesión iniciada como administrador, de lo contrario se finaliza el script con un mensaje de error.
-    if (isset($_SESSION['idAdministrador'])) {
+    if (isset($_SESSION['idUsuario'])) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
             case 'searchRows':
@@ -29,11 +29,12 @@ if (isset($_GET['action'])) {
                 if (
                     !$producto->setNombre($_POST['nombreProducto']) or
                     !$producto->setDescripcion($_POST['descripcionProducto']) or
+                    !$producto->setImpuesto($_POST['impuestoProducto']) or
+                    !$producto->setImagen($_FILES['imagenProducto']) or
                     !$producto->setPrecio($_POST['precioProducto']) or
-                    !$producto->setExistencias($_POST['existenciasProducto']) or
-                    !$producto->setCategoria($_POST['categoriaProducto']) or
-                    !$producto->setEstado(isset($_POST['estadoProducto']) ? 1 : 0) or
-                    !$producto->setImagen($_FILES['imagenProducto'])
+                    !$producto->setCosto($_POST['costoProducto']) or
+                    !$producto->setCodigo($_POST['codigoProducto']) or
+                    !$producto->setCategoria(($_POST['categoriaProducto'])) 
                 ) {
                     $result['error'] = $producto->getDataError();
                 } elseif ($producto->createRow()) {
