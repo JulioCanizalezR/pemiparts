@@ -7,6 +7,9 @@ const saveModal = new bootstrap.Modal("#saveModal"),
 const seeModal = new bootstrap.Modal("#seeModal"),
   modalTitle2 = document.getElementById("modalTitle2");
 
+const SEARCH_FORM = document.getElementById("searchForm");
+const SEARCH_INPUT = document.getElementById("searchInput");
+
 const saveForm = document.getElementById("saveForm"),
   sidUsuario = document.getElementById("idUsuario"),
   sNombre = document.getElementById("nombreUsuario"),
@@ -16,7 +19,7 @@ const saveForm = document.getElementById("saveForm"),
   sTelefono = document.getElementById("telefonoUsuario"),
   sImagen = document.getElementById("imagenUsuario"),
   sClave = document.getElementById("claveUsuario"),
-sConfirmarClave = document.getElementById("confirmarClave");
+  sConfirmarClave = document.getElementById("confirmarClave");
 
 const seeForm = document.getElementById("seeForm"),
   idUsuario = document.getElementById("idUsuario"),
@@ -27,7 +30,17 @@ const seeForm = document.getElementById("seeForm"),
   telefonoUsuario = document.getElementById("telefono"),
   imagenUsuario = document.getElementById("imagen");
 
-
+SEARCH_INPUT.addEventListener("input", (event) => {
+  // Constante tipo objeto con los datos del formulario.
+  event.preventDefault();
+  const FORM = new FormData();
+  FORM.append("search", SEARCH_INPUT.value);
+  if (SEARCH_INPUT.value == "") {
+    fillCards();
+  }
+  // Llamada a la función para llenar la tabla con los resultados de la búsqueda.
+  fillCards(FORM);
+});
 
 document.addEventListener("DOMContentLoaded", () => {
   fillCards();
@@ -37,7 +50,6 @@ saveForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   await saveOrUpdateUser();
 });
-
 
 seeForm.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -83,20 +95,24 @@ const populateUserModal = (userData) => {
   modalTitle2.value = "Información del Usuario";
   nombreUsuario.textContent = userData.nombre;
   apellidoUsuario.textContent = userData.apellido;
-  cargoUsuario.value = userData.cargo == 1 ? 'Empleado' : 'Gerente';
+  cargoUsuario.value = userData.cargo == 1 ? "Empleado" : "Gerente";
   imagenUsuario.src = `${SERVER_URL}images/usuarios/${userData.imagen_usuario}`;
   emailUsuario.textContent = userData.correo_electronico;
   telefonoUsuario.textContent = userData.numero_telefono;
-  document.getElementById('Actualizar').onclick = () => openUpdate(userData.id_usuario);
-  document.getElementById('Eliminar').onclick = () => openDelete(userData.id_usuario);
+  document.getElementById("Actualizar").onclick = () =>
+    openUpdate(userData.id_usuario);
+  document.getElementById("Eliminar").onclick = () =>
+    openDelete(userData.id_usuario);
 };
 
 const openDelete = async (id) => {
-  const response = await confirmAction('¿Desea eliminar al usuario de forma permanente?');
+  const response = await confirmAction(
+    "¿Desea eliminar al usuario de forma permanente?"
+  );
   if (response) {
     const formData = new FormData();
-    formData.append('idUsuario', id);
-    const data = await fetchData(UsuarioApi, 'deleteRow', formData);
+    formData.append("idUsuario", id);
+    const data = await fetchData(UsuarioApi, "deleteRow", formData);
 
     if (data.status) {
       await sweetAlert(1, data.message, true);
@@ -134,13 +150,16 @@ const populateUpdateForm = (userData) => {
   sConfirmarClave.disabled = true;
 };
 
-const fillCards = async () => {
+const fillCards = async (form = null) => {
   const cardsContainer = document.getElementById("cards");
   try {
     cardsContainer.innerHTML = "";
-    const data = await fetchData(UsuarioApi, "readAll");
+    cardsContainer.innerHTML = "";
+    let action;
+    form ? (action = "searchRows") : (action = "readAll");
+    const data = await fetchData(UsuarioApi, action, form);
     if (data.status) {
-      data.dataset.forEach(user => {
+      data.dataset.forEach((user) => {
         const userCard = createUserCard(user);
         cardsContainer.innerHTML += userCard;
       });
@@ -153,7 +172,7 @@ const fillCards = async () => {
 };
 
 const createUserCard = (user) => {
-  const cargoField = user.cargo == 1 ? 'Empleado' : 'Gerente';
+  const cargoField = user.cargo == 1 ? "Empleado" : "Gerente";
   return `
     <div class="col-md-5 col-sm-12 mb-4">
       <div class="tarjeta shadow d-flex align-items-center p-3">
@@ -173,3 +192,8 @@ const createUserCard = (user) => {
     </div>`;
 };
 
+
+var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+    return new bootstrap.Popover(popoverTriggerEl)
+})

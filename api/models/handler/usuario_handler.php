@@ -101,9 +101,9 @@ class UsuarioHandler
         $value = '%' . Validator::getSearchValue() . '%';
         $sql = 'SELECT id_usuario, imagen_usuario, nombre, apellido, numero_telefono, cargo, correo_electronico
                 FROM tb_usuarios
-                WHERE apellido_usuario LIKE ? OR nombre_usuario LIKE ?
-                ORDER BY apellido_usuario';
-        $params = array($value, $value);
+                WHERE apellido LIKE ? OR nombre LIKE ? OR correo_electronico LIKE ?
+                ORDER BY apellido';
+        $params = array($value, $value, $value);
         return Database::getRows($sql, $params);
     }
 
