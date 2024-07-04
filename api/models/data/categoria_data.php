@@ -32,6 +32,9 @@ class CategoriaData extends CategoriaHandler
         if (!Validator::validateAlphanumeric($value)) {
             $this->data_error = 'El nombre debe ser un valor alfanumérico';
             return false;
+        } elseif(($this->checkDuplicate($value))) {
+            $this->data_error = 'La categoría ingresada ya existe';
+            return false;
         } elseif (Validator::validateLength($value, $min, $max)) {
             $this->nombre = $value;
             return true;

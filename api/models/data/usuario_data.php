@@ -73,6 +73,9 @@ class UsuarioData extends UsuarioHandler
         } elseif (Validator::validateLength($value, $min, $max)) {
             $this->correo = $value;
             return true;
+        } elseif( ($this->checkDuplicate($value) )) {
+            $this->data_error = 'El correo ingresado ya existe';
+            return false;
         } else {
             $this->data_error = 'El correo debe tener una longitud entre ' . $min . ' y ' . $max;
             return false;

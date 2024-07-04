@@ -148,4 +148,20 @@ class UsuarioHandler
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
+
+    public function checkDuplicate($value)
+    {
+        $sql = 'SELECT id_usuario
+            FROM tb_usuarios
+            WHERE correo_electronico = ?';
+
+        $params = array($value);
+
+        if ($this->id !== null) {
+            $sql .= ' AND id_usuario <> ?';
+            $params[] = $this->id;
+        }
+
+        return Database::getRow($sql, $params);
+    }
 }

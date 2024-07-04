@@ -21,7 +21,7 @@ class ClienteHandler
     /*
     *   Métodos para gestionar la cuenta del cliente.
     */
-  /*  public function checkUser($mail, $password)
+    /*  public function checkUser($mail, $password)
     {
         $sql = 'SELECT id_cliente, correo_cliente, clave_cliente, estado_cliente
                 FROM cliente
@@ -58,7 +58,7 @@ class ClienteHandler
         return Database::executeRow($sql, $params);
     }
 */
-/*/
+    /*/
     public function editProfile()
     {
         $sql = 'UPDATE cliente
@@ -67,8 +67,8 @@ class ClienteHandler
         $params = array($this->nombre, $this->apellido, $this->correo, $this->dui, $this->telefono, $this->nacimiento, $this->direccion, $this->id);
         return Database::executeRow($sql, $params);
     }
-*/ 
-   /* public function changeStatus()
+*/
+    /* public function changeStatus()
     {
         $sql = 'UPDATE cliente
                 SET estado_cliente = ?
@@ -84,7 +84,7 @@ class ClienteHandler
     {
         $value = '%' . Validator::getSearchValue() . '%';
         $sql = 'SELECT id_cliente, nombre_cliente, apellido_cliente, correo_cliente, dui_cliente, telefono_cliente, nacimiento_cliente, direccion_cliente
-                FROM cliente
+                FROM tb_clientes
                 WHERE apellido_cliente LIKE ? OR nombre_cliente LIKE ? OR correo_cliente LIKE ?
                 ORDER BY apellido_cliente';
         $params = array($value, $value, $value);
@@ -138,9 +138,16 @@ class ClienteHandler
     public function checkDuplicate($value)
     {
         $sql = 'SELECT id_cliente
-                FROM cliente
-                WHERE dui_cliente = ? OR correo_cliente = ?';
-        $params = array($value, $value);
+            FROM tb_clientes
+            WHERE correo_electronico_cliente = ?';
+
+        $params = array($value);
+
+        if ($this->id !== null) {
+            $sql .= ' AND id_cliente <> ?';
+            $params[] = $this->id;
+        }
+
         return Database::getRow($sql, $params);
     }
 }

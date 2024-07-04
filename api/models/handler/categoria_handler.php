@@ -70,4 +70,20 @@ class CategoriaHandler
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
+    
+    public function checkDuplicate($value)
+    {
+        $sql = 'SELECT id_categoria
+            FROM tb_categorias
+            WHERE nombre = ?';
+
+        $params = array($value);
+
+        if ($this->id !== null) {
+            $sql .= ' AND id_categoria <> ?';
+            $params[] = $this->id;
+        }
+
+        return Database::getRow($sql, $params);
+    }
 }
