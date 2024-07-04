@@ -40,13 +40,30 @@ class CategoriaData extends CategoriaHandler
         }
     }
 
-    public function setId_categoria($value)
+    public function setIdProducto($value)
     {
         if (Validator::validateNaturalNumber($value)) {
             $this->id_producto = $value;
             return true;
         } else {
             $this->data_error = 'El identificador del producto es incorrecto';
+            return false;
+        }
+    }
+
+    // Validación y asignación de la cantidad de existencias de la hamaca.
+    public function setExistencias($value, $min = 1)
+    {
+        if (Validator::validateNaturalNumber($value)) {
+            $this->existencias = $value;
+            if ($this->existencias >= $min) {
+                return true;
+            } else {
+                $this->data_error = 'El valor minimo de las existencias es ' . $min;
+                return false;
+            }
+        } else {
+            $this->data_error = 'El valor de las existencias debe ser numérico entero';
             return false;
         }
     }

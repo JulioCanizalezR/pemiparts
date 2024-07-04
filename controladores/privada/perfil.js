@@ -20,28 +20,30 @@ Imagen = document.getElementById("imagenUsuario"),
 Clave = document.getElementById("claveUsuario"),
 ConfirmarClave = document.getElementById("confirmarClave");
 
-  
-
-
 // Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', async () => {
     // Llamada a la función para mostrar el encabezado y pie del documento.
     loadTemplate();
+    // Constante tipo objeto con los datos del producto seleccionado.
+    const FORM = new FormData();
+    FORM.append('idUsuario', PARAMS.get('id'));
     // Petición para obtener los datos del usuario que ha iniciado sesión.
-    const DATA = await fetchData(UsuarioApi, 'readProfile');
+    const DATA = await fetchData(UsuarioApi, 'readProfile',FORM);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
         // Se inicializan los campos del formulario con los datos del usuario que ha iniciado sesión.
-        const ROW = DATA.dataset;
-        Nombre.value = ROW.id_usuario;
-        Apellido.value = ROW.apellido;
-        Email.value = ROW.correo_electronico;
-        Telefono.value = ROW.numero_telefono;
-        Cargo.value = ROW.cargo;
-        Image.value = ROW.imagen_usuario;
-        Clave.value = ROW.correo_electronico;
+        document.getElementById('imagenUsuario').src = SERVER_URL.concat('images/usuarios/', DATA.dataset.imagen_usuario);
+        document.getElementById('nombreUsuario').textContent = DATA.dataset.nombre;
+        document.getElementById('apellidoUsuario').textContent = DATA.dataset.apellido;
+        document.getElementById('emailUsuario').textContent = DATA.dataset.correo_electronico;
+        document.getElementById('cargoUsuario').textContent = DATA.dataset.cargo;
+        document.getElementById('telefonoUsuario').textContent = DATA.dataset.numero_telefono;
+        document.getElementById('claveUsuario').textContent = DATA.dataset.contraseña;
+        document.getElementById('idProducto').value = DATA.dataset.id_usuario;
     } else {
         sweetAlert(2, DATA.error, null);
+        // Se limpia el contenido cuando no hay datos para mostrar.
+        document.getElementById('detalle').innerHTML = '';
     }
 });
 

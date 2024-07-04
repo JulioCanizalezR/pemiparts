@@ -81,7 +81,7 @@ const fillTable = async (form = null) => {
   TABLE_BODY.innerHTML = '';
   // Se verifica la acción a realizar.
   let action;
-    form ? (action = "searchRows") : (action = "readAll");
+   form ? (action = "searchRows") : (action = "readAll");
   // Petición para obtener los registros disponibles.
   const DATA = await fetchData(Cliente_api, action, form);
   // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.

@@ -3,7 +3,8 @@ const Contenedor_api = "services/admin/contenedor.php";
 
 
 // Constante para establecer el formulario de buscar.
-const SEARCH_FORM = document.getElementById('searchForm');
+const SEARCH_INPUT = document.getElementById("searchInput");
+
 // Constantes para establecer el contenido de la tabla.
 const TABLE_BODY = document.getElementById('tableBody'),
     ROWS_FOUND = document.getElementById('rowsFound');
@@ -33,8 +34,9 @@ const fillTable = async (form = null) => {
     ROWS_FOUND.textContent = '';
     TABLE_BODY.innerHTML = '';
     // Se verifica la acción a realizar.
-    (form) ? action = 'searchRows' : action = 'readAll';
-    // Petición para obtener los registros disponibles.
+    let action;
+    form ? (action = "searchRows") : (action = "readAll");
+  // Petición para obtener los registros disponibles.
     const DATA = await fetchData(Contenedor_api, action, form);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
@@ -153,14 +155,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // Método del evento para cuando se envía el formulario de buscar.
-SEARCH_FORM.addEventListener('submit', (event) => {
-    // Se evita recargar la página web después de enviar el formulario.
-    event.preventDefault();
+SEARCH_INPUT.addEventListener("input", (event) => {
     // Constante tipo objeto con los datos del formulario.
-    const FORM = new FormData(SEARCH_FORM);
+    event.preventDefault();
+    const FORM = new FormData();
+    FORM.append("search", SEARCH_INPUT.value);
+    if (SEARCH_INPUT.value == "") {
+      fillCards();
+    }
     // Llamada a la función para llenar la tabla con los resultados de la búsqueda.
     fillTable(FORM);
-});
+  });
 
 
 // Método del evento para cuando se envía el formulario de guardar.
@@ -190,3 +195,7 @@ SAVE_FORM.addEventListener('submit', async (event) => {
 
 
 
+var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+    return new bootstrap.Popover(popoverTriggerEl)
+})
