@@ -8,15 +8,20 @@ class CotizacionHandler
 {
 
 
-    protected $id_cotizacion = null;
-    protected $detalle_envio = null;
+    protected $id_envio = null;
+    protected $id_detalle_envio = null;
     protected $estado_envio = null;
+    protected $medio_envio = null;
+    protected $costo_envio = null;
+    protected $id_entidad = null;
+    protected $impuesto_envio = null;
     protected $fecha_estimada = null;
     protected $numero_seguimiento = null;
     protected $fecha_inicio = null;
+    protected $direccion_envio = null;
+    protected $cantidad_entidad = null;
     protected $tiempo_final = null;
     protected $nombre_cliente = null;
-    protected $estado_envio = null;
     
  
     // Constante para establecer la ruta de las imágenes.
@@ -48,23 +53,81 @@ class CotizacionHandler
             cantidad_entidad, 
             direccion_envio
         )VALUES(?,?,?,?,?,?,?,?)';
-        $params = array($this->detalle_envio,$this->fecha_inicio,$this->tiempo_final);
+        $params = array($this->id_detalle_envio,$this->id_envio,$this->medio_envio,$this->costo_envio
+        ,$this->impuesto_envio, $this->id_entidad,$this->cantidad_entidad,$this->direccion_envio);
         return Database::executeRow($sql, $params);
     }
  
     public function readAll()
     {
-        $sql = 'SELECT id_almacenamiento,nombre_almacenamiento,tiempo_inicial,tiempo_final
-                FROM tb_almacenamientos';
+        $sql = 'SELECT 
+    de.id_detalle_envio,
+    de.id_envio,
+    de.medio_envio,
+    de.costo_envio,
+    de.id_entidad,
+    de.cantidad_entidad,
+    e.estado_envio,
+    e.fecha_estimada,
+    e.numero_seguimiento,
+    c.nombre_cliente,
+    c.apellido_cliente,
+    c.fecha_registro_cliente,
+    en.id_almacenamiento,
+    en.existencias,
+    en.estado,
+    p.nombre_producto,
+    p.impuesto_producto,
+    p.precio_producto,
+    p.costo_producción_producto
+    FROM tb_detalle_envios de
+    INNER JOIN tb_envios e ON de.id_envio = e.id_envio
+    INNER JOIN tb_clientes c ON e.id_cliente = c.id_cliente
+    INNER JOIN tb_entidades en ON de.id_entidad = en.id_entidad
+    INNER JOIN tb_productos p ON en.id_producto = p.id_producto';
         return Database::getRows($sql);
     }
  
     public function readOne()
     {
-        $sql = 'SELECT id_almacenamiento, nombre_almacenamiento,tiempo_inicial,tiempo_final
-                FROM tb_almacenamientos
-                WHERE id_almacenamiento = ?';
-        $params = array($this->id);
+        $sql = 'SELECT 
+        de.id_detalle_envio,
+        de.id_envio,
+        de.medio_envio,
+        de.costo_envio,
+        de.impuesto_envio,
+        de.id_entidad,
+        de.cantidad_entidad,
+        de.direccion_envio,
+        e.estado_envio,
+        e.fecha_estimada,
+        e.numero_seguimiento,
+        e.etiqueta_edificacion,
+        c.nombre_cliente,
+        c.apellido_cliente,
+        c.correo_electronico_cliente,
+        c.direccion_cliente,
+        c.numero_telefono_cliente,
+        c.fax_cliente,
+        c.fecha_registro_cliente,
+        c.sufijo_cliente,
+        en.id_almacenamiento,
+        en.existencias,
+        en.estado AS estado_entidad,
+        p.nombre_producto,
+        p.descripción_producto,
+        p.impuesto_producto,
+        p.imagen_producto,
+        p.precio_producto,
+        p.costo_producción_producto,
+        p.codigo_producto
+    FROM tb_detalle_envios de
+    INNER JOIN tb_envios e ON de.id_envio = e.id_envio
+    INNER JOIN tb_clientes c ON e.id_cliente = c.id_cliente
+    INNER JOIN tb_entidades en ON de.id_entidad = en.id_entidad
+    INNER JOIN tb_productos p ON en.id_producto = p.id_producto;    
+    WHERE id_detalle_envio = ?';
+        $params = array($this->id_detalle_envio);
         return Database::getRow($sql, $params);
     }
  

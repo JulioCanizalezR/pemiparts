@@ -1,4 +1,4 @@
-<?php
+    <?php
 // Se incluye la clase del modelo.
 require_once('../../models/data/categoria_data.php');
 

@@ -66,6 +66,35 @@ class ProductoData extends ProductoHandler
             return false;
         }
     }
+    
+
+    public function setImpuesto($value)
+    {
+        if (Validator::validateMoney($value)) {
+            $this->impuesto_producto = $value;
+            return true;
+        } else {
+            $this->data_error = 'El impuesto debe ser un número positivo';
+            return false;
+        }
+    }
+
+    public function setCosto($value)
+    {
+        if (Validator::validateMoney($value)) {
+            $this->costo_produccion = $value;
+            return true;
+        } else {
+            $this->data_error = 'El costo debe ser un número positivo';
+            return false;
+        }
+    }
+
+    public function setCodigo($value)
+    {
+        $this->codigo = $value;
+        return true;
+    }
 
     public function setExistencias($value)
     {

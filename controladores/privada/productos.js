@@ -7,20 +7,23 @@ const seeModal = new bootstrap.Modal("#seeModal"),
 
 const saveForm = document.getElementById("saveForm"),
   sidProducto = document.getElementById("idProducto"),
-  sNombreProducto = document.getElementById("producto"),
-  sDescripcionProducto = document.getElementById("descripcion"),
-  sCantidadProducto = document.getElementById("cantidad"),
-  sPrecioProducto = document.getElementById("precio"),
-  sCategoriaProducto = document.getElementById("categoria"),
-  sImagenProducto = document.getElementById("imagen");
+  sNombreProducto = document.getElementById("nombreProducto"),
+  sDescripcionProducto = document.getElementById("descripcionProducto"),
+  sImpuestoProducto = document.getElementById("impuestoProducto"),
+  sCostoProducto = document.getElementById("costoProducto"),
+  sPrecioProducto = document.getElementById("precioProducto"),
+  sCodigoProducto = document.getElementById("codigoProducto"), 
+  sCategoriaProducto = document.getElementById("categoriaProducto"),
+  sImagenProducto = document.getElementById("imagenProducto");
 
 const seeForm = document.getElementById("seeForm"),
   idProducto = document.getElementById("idProducto"),
   nombreProducto = document.getElementById("nombre"),
-  descripcionProducto = document.getElementById("descripcion"),
-  cantidadProducto = document.getElementById("cantidad"),
-  precioProducto = document.getElementById("precio"),
   categoriaProducto = document.getElementById("categoria"),
+  precioProducto = document.getElementById("precio"),
+  cantidadProducto = document.getElementById("cantidad"),
+  costoProducto = document.getElementById("costoProduccion"),
+  descripcionProducto = document.getElementById("descripcion"),
   imagenProducto = document.getElementById("imagen");
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -73,14 +76,15 @@ const readOne = async (id) => {
 const populateProductModal = (productData) => {
   seeModal.show();
   modalTitle2.value = "Información del Producto";
-  nombreProducto.textContent = productData.nombre;
-  descripcionProducto.textContent = productData.descripcion;
-  cantidadProducto.textContent = productData.cantidad;
-  precioProducto.textContent = productData.precio;
-  categoriaProducto.textContent = productData.categoria;
-  imagenProducto.src = `${SERVER_URL}images/productos/${productData.imagen}`;
-  document.getElementById('Actualizar').onclick = () => openUpdate(productData.id_producto);
-  document.getElementById('Eliminar').onclick = () => openDelete(productData.id_producto);
+  idProducto.value = productData.id_producto;
+  nombreProducto.textContent = productData.nombre_producto;
+  categoriaProducto.textContent = productData.nombre_categoria;
+  precioProducto.textContent = productData.precio_producto;
+  cantidadProducto.textContent = productData.existencias;
+  descripcionProducto.textContent = productData.descripcion_producto;
+  imagenProducto.src = `${SERVER_URL}images/productos/${productData.imagen_producto}`;
+  openUpdate(productData.id_producto);
+   openDelete(productData.id_producto);
 };
 
 const openDelete = async (id) => {

@@ -66,88 +66,44 @@
                                 <!-- Campo oculto para asignar el id del registro al momento de modificar -->
                                 <input type="hidden" id="idProducto" name="idProducto">
                                 <div class="col-sm-12 col-md-6">
-                                    <label for="producto" class="form-label">Nombre del producto</label>
-                                    <input id="producto" type="text" name="producto" class="form-control rounded-5"
+                                    <label for="nombreProducto" class="form-label">Nombre del producto</label>
+                                    <input id="nombreProducto" type="text" name="nombreProducto" class="form-control rounded-5"
                                         placeholder="Ingresa el nombre del material" required>
                                 </div>
                                 <div class="col-sm-12 col-md-6">
-                                    <label for="descripcion" class="form-label">Descripción</label>
-                                    <input id="descripcion" type="text" name="descripcion"
+                                    <label for="descripcionProducto" class="form-label">Descripción</label>
+                                    <input id="descripcionProducto" type="text" name="descripcionProducto"
                                         class="form-control rounded-5" placeholder="Ingresa la descripción del material"
                                         required>
                                 </div>
                                 <div class="col-sm-12 col-md-6">
-                                    <label for="cantidad" class="form-label">Cantidad</label>
-                                    <input id="cantidad" type="text" name="cantidad" class="form-control rounded-5"
-                                        placeholder="Ingresa el nombre del material" required>
+                                    <label for="impuestoProducto" class="form-label">Impuesto</label>
+                                    <input id="impuestoProducto" type="text" name="impuestoProducto" class="form-control rounded-5"
+                                        placeholder="Ingresa el impuesto del material" required>
                                 </div>
                                 <div class="col-sm-12 col-md-6">
-                                    <label for="precio" class="form-label">Precio</label>
-                                    <input id="precio" type="text" name="precio" class="form-control rounded-5"
-                                        placeholder="Ingresa el nombre del material" required>
+                                    <label for="costoProducto" class="form-label">Costo</label>
+                                    <input id="costoProducto" type="text" name="costoProducto" class="form-control rounded-5"
+                                        placeholder="Ingresa el costo del material" required>
                                 </div>
                                 <div class="col-sm-12 col-md-6">
-                                    <label for="categoria" class="form-label">Categoría</label>
-                                    <select id="categoria" name="categoria" class="form-select rounded-5" required>
+                                    <label for="precioProducto" class="form-label">Precio</label>
+                                    <input id="precioProducto" type="text" name="precioProducto" class="form-control rounded-5"
+                                        placeholder="Ingresa el precio del material" required>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <label for="codigoProducto" class="form-label">Codigo</label>
+                                    <input id="codigoProducto" type="text" name="codigoProducto" class="form-control rounded-5"
+                                        placeholder="Ingresa el código del material" required>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <label for="categoriaProducto" class="form-label">Categoría</label>
+                                    <select id="categoriaProducto" name="categoriaProducto" class="form-select rounded-5" required>
                                     </select>
                                 </div>
                                 <div class="col-sm-12 col-md-6">
-                                    <label for="imagen" class="form-label">Imagen</label>
-                                    <input id="imagen" type="file" name="imagen" class="form-control rounded-5"
-                                        accept=".png, .jpg">
-                                </div>
-                            </div>
-                            <div class="modal-footer col-sm-12 col-md-12 col-lg-12 justify-content-center">
-                                <button type="submit" class="boton btn azul">Guardar</button>
-                                <button type="reset" class="boton btn azul">Cancelar</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <!-- Componente Modal para guardar un registro -->
-            <div class="modal fade" id="saveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-                aria-labelledby="modalTitle" aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="modalTitle"></h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <!-- Formulario para crear o actualizar un registro -->
-                        <form id="saveForm">
-                            <div class="modal-body row g-3">
-                                <!-- Campo oculto para asignar el id del registro al momento de modificar -->
-                                <input type="hidden" id="idProducto" name="idProducto">
-                                <div class="col-sm-12 col-md-6">
-                                    <label for="producto" class="form-label">Nombre del producto</label>
-                                    <input id="producto" type="text" name="producto" class="form-control rounded-5"
-                                        placeholder="Ingresa el nombre del material" required>
-                                </div>
-                                <div class="col-sm-12 col-md-6">
-                                    <label for="descripcion" class="form-label">Descripción</label>
-                                    <input id="descripcion" type="text" name="descripcion"
-                                        class="form-control rounded-5" placeholder="Ingresa la descripción del material"
-                                        required>
-                                </div>
-                                <div class="col-sm-12 col-md-6">
-                                    <label for="cantidad" class="form-label">Cantidad</label>
-                                    <input id="cantidad" type="text" name="cantidad" class="form-control rounded-5"
-                                        placeholder="Ingresa el nombre del material" required>
-                                </div>
-                                <div class="col-sm-12 col-md-6">
-                                    <label for="precio" class="form-label">Precio</label>
-                                    <input id="precio" type="text" name="precio" class="form-control rounded-5"
-                                        placeholder="Ingresa el nombre del material" required>
-                                </div>
-                                <div class="col-sm-12 col-md-6">
-                                    <label for="categoria" class="form-label">Categoría</label>
-                                    <select id="categoria" name="categoria" class="form-select rounded-5" required>
-                                    </select>
-                                </div>
-                                <div class="col-sm-12 col-md-6">
-                                    <label for="imagen" class="form-label">Imagen</label>
-                                    <input id="imagen" type="file" name="imagen" class="form-control rounded-5"
+                                    <label for="imagenProducto" class="form-label">Imagen</label>
+                                    <input id="imagenProducto" type="file" name="imagenProducto" class="form-control rounded-5"
                                         accept=".png, .jpg">
                                 </div>
                             </div>
@@ -177,29 +133,29 @@
                                 <!-- Mitad izquierda con la imagen -->
                                 <div class="col-md-6">
                                     <div class="bg-white">
-                                        <img class="imagen img-fluid"
+                                        <img class="imagen img-fluid" id="imagen"
                                             src="https://upload.wikimedia.org/wikipedia/commons/6/68/HwacheonCentreLathe_460x1000.jpg"
                                             alt="...">
                                     </div>
                                 </div>
                                 <!-- Mitad derecha con el contenido -->
                                 <div class="col-md-6">
-                                    <h5>Nombre del producto: <span class="no-letter">Torno</span></h5>
-                                    <p class="letter">Tipo: <span class="no-letter">Muy pesado</span></p>
-                                    <p class="letter">Precio: <span class="no-letter">$2000.00</span></p>
-                                    <p class="letter">Cantidad: <span class="no-letter">20</span></p>
-                                    <p class="letter">Costo de producción: <span class="no-letter">$500.00</span></p>
-                                    <p class="letter">Descripción: <span class="no-letter">Lorem ipsum dolor sit amet,
+                                    <h5>Nombre del producto: <span class="no-letter" id="nombre">Torno</span></h5>
+                                    <p class="letter">Categoria: <span class="no-letter" id="categoria">Muy pesado</span></p>
+                                    <p class="letter">Precio: <span class="no-letter" id="precio">$2000.00</span></p>
+                                    <p class="letter">Cantidad: <span class="no-letter" id="cantidad">20</span></p>
+                                    <p class="letter">Costo de producción: <span class="no-letter" id="costoProduccion">$500.00</span></p>
+                                    <p class="letter">Descripción: <span class="no-letter" id="descripcion">Lorem ipsum dolor sit amet,
                                             consectetur adipiscing elit, sed do
                                             eiusmod tempor incididunt ut labore et dolore magna aliqua laborum. </span>
                                     </p>
                                     <!-- Botones de acciones -->
                                     <div class="d-flex justify-content-center">
-                                        <button type="button" class="btn azul rounded-5 me-4" title="Actualizar"
+                                        <button type="button" class="btn azul rounded-5 me-4" title="Actualizar" 
                                             onclick="openUpdate()">
                                             <i class='bx bx-edit-alt'></i>
                                         </button>
-                                        <button type="button" class="btn azul rounded-5" title="Eliminar"
+                                        <button type="button" class="btn azul rounded-5" title="Eliminar" 
                                             onclick="openDelete()">
                                             <i class='bx bx-trash'></i>
                                         </button>

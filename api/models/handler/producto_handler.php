@@ -52,7 +52,7 @@ class ProductoHandler
  
     public function readAll()
     {
-        $sql = 'SELECT id_producto, nombre_producto, descripción_producto, impuesto_producto, imagen_producto, precio_producto, costo_producción_producto, codigo_producto,  tb_categorias.nombre AS "nombre_categoria" , existencias
+        $sql = 'SELECT id_producto, nombre_producto, descripcion_producto, impuesto_producto, imagen_producto, precio_producto, costo_produccion_producto, codigo_producto,  tb_categorias.nombre AS "nombre_categoria" , existencias
                 FROM tb_productos
                 INNER JOIN tb_categorias USING(id_categoria)
                 LEFT JOIN tb_entidades USING (id_producto)
@@ -62,8 +62,10 @@ class ProductoHandler
  
     public function readOne()
     {
-        $sql = 'SELECT id_producto, nombre_producto, descripcion_producto, precio_producto, existencias_producto, imagen_producto, id_categoria, estado_producto
-                FROM producto
+        $sql = 'SELECT id_producto, nombre_producto, descripcion_producto, impuesto_producto, imagen_producto, precio_producto, costo_produccion_producto, codigo_producto,  tb_categorias.nombre AS "nombre_categoria" , existencias
+                FROM tb_productos
+                INNER JOIN tb_categorias USING(id_categoria)
+                LEFT JOIN tb_entidades USING (id_producto)
                 WHERE id_producto = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);
