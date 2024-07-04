@@ -25,6 +25,17 @@ class ClienteData extends ClienteHandler
         }
     }
 
+    public function setEmpresa($value)
+    {
+        if (Validator::validateNaturalNumber($value)) {
+            $this->id_empresa = $value;
+            return true;
+        } else {
+            $this->data_error = 'El identificador de la empresa es incorrecto';
+            return false;
+        }
+    }
+
     public function setNombre($value, $min = 2, $max = 50)
     {
         if (!Validator::validateAlphabetic($value)) {

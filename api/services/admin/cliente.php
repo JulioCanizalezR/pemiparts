@@ -16,7 +16,7 @@ if (isset($_GET['action'])) {
         // Se compara la acción a realizar cuando un cliente ha iniciado sesión.
         switch ($_GET['action']) {
             case 'readAll':
-                if ($result['dataset'] = $usuario->readAll()) {
+                if ($result['dataset'] = $cliente->readAll()) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
                 } else {
@@ -24,12 +24,58 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'readOne':
-                if (!$usuario->setId($_POST['idUsuario'])) {
+                if (!$cliente->setId($_POST['idCliente'])) {
                     $result['error'] = 'Cliente incorrecto';
-                } elseif ($result['dataset'] = $usuario->readOne()) {
+                } elseif ($result['dataset'] = $cliente->readOne()) {
                     $result['status'] = 1;
                 } else {
                     $result['error'] = 'Cliente inexistente';
+                }
+                break;
+            case 'createRow':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$cliente->setNombre($_POST['nombreCliente']) or
+                    !$cliente->setApellido($_POST['apellidoCliente']) or
+                    !$cliente->setCorreo($_POST['correoCliente']) or
+                    !$cliente->setDireccion($_POST['direccionCliente']) or
+                    !$cliente->setEmpresa($_POST['nombreEmpresa']) or
+                    !$cliente->setTelefono($_POST['telefonoCliente'])
+                ) {
+                    $result['error'] = $cliente->getDataError();
+                } elseif ($cliente->createRow()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Cliente creado correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al crear el cliente';
+                }
+                break;
+            case 'updateRow':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$cliente->setNombre($_POST['nombreCliente']) or
+                    !$cliente->setApellido($_POST['apellidoCliente']) or
+                    !$cliente->setCorreo($_POST['correoCliente']) or
+                    !$cliente->setDireccion($_POST['direccionCliente']) or
+                    !$cliente->setEmpresa($_POST['nombreEmpresa']) or
+                    !$cliente->setTelefono($_POST['telefonoCliente'])
+                ) {
+                    $result['error'] = $cliente->getDataError();
+                } elseif ($cliente->updateRow()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Cliente modificado correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al modificar el cliente';
+                }
+                break;
+            case 'deleteRow':
+                if (!$cliente->setId($_POST['idCliente'])) {
+                    $result['error'] = $cliente->getDataError();
+                } elseif ($cliente->deleteRow()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Cliente eliminado correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al eliminar el cliente';
                 }
                 break;
             case 'getUser':
@@ -76,17 +122,15 @@ if (isset($_GET['action'])) {
                 if (!$captcha['success']) {
                     $result['recaptcha'] = 1;
                     $result['error'] = 'No eres humano';
-                } elseif(!isset($_POST['condicion'])) {
+                } elseif (!isset($_POST['condicion'])) {
                     $result['error'] = 'Debe marcar la aceptación de términos y condiciones';
                 } elseif (
                     !$cliente->setNombre($_POST['nombreCliente']) or
                     !$cliente->setApellido($_POST['apellidoCliente']) or
                     !$cliente->setCorreo($_POST['correoCliente']) or
                     !$cliente->setDireccion($_POST['direccionCliente']) or
-                  //  !$cliente->setDUI($_POST['duiCliente']) or
-                 //   !$cliente->setNacimiento($_POST['nacimientoCliente']) or
-                    !$cliente->setTelefono($_POST['telefonoCliente']) 
-                 //   !$cliente->setClave($_POST['claveCliente'])
+                    !$cliente->setId($_POST['nombreEmpresa']) or
+                    !$cliente->setTelefono($_POST['telefonoCliente'])
                 ) {
                     $result['error'] = $cliente->getDataError();
                 } elseif ($_POST['claveCliente'] != $_POST['confirmarClave']) {
@@ -98,7 +142,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al registrar la cuenta';
                 }
                 break;
-         /*   case 'logIn':
+                /*   case 'logIn':
                 $_POST = Validator::validateForm($_POST);
                 if (!$cliente->checkUser($_POST['correo'], $_POST['clave'])) {
                     $result['error'] = 'Datos incorrectos';

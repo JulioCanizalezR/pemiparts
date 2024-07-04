@@ -76,8 +76,7 @@ if (isset($_GET['action'])) {
                     !$usuario->setCargo($_POST['cargoUsuario']) or
                     !$usuario->setCorreo($_POST['correoUsuario']) or
                     !$usuario->setTelefono($_POST['telefonoUsuario']) or
-                    !$usuario->setImagen($_FILES['imagenUsuario'], $usuario->getFilename()) or
-                    !$usuario->setClave($_POST['claveUsuario']) 
+                    !$usuario->setImagen($_FILES['imagenUsuario'], $usuario->getFilename())
                 ) {
                     $result['error'] = $usuario->getDataError();
                 } elseif ($usuario->updateRow()) {

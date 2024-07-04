@@ -17,15 +17,11 @@
                 <div class="row justify-content-center">
                     <div class="d-flex align-items-center">
                         <div class="col-md-2 col-sm-4 fs-3 text-dark">Clientes</div>
-                        <!-- Input con botón de búsqueda -->
                         <div class="input-group me-2">
                             <input type="text" class="form-control rounded custom-search-input" placeholder="Buscar"
                                 aria-label="Buscar" aria-describedby="button-addon2">
                         </div>
-
-                        <!-- Botón Agregar -->
-                        <button type="button" class="btn btn-custom custom-add-btn "
-                            onclick="openCreate()">Agregar</button>
+                        <button type="button" class="btn btn-custom custom-add-btn" onclick="openCreate()">Agregar</button>
                     </div>
                 </div>
 
@@ -38,86 +34,107 @@
                             <th scope="col">Correo</th>
                             <th scope="col">Teléfono</th>
                             <th scope="col">Fecha del Registro</th>
-                            <th scope="col">Nombre Empresa</th>
+                            <th scope="col">Dirección</th>
                             <th scope="col">Opciones</th>
                         </tr>
                     </thead>
-                    <tbody id="tableBody">
-                        <!--
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Julio Cesar</td>
-                            <td>Canizalez Rivas</td>
-                            <td>hola@gmail.com</td>
-                            <td>7345-3223</td>
-                            <td>22/2/22</td>
-                            <td>PEMI</td>
-                            <td class="d-flex justify-content-around">
-                                <img src="../recursos/img/Delete.svg" width="auto" height="auto" alt="" />
-                                <img src="../recursos/img/Edit.svg" width="auto" height="auto" alt="" />
-                            </td>
-                        </tr>
-                        -->
-                    </tbody>
+                    <tbody id="tableBody"></tbody>
                 </table>
 
                 <div class="modal fade" id="saveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
                     aria-labelledby="modalTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h1 class="modal-title fs-5" id="modalTitle"></h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form id="saveForm">
+                                <div class="modal-body row g-3">
+                                    <input type="number" class="d-none" id="idCliente" name="idCliente">
+                                    <div class="col-sm-12 col-md-6">
+                                        <label for="nombreCliente" class="form-label">Nombre</label>
+                                        <input id="nombreCliente" type="text" name="nombreCliente"
+                                            class="form-control rounded-5" placeholder="John" required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <label for="apellidoCliente" class="form-label">Apellido</label>
+                                        <input id="apellidoCliente" type="text" name="apellidoCliente"
+                                            class="form-control rounded-5" placeholder="Doe" required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <label for="correoCliente" class="form-label">Correo Electrónico</label>
+                                        <input id="correoCliente" type="email" name="correoCliente"
+                                            class="form-control rounded-5" placeholder="johndoe@example.com" required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <label for="telefonoCliente" class="form-label">Teléfono</label>
+                                        <input id="telefonoCliente" type="text" name="telefonoCliente"
+                                            class="form-control rounded-5" placeholder="2454-7777" required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <label for="nombreEmpresa" class="form-label">Nombre de la empresa</label>
+                                        <select id="nombreEmpresa" name="nombreEmpresa" class="form-select rounded-3"
+                                            required>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <label for="direccionCliente" class="form-label">Dirección</label>
+                                        <input id="direccionCliente" type="text" name="direccionCliente"
+                                            class="form-control rounded-5" placeholder="Dirección" required>
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer col-sm-12 col-md-12 col-lg-12 justify-content-center">
+                                    <button type="reset" class="boton btn azul">Cancelar</button>
+                                    <button type="submit" class="boton btn azul">Guardar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="seeModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                    aria-labelledby="modalTitle2" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header bg-blue-principal-color">
+                                <h1 class="modal-title fs-5 text-dark" id="modalTitle2"></h1>
+                                <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
-                            <div class="modal-body">
-                                <form id="saveForm">
-                                    <div class="row g-3">
-                                        <div class="col-sm-6">
-                                            <div class="form-floating mb-3">
-                                                <input type="text" class="d-none" id="Nombres" name="Nombres"
-                                                    placeholder="Nombres">
-                                                <label for="campo1">Nombres</label>
-                                            </div>
-                                            <div class="form-floating mb-3">
-                                                <input type="text" class="d-none" id="Apellidos" name="Apellidos"
-                                                    placeholder="Apellidos">
-                                                <label for="campo2">Apellidos</label>
-                                            </div>
-                                            <div class="form-floating mb-3">
-                                                <input type="email" class="d-none" id="Correo" name="Correo"
-                                                    placeholder="Correo">
-                                                <label for="campo3">Correo</label>
-                                            </div>
-                                            <div class="form-floating mb-3">
-                                                <input type="text" class="d-none" id="NombreEmpresa"
-                                                    name="NombreEmpresa" placeholder="Nombre de la empresa">
-                                                <label for="campo4">Nombre de la empresa</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-floating mb-3">
-                                                <input type="text" class="d-none" id="Dirección" name="Dirección"
-                                                    placeholder="Dirección">
-                                                <label for="campo5">Dirección</label>
-                                            </div>
-                                            <div class="form-floating mb-3">
-                                                <input type="text" class="d-none" id="TeléfonoEmpresa"
-                                                    name="TeléfonoEmpresa" placeholder="Teléfono">
-                                                <label for="campo6">Teléfono</label>
-                                            </div>
-                                            <div class="form-floating mb-3">
-                                                <input type="date" class="d-none" id="FechaRegistro"
-                                                    name="FechaRegistro" placeholder="Fecha de registro">
-                                                <label for="campo7">Fecha de registro</label>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer justify-content-center border-0">
-                                            <button type="submit" class="btn btn-primary">Guardar</button>
+                            <form id="seeForm">
+                                <div class="modal-body row g-3">
+                                    <div class="col-md-6">
+                                        <div class="bg-white">
+                                            <img class="imagen img-fluid" id="imagen"
+                                                src="https://www.arideocean.com/wp-content/themes/arkahost/assets/images/default.png"
+                                                alt="">
                                         </div>
                                     </div>
-                                </form>
-                            </div>
+                                    <div class="col-md-6">
+                                        <p class="letter">Nombres: <span class="no-letter" id="nombre">Juan
+                                                Torres</span></p>
+                                        <p class="letter">Apellidos: <span class="no-letter" id="apellido">Campos
+                                                Lopez</span></p>
+                                        <p class="letter">Nombre de la empresa: <span class="no-letter" id="nombreEmpresa">ABC
+                                                Ltd.</span></p>
+                                        <p class="letter">Email: <span class="no-letter" id="email">Juan@gmail.com</span></p>
+                                        <p class="letter">Teléfono: <span class="no-letter" id="telefono">7233-2134</span></p>
+                                        <p class="letter">Dirección: <span class="no-letter" id="direccion">Calle Falsa 123</span></p>
+                                        <div class="d-flex justify-content-center">
+                                            <button type="button" class="btn azul rounded-5 me-4" title="Actualizar"
+                                                id="Actualizar">
+                                                <i class='bx bx-edit-alt'></i>
+                                            </button>
+                                            <button type="button" class="btn azul rounded-5" title="Eliminar"
+                                                id="Eliminar">
+                                                <i class='bx bx-trash'></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -126,15 +143,10 @@
         </div>
     </main>
 
-    <!-- Llamada al controlador del boostrap bundle javascript -->
     <script type="text/javascript" src="../recursos/js/bootstrap.bundle.min.js"></script>
-    <!-- Llamada al controlador del componente javascript -->
     <script type="text/javascript" src="../controladores/utilidades/components.js"></script>
-    <!-- Importación de la librería para generar los gráficos. Para más información https://www.chartjs.org/ -->
     <script type="text/javascript" src="../recursos/js/sweetalert.min.js"></script>
-    <!-- Llamada al controlador del template javascript -->
     <script type="text/javascript" src="../controladores/utilidades/template.js"></script>
-    <!-- Llamada al controlador del componente javascript -->
     <script type="text/javascript" src="../controladores/privada/clientes.js"></script>
 </body>
 

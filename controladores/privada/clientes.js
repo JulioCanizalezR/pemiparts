@@ -1,6 +1,6 @@
 // Constantes para establecer los elementos del componente Modal.
 const Cliente_api = "services/admin/cliente.php";
-
+const Empresa_api = "services/admin/empresa.php";
 const SAVE_MODAL = new bootstrap.Modal("#saveModal"),
   MODAL_TITLE = document.getElementById("modalTitle");
 
@@ -8,19 +8,13 @@ const SAVE_MODAL = new bootstrap.Modal("#saveModal"),
 
 // Constantes para establecer los elementos del formulario de guardar.
 const SAVE_FORM = document.getElementById("saveForm"),
-  ID_usuario = document.getElementById("idUsuario"),
-  NOMBRES_usuario = document.getElementById("Nombres"),
-  Apellidos_usuario = document.getElementById("Apellidos"),
-  Cargo_usuario = document.getElementById("Cargo"),
-  Email_usuario = document.getElementById("Email"),
-  TELEFONO_Usuario = document.getElementById("Telefono"),
-  IMAGEN_usuario = document.getElementById("imagen");
-
-const nombres = document.getElementById('nombre'),
-  apellidos = document.getElementById('apellido'),
-  cargo = document.getElementById("cargo"),
-  email = document.getElementById("email"),
-  telefono = document.getElementById("telefono");
+  idCliente = document.getElementById("idCliente"),
+  nombreCliente = document.getElementById("nombreCliente"),
+  apellidoCliente = document.getElementById("apellidoCliente"),
+  correoCliente = document.getElementById("correoCliente"),
+  direccionCliente = document.getElementById("direccionCliente"),
+  empresaCliente = document.getElementById("nombreEmpresa"),
+telefonoCliente = document.getElementById("telefonoCliente");
 
 document.addEventListener('DOMContentLoaded', () => {
   // Llamada a la función para mostrar el encabezado y pie del documento.
@@ -31,7 +25,7 @@ SAVE_FORM.addEventListener("submit", async (event) => {
   // Se evita recargar la página web después de enviar el formulario.
   event.preventDefault();
   // Se verifica la acción a realizar.
-  ID_usuario.value ? (action = "updateRow") : (action = "createRow");
+  idCliente.value ? (action = "updateRow") : (action = "createRow");
   // Constante tipo objeto con los datos del formulario.
   const FORM = new FormData(SAVE_FORM);
   // Petición para guardar los datos del formulario.
@@ -88,7 +82,6 @@ const fillTable = async (form = null) => {
                   <td>${row.numero_telefono_cliente}</td>     
                   <td>${row.direccion_cliente}</td>  
                   <td>${row.nombre_empresa}</td>  
-                  <td>${row.fecha_registro_cliente}</td>  
                   <td class="d-flex justify-content-center">
                     <img src="../recursos/img/Delete.svg" width="auto" height="auto" alt="Eliminar" onclick="openDelete(${row.id_cliente})" /> 
                    <img src="../recursos/img/Edit.svg" width="auto" height="auto" alt="Editar" onclick="openUpdate(${row.id_cliente})" />
@@ -105,54 +98,28 @@ const fillTable = async (form = null) => {
 const openCreate = () => {
   // Se muestra la caja de diálogo con su título.
   SAVE_MODAL.show();
-  MODAL_TITLE.textContent = "Crear Usuario";
+  MODAL_TITLE.textContent = "Crear cliente";
   // Se prepara el formulario.
   SAVE_FORM.reset();
-  //fillSelected(lista_datos_categorias, 'readAll', 'categoria');
+  fillSelect(Empresa_api, 'readAll', 'nombreEmpresa' );
 };
 
-/*
- * Función asíncrona para preparar el formulario al momento de actualizar un registro.
- * Parámetros: id (identificador del registro seleccionado).
- * Retorno: ninguno.
- */
 
-const readOne = async (id) => {
-  const FORM = new FormData();
-  FORM.append("idUsuario", id);
-  const DATA = await fetchData(Cliente_api, "readOne", FORM);
-  console.log('Id del usuario: ' + id)
-  if (DATA.status) {
-    SEE_MODAL.show();
-    MODAL_TITLE2.textContent = "Información del Usuario";
-    // Se inicializan los campos con los datos.
-    const ROW = DATA.dataset;
-    nombres.textContent = ROW.nombre;
-    apellidos.textContent = ROW.apellido;
-    cargo.textContent = ROW.cargo;
-    email.textContent = ROW.correo_electronico;
-    telefono.textContent = ROW.numero_telefono;
-    // Asignar el id a los métodos openUpdate y openDelete
-    document.getElementById('Actualizar').onclick = () => openUpdate(id);
-    document.getElementById('Eliminar').onclick = () => openDelete(id);
-  }
-};
 /*
  *   Función asíncrona para eliminar un registro.
  *   Parámetros: id (identificador del registro seleccionado).
  *   Retorno: ninguno.
  */
 const openDelete = async (id) => {
-  const RESPONSE = await confirmAction('¿Desea eliminar al usuario de forma permanente?');
+  const RESPONSE = await confirmAction('¿Desea eliminar al cliente de forma permanente?');
   try {
     if (RESPONSE) {
       const FORM = new FormData();
-      FORM.append('idUsuario', id);
+      FORM.append('idCliente', id);
       const DATA = await fetchData(Cliente_api, 'deleteRow', FORM);
       if (DATA.status) {
         await sweetAlert(1, DATA.message, true);
-        //  fillTable();
-        fillCards();
+         fillTable();
       } else {
         sweetAlert(2, DATA.error, false);
       }
@@ -167,11 +134,9 @@ const openDelete = async (id) => {
 
 const openUpdate = async (id) => {
   try {
-    SEE_MODAL.hide();
-    console.log("Valor del id: ", id);
     // Se define un objeto con los datos del registro seleccionado.
     const FORM = new FormData();
-    FORM.append("idUsuario", id);
+    FORM.append("idCliente", id);
     // Petición para obtener los datos del registro solicitado.
     const DATA = await fetchData(Cliente_api, "readOne", FORM);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
@@ -183,12 +148,13 @@ const openUpdate = async (id) => {
       SAVE_FORM.reset();
       // Se inicializan los campos con los datos.
       const ROW = DATA.dataset;
-      ID_usuario.value = ROW.id_usuario;
-      NOMBRES_usuario.value = ROW.nombre;
-      Apellidos_usuario.value = ROW.apellido;
-      Cargo_usuario.value = ROW.cargo;
-      Email_usuario.value = ROW.correo_electronico;
-      TELEFONO_Usuario.value = ROW.numero_telefono;
+      idCliente.value = ROW.id_cliente
+      nombreCliente.value = ROW.nombre_cliente;
+      apellidoCliente.value = ROW.apellido_cliente;
+      correoCliente.value = ROW.correo_electronico_cliente;
+      direccionCliente.value = ROW.direccion_cliente;
+      telefonoCliente.value = ROW.numero_telefono_cliente;
+      fillSelect(Empresa_api, 'readAll', 'nombreEmpresa', ROW.id_empresa);
     } else {
       sweetAlert(2, DATA.error, false);
     }

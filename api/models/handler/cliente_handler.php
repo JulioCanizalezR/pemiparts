@@ -15,6 +15,8 @@ class ClienteHandler
     protected $correo = null;
     protected $telefono = null;
     protected $direccion = null;
+    protected $id_empresa = null;
+    protected $fecha_registro = null;
 
     /*
     *   Métodos para gestionar la cuenta del cliente.
@@ -56,6 +58,7 @@ class ClienteHandler
         return Database::executeRow($sql, $params);
     }
 */
+/*/
     public function editProfile()
     {
         $sql = 'UPDATE cliente
@@ -64,7 +67,7 @@ class ClienteHandler
         $params = array($this->nombre, $this->apellido, $this->correo, $this->dui, $this->telefono, $this->nacimiento, $this->direccion, $this->id);
         return Database::executeRow($sql, $params);
     }
-
+*/ 
    /* public function changeStatus()
     {
         $sql = 'UPDATE cliente
@@ -90,24 +93,26 @@ class ClienteHandler
 
     public function createRow()
     {
-        $sql = 'INSERT INTO cliente(nombre_cliente, apellido_cliente, correo_cliente, dui_cliente, telefono_cliente, nacimiento_cliente, direccion_cliente, clave_cliente)
-                VALUES(?, ?, ?, ?, ?, ?, ?, ?)';
-        $params = array($this->nombre, $this->apellido, $this->correo, $this->dui, $this->telefono, $this->nacimiento, $this->direccion, $this->clave);
+        $sql = 'INSERT INTO tb_clientes(nombre_cliente, apellido_cliente, correo_electronico_cliente, direccion_cliente, id_empresa, numero_telefono_cliente, fecha_registro_cliente)
+                VALUES(?, ?, ?, ?, ?, ?, CURDATE())';
+        $params = array($this->nombre, $this->apellido, $this->correo, $this->direccion, $this->id_empresa, $this->telefono);
         return Database::executeRow($sql, $params);
     }
 
     public function readAll()
     {
-        $sql = 'SELECT id_cliente, nombre_cliente, apellido_cliente, correo_cliente, dui_cliente, estado_cliente
-                FROM cliente
-                ORDER BY apellido_cliente';
+        $sql = 'SELECT id_cliente, nombre_cliente, apellido_cliente, correo_electronico_cliente, direccion_cliente, nombre_empresa, numero_telefono_cliente, fecha_registro_cliente
+                FROM tb_clientes
+                INNER JOIN tb_empresas ON tb_clientes.id_empresa = tb_empresas.id_empresa
+                ORDER BY id_cliente';
         return Database::getRows($sql);
     }
 
     public function readOne()
     {
-        $sql = 'SELECT id_cliente, nombre_cliente, apellido_cliente, correo_cliente, dui_cliente, telefono_cliente, nacimiento_cliente, direccion_cliente, estado_cliente
-                FROM cliente
+        $sql = 'SELECT id_cliente, nombre_cliente, apellido_cliente, correo_electronico_cliente, direccion_cliente, tb_clientes.id_empresa, numero_telefono_cliente, fecha_registro_cliente
+                FROM tb_clientes 
+                INNER JOIN tb_empresas ON tb_clientes.id_empresa = tb_empresas.id_empresa
                 WHERE id_cliente = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);
@@ -115,16 +120,16 @@ class ClienteHandler
 
     public function updateRow()
     {
-        $sql = 'UPDATE cliente
-                SET nombre_cliente = ?, apellido_cliente = ?, dui_cliente = ?, estado_cliente = ?, telefono_cliente = ?, nacimiento_cliente = ?, direccion_cliente = ?
+        $sql = 'UPDATE tb_clientes
+                SET nombre_cliente = ?, apellido_cliente = ?, correo_electronico_cliente = ?, direccion_cliente = ?, id_empresa = ?, numero_telefono_cliente = ?
                 WHERE id_cliente = ?';
-        $params = array($this->nombre, $this->apellido, $this->dui, $this->estado, $this->telefono, $this->nacimiento, $this->direccion, $this->id);
+        $params = array($this->nombre, $this->apellido, $this->correo, $this->direccion, $this->id_empresa, $this->telefono, $this->id);
         return Database::executeRow($sql, $params);
     }
 
     public function deleteRow()
     {
-        $sql = 'DELETE FROM cliente
+        $sql = 'DELETE FROM tb_clientes
                 WHERE id_cliente = ?';
         $params = array($this->id);
         return Database::executeRow($sql, $params);

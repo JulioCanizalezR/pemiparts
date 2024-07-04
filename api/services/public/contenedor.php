@@ -30,8 +30,8 @@ if (isset($_GET['action'])) {
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$contenedor->setContenedor($_POST['contenedor']) or
-                    !$contenedor->setFecha_inicio($_POST['fecha_inicial']) or
-                    !$contenedor->setTiempo_final($_POST['tiempo_final']) 
+                    !$contenedor->setFecha_inicio($_POST['fechaInicio']) or
+                    !$contenedor->setTiempo_final($_POST['tiempoFinal']) 
                 ) {
                     $result['error'] = $contenedor->getDataError();
                 } elseif ($contenedor->createRow()) {
@@ -62,9 +62,7 @@ if (isset($_GET['action'])) {
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$contenedor->setId($_POST['idContenedor']) or
-                    !$contenedor->setContenedor($_POST['contenedor']) or
-                    !$contenedor->setFecha_inicio($_POST['fecha_inicial']) or
-                    !$contenedor->setTiempo_final($_POST['tiempo_final']) 
+                    !$contenedor->setTiempo_final($_POST['tiempoFinal'])
                 ) {
                     $result['error'] = $contenedor->getDataError();
                 } elseif ($contenedor->updateRow()) {

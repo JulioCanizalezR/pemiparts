@@ -86,12 +86,6 @@ class Validator
             if ($file['size'] > 2097152) {
                 self::$file_error = 'El tamaño de la imagen debe ser menor a 2MB';
                 return false;
-            } elseif ($image[0] < $dimension) {
-                self::$file_error = 'La dimensión de la imagen es menor a ' . $dimension . 'px';
-                return false;
-            } elseif ($image[0] != $image[1]) {
-                self::$file_error = 'La imagen no es cuadrada';
-                return false;
             } elseif ($image['mime'] == 'image/jpeg' || $image['mime'] == 'image/png') {
                 // Se obtiene la extensión del archivo (.jpg o .png) y se convierte a minúsculas.
                 $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
