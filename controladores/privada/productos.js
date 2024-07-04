@@ -33,6 +33,8 @@ document.addEventListener("DOMContentLoaded", () => {
   fillCards();
 });
 
+
+
 saveForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   await saveOrUpdateProduct();
@@ -41,6 +43,19 @@ saveForm.addEventListener("submit", async (event) => {
 seeForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   await saveOrUpdateProduct();
+});
+
+
+SEARCH_INPUT.addEventListener("input", (event) => {
+  // Constante tipo objeto con los datos del formulario.
+  event.preventDefault();
+  const FORM = new FormData();
+  FORM.append("search", SEARCH_INPUT.value);
+  if (SEARCH_INPUT.value == "") {
+    fillCards();
+  }
+  // Llamada a la función para llenar la tabla con los resultados de la búsqueda.
+  fillCards(FORM);
 });
 
 const saveOrUpdateProduct = async () => {
@@ -143,9 +158,9 @@ const fillCards = async (form = null) => {
     cardsContainer.innerHTML = "";
     let action;
     form ? (action = "searchRows") : (action = "readAll");
-    const data = await fetchData(PRODUCTO_API, "readAll");
+    const data = await fetchData(PRODUCTO_API,action, form);
     if (data.status) {
-      data.dataset.forEach(product => {
+      data.dataset.forEach((product) => {
         const productCard = createProductCard(product);
         cardsContainer.innerHTML += productCard;
       });
