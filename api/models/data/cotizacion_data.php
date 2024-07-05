@@ -28,6 +28,28 @@ class CotizacionData extends CotizacionHandler
         }
     }
 
+    public function setIdEnvio($value)
+    {
+        if (Validator::validateNaturalNumber($value)) {
+            $this->id_detalle_envio = $value;
+            return true;
+        } else {
+            $this->data_error = 'El identificador del contenedor es incorrecto';
+            return false;
+        }
+    }
+
+    public function setIdCliente($value)
+    {
+        if (Validator::validateNaturalNumber($value)) {
+            $this->id_cliente = $value;
+            return true;
+        } else {
+            $this->data_error = 'El identificador del cliente es incorrecto';
+            return false;
+        }
+    }
+
     public function setIdAlmacen($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -39,6 +61,47 @@ class CotizacionData extends CotizacionHandler
         }
     }
 
+    public function setNumeroSeguimiento($value, $min = 2, $max = 250)
+    {
+        if (Validator::validateNaturalNumber($value)) {
+            $this->numero_seguimiento = $value;
+            return true;
+        } else {
+            $this->data_error = 'El numero de seguimiento es incorrecto';
+            return false;
+        }
+    }
+
+    public function setEtiquetaEdificacion($value, $min = 2, $max = 250)
+    {
+        if (!Validator::validateString($value)) {
+            $this->data_error = 'La etiqueta edificacion contiene caracteres prohibidos';
+            return false;
+        } elseif (Validator::validateLength($value, $min, $max)) {
+            $this->etiqueta_edificacion = $value;
+            return true;
+        } else {
+            $this->data_error = 'La etiqueta edificacion debe tener una longitud entre ' . $min . ' y ' . $max;
+            return false;
+        }
+    }
+
+    public function setMedioEnvio($value, $min = 2, $max = 250)
+    {
+        if (!Validator::validateString($value)) {
+            $this->data_error = 'Medio envio contiene caracteres prohibidos';
+            return false;
+        } elseif (Validator::validateLength($value, $min, $max)) {
+            $this->medio_envio = $value;
+            return true;
+        } else {
+            $this->data_error = 'Medio envios debe tener una longitud entre ' . $min . ' y ' . $max;
+            return false;
+        }
+    }
+
+
+
     public function setProducto($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -49,6 +112,19 @@ class CotizacionData extends CotizacionHandler
             return false;
         }
     }
+
+    public function setEstado($value)
+    {
+        if (Validator::validateBoolean($value)) {
+            $this->estado_envio = $value;
+            return true;
+        } else {
+            $this->data_error = 'Estado incorrecto';
+            return false;
+        }
+    }
+
+
 
     public function setCantidad($value)
     {
@@ -86,6 +162,19 @@ class CotizacionData extends CotizacionHandler
     {
         if (Validator::validateDate($value)) {
             $this->tiempo_final = $value;
+            return true;
+        } else {
+            $this->data_error = 'La fecha final es incorrecta';
+            return false;
+        }
+    }
+
+    
+
+    public function setFechaEstimada($value)
+    {
+        if (Validator::validateDate($value)) {
+            $this->fecha_estimada = $value;
             return true;
         } else {
             $this->data_error = 'La fecha final es incorrecta';

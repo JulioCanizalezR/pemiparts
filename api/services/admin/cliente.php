@@ -33,6 +33,14 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen clientes registrados';
                 }
                 break;
+            case 'readClientes':
+                if ($result['dataset'] = $cliente->readClientes()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
+                } else {
+                    $result['error'] = 'No existen clientes registrados';
+                }
+                break;
             case 'readOne':
                 if (!$cliente->setId($_POST['idCliente'])) {
                     $result['error'] = 'Cliente incorrecto';
@@ -63,7 +71,7 @@ if (isset($_GET['action'])) {
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$cliente->setId($_POST['idCliente']) or 
+                    !$cliente->setId($_POST['idCliente']) or
                     !$cliente->setNombre($_POST['nombreCliente']) or
                     !$cliente->setApellido($_POST['apellidoCliente']) or
                     !$cliente->setCorreo($_POST['correoCliente']) or

@@ -111,6 +111,15 @@ class Database
     }
 
     /*
+     *   Método para obtener el último ID insertado por la conexión PDO.
+     *   Retorno: numérico entero (último ID insertado) o 0 si no hay ID disponible.
+     */
+    public static function getLastInsertId()
+    {
+        return self::$connection->lastInsertId();
+    }
+
+    /*
      *   Método para obtener un error personalizado cuando ocurre una excepción.
      *   Parámetros: ninguno.
      *   Retorno: error personalizado.

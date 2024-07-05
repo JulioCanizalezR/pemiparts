@@ -14,7 +14,7 @@
 
     <main>
         <div id="mainContent">
-            <div class="container">
+            <div class="container ">
                 <div class="row justify-content-center">
                     <div class="d-flex align-items-center">
                         <div class="col-md-2 col-sm-4 fs-3 text-dark">Clientes</div>
@@ -23,13 +23,14 @@
                             <img src="../recursos/img/info.svg" width="18px" height="18px">
                             </button>
                         <!-- Buscador  -->
-                        <form id="searchForm" class="col-md-5 col-sm-12">
+                        <form id="searchForm" class="col-md-5 col-sm-12 me-2">
                             <input class="form-control me-2 mb-2" type="search" placeholder="Buscar" name="search"
                                 aria-label="Buscar" id="searchInput" />
                         </form>
-
-                        <button type="button" class="btn btn-custom custom-add-btn" onclick="openCreate()">Agregar</button>
+                        <button type="button" class="btn btn-custom custom-add-btn me-2"
+                        onclick="openCreate()">Agregar</button>
                     </div>
+                    
                 </div>
 
                 <table class="table table-striped rounded-3 overflow-hidden">
@@ -161,7 +162,9 @@
     <!-- Controladores -->
     <script type="text/javascript" src="../controladores/utilidades/components.js"></script>
     <script type="text/javascript" src="../controladores/utilidades/template.js"></script>
+    <script type="text/javascript" src="../recursos/js/vanillaTextMask.js"></script>
     <script type="text/javascript" src="../controladores/privada/clientes.js"></script>
+
 </body>
 
 </html>

@@ -50,6 +50,14 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen entidades registrados';
                 }
                 break;
+            case 'readEntidades':
+                if ($result['dataset'] = $entidad->readEntidades()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
+                } else {
+                    $result['error'] = 'No existen entidades registrados';
+                }
+                break;
             case 'readProducts':
                 if ($result['dataset'] = $entidad->readProducts()) {
                     $result['status'] = 1;

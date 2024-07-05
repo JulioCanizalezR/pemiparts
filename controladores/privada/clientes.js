@@ -1,4 +1,5 @@
 // Constantes para establecer los elementos del componente Modal.
+
 const Cliente_api = "services/admin/cliente.php";
 const Empresa_api = "services/admin/empresa.php";
 const SAVE_MODAL = new bootstrap.Modal("#saveModal"),

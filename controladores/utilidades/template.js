@@ -109,7 +109,7 @@ const generateSideBarHTML = async () => {
         }
     } else {
         // Redirigir o mostrar mensaje de error si no está autenticado
-        sweetAlert(1, "Error no has iniciado sesión", 3);
+        sweetAlert(3, "Error no has iniciado sesión", 2);
         return '';
     }
 }

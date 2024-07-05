@@ -23,7 +23,8 @@ class CotizacionHandler
     protected $cantidad_entidad = null;
     protected $tiempo_final = null;
     protected $nombre_cliente = null;
-    
+    protected $etiqueta_edificacion = null;
+    protected $id_cliente = null;
  
     // Constante para establecer la ruta de las imágenes.
  
@@ -41,24 +42,45 @@ class CotizacionHandler
         $params = array($value);
         return Database::getRows($sql, $params);
     }
- 
     public function createRow()
     {
-        $sql = 'INSERT INTO tb_detalle_envios (
-            id_detalle_envio, 
-            id_envio, 
-            medio_envio, 
-            costo_envio, 
-            impuesto_envio, 
-            id_entidad, 
-            cantidad_entidad, 
-            direccion_envio
-        )VALUES(?,?,?,?,?,?,?,?)';
-        $params = array($this->id_detalle_envio,$this->id_envio,$this->medio_envio,$this->costo_envio
-        ,$this->impuesto_envio, $this->id_entidad,$this->cantidad_entidad,$this->direccion_envio);
+        $sql = 'INSERT INTO tb_envios (
+            estado_envio, 
+            fecha_estimada, 
+            numero_seguimiento, 
+            etiqueta_edificacion, 
+            id_cliente
+        )VALUES(?,?,?,?,?)';
+        $params = array($this->estado_envio, $this->fecha_estimada, $this->numero_seguimiento, $this->etiqueta_edificacion, $this->id_cliente);
         return Database::executeRow($sql, $params);
     }
  
+    public function getLastInsertedId()
+    {
+        return Database::getLastInsertId(); // Este método debe obtener el último ID insertado por la conexión de base de datos.
+    }
+    public function createRowDetalle()
+    {
+        $sql = 'INSERT INTO tb_detalle_envios (
+            id_envio,
+            medio_envio,
+            costo_envio,
+            impuesto_envio,
+            id_entidad,
+            cantidad_entidad,
+            direccion_envio
+        ) VALUES (?, ?, ?, ?, ?, ?, ?)';
+        $params = array(
+            $this->id_envio,
+            $this->medio_envio,
+            $this->costo_envio,
+            $this->impuesto_envio,
+            $this->id_entidad,
+            $this->cantidad_entidad,
+            $this->direccion_envio
+        );
+        return Database::executeRow($sql, $params);
+    }
     public function readAll()
     {
         $sql = 'SELECT 

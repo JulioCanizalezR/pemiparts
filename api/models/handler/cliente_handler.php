@@ -109,6 +109,15 @@ class ClienteHandler
         return Database::getRows($sql);
     }
 
+
+    public function readClientes()
+    {
+        $sql = 'SELECT id_cliente, nombre_cliente
+                FROM tb_clientes
+                ORDER BY id_cliente';
+        return Database::getRows($sql);
+    }
+
     public function readOne()
     {
         $sql = 'SELECT id_cliente, nombre_cliente, apellido_cliente, correo_electronico_cliente, direccion_cliente, tb_clientes.id_empresa, numero_telefono_cliente, fecha_registro_cliente

@@ -7,6 +7,7 @@ const saveModal = new bootstrap.Modal("#saveModal"),
 const seeModal = new bootstrap.Modal("#seeModal"),
   modalTitle2 = document.getElementById("modalTitle2");
 
+const SEARCH_INPUT = document.getElementById("searchInput");
 
 // Constantes para establecer los elementos del formulario de editar perfil.
 const profileForm = document.getElementById('profileForm'),
@@ -62,6 +63,23 @@ profileForm.addEventListener('submit', async (event) => {
     } else {
         sweetAlert(2, DATA.error, false);
     }
+});
+
+vanillaTextMask.maskInput({
+  inputElement: document.getElementById("telefonoUsuario"),
+  mask: [/\d/, /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, /\d/],
+});
+
+SEARCH_INPUT.addEventListener("input", (event) => {
+  // Constante tipo objeto con los datos del formulario.
+  event.preventDefault();
+  const FORM = new FormData();
+  FORM.append("search", SEARCH_INPUT.value);
+  if (SEARCH_INPUT.value == "") {
+    fillCards();
+  }
+  // Llamada a la función para llenar la tabla con los resultados de la búsqueda.
+  fillCards(FORM);
 });
 
 const openPassword = () => {

@@ -63,6 +63,12 @@ class EntidadesHandler
         $params = array($this->id_almacenamiento,$this->id_producto,$this->existencias,$this->estado);
         return Database::executeRow($sql, $params);
     }
+
+    public function readEntidades(){
+        $sql = 'SELECT id_entidad, id_entidad FROM
+            tb_entidades';
+        return Database::getRows($sql);
+    }
  
     public function readAll()
     {
