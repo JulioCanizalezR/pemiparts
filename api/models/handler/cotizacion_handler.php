@@ -37,7 +37,7 @@ class CotizacionHandler
         etiqueta_edificacion, id_cliente, nombre_cliente 
         FROM tb_envios 
         INNER JOIN tb_clientes USING(id_cliente)
-        WHERE nombre_cliente LIKE ?';
+        WHERE numero_seguimiento LIKE ?';
         $params = array($value);
         return Database::getRows($sql, $params);
     }
@@ -81,6 +81,22 @@ class CotizacionHandler
     INNER JOIN tb_clientes c ON e.id_cliente = c.id_cliente
     INNER JOIN tb_entidades en ON de.id_entidad = en.id_entidad
     INNER JOIN tb_productos p ON en.id_producto = p.id_producto';
+        return Database::getRows($sql);
+    }
+
+    public function readAllCoti()
+    {
+        $sql = 'SELECT 
+        e.id_envio,
+        e.estado_envio,
+        e.fecha_estimada,
+        e.numero_seguimiento,
+        e.etiqueta_edificacion,
+        c.id_cliente,
+        c.nombre_cliente,
+        c.apellido_cliente
+        FROM tb_envios e
+        INNER JOIN tb_clientes c ON e.id_cliente = c.id_cliente';
         return Database::getRows($sql);
     }
  

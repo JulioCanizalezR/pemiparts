@@ -18,6 +18,12 @@ const SAVE_FORM = document.getElementById("saveForm"),
   empresaCliente = document.getElementById("nombreEmpresa"),
 telefonoCliente = document.getElementById("telefonoCliente");
 
+// Llamada a la función para establecer la mascara del campo teléfono.
+vanillaTextMask.maskInput({
+  inputElement: document.getElementById("telefonoCliente"),
+  mask: [/\d/, /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, /\d/],
+});
+
 document.addEventListener('DOMContentLoaded', () => {
   // Llamada a la función para mostrar el encabezado y pie del documento.
   //loadTemplate();

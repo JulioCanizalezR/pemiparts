@@ -22,21 +22,16 @@
                         <button type="button" class="btn btn-light btn-agregar w-80" data-bs-toggle="modal" data-bs-target="#ModalForm">Agregar</button>
                     </form>
                 </div>
-
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <!-- Aquí se insertarán los elementos de la paginación -->
+                    </ul>
+                </nav>
+                
                 <div class="container mt-5">
-                    <div class="p-5 custom-rounded">
+                    <div class="p-5 custom-rounded" id="tableBody">
                         <!-- Aquí va la información de la tabla tb_envios -->
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Información General de Envíos</h5>
-                                <p class="card-text">Estado del Envío: Entregado</p>
-                                <p class="card-text">Fecha Estimada: 20/02/2024</p>
-                                <p class="card-text">Número de Seguimiento: 123456789</p>
-                                <p class="card-text">Etiqueta Edificación: Edificio Central</p>
-                                <p class="card-text">ID Cliente: 001</p>
-                                <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#envioModal">Ver más</a>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
 
@@ -98,6 +93,44 @@
                         </div>
                     </div>
                 </div>
+
+
+ <!-- Componente Modal para guardar un registro -->
+ <div class="modal fade" id="saveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+ aria-labelledby="modalTitle" aria-hidden="true">
+ <div class="modal-dialog modal-lg modal-dialog-centered">
+     <div class="modal-content">
+         <div class="modal-header">
+             <h1 class="modal-title fs-5" id="modalTitle"></h1>
+             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <!-- Formulario para crear o actualizar un registro -->
+         <form id="saveForm">
+             <div class="modal-body row g-3">
+                 <!-- Campo oculto para asignar el id del registro al momento de modificar -->
+                 <input type="number" class="d-none" id="idContenedor" name="idContenedor">
+                 <div class="col-sm-12 col-md-6">
+                     <label for="contenedor" class="form-label">Nombre</label>
+                     <input id="contenedor" type="text" name="contenedor" class="form-control" required>
+                 </div>
+                 <div class="col-sm-12 col-md-6">
+                     <label for="fecha_inicial" class="form-label">Fecha inicial</label>
+                     <input id="fecha_inicial" type="date" name="fecha_inicial" class="form-control"
+                         required>
+                 </div>
+                 <div class="col-sm-12 col-md-6">
+                     <label for="tiempo_final" class="form-label">Fecha final</label>
+                     <input id="tiempo_final" type="date" name="tiempo_final" min="0.01" step="0.01"
+                         class="form-control" required>
+                 </div>
+             </div>
+             <div class="modal-footer">
+                 <button type="submit" class="btn btn-primary">Guardar</button>
+             </div>
+         </form>
+     </div>
+ </div>
+</div>
 
                 <div class="modal fade" id="ModalForm2" tabindex="-1" aria-labelledby="ModalFormLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
@@ -215,36 +248,14 @@
                             <th scope="col">Opciones</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Almacen A</td>
-                            <td>17/6/2024</td>
-                            <td>23/8/2026</td>
-                            <td class="col-1">
-                                <div class="d-flex justify-content-around">
-                                    <button class="btn btn-sm btn-outline-secondary"><i class='bx bx-edit-alt'></i></button>
-                                    <button class="btn btn-sm btn-outline-danger"><i class='bx bx-trash'></i></button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Almacen A</td>
-                            <td>17/6/2024</td>
-                            <td>23/8/2026</td>
-                            <td class="col-1">
-                                <div class="d-flex justify-content-around">
-                                    <button class="btn btn-sm btn-outline-secondary"><i class='bx bx-edit-alt'></i></button>
-                                    <button class="btn btn-sm btn-outline-danger"><i class='bx bx-trash'></i></button>
-                                </div>
-                            </td>
-                        </tr>
+                    <tbody id="tableBody">
                     </tbody>
                 </table>
             </div>
         </div>
     </main>
+    <!-- Llamada al controlador del boostrap bundle javascript -->
+    <script type="text/javascript" src="../recursos/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="../controladores/utilidades/components.js"></script>
     <!-- Importación de la librería para generar los gráficos. Para más información https://www.chartjs.org/ -->
     <script type="text/javascript" src="../recursos/js/chart.umd.min.js"></script>

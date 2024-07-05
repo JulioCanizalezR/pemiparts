@@ -94,19 +94,19 @@ class Database
                 self::$error = 'Base de datos desconocida';
                 break;
             case '1045':
-           //     self::$error = 'Acceso denegado';
+                self::$error = 'Acceso denegado';
                 break;
             case '42S02':
-            //    self::$error;
+                self::$error;
                 break;
             case '42S22':
-            //    self::$error;
+                self::$error;
                 break;
             case '23000':
-                //self::$error = 'Violación de restricción de integridad';
+                self::$error = 'Violación de restricción de integridad';
                 break;
             default:
-           //     self::$error = 'Ocurrió un problema en la base de datos';
+                self::$error = 'Ocurrió un problema en la base de datos';
         }
     }
 

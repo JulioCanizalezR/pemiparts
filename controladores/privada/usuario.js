@@ -29,6 +29,12 @@ const seeForm = document.getElementById("seeForm"),
   telefonoUsuario = document.getElementById("telefono"),
   imagenUsuario = document.getElementById("imagen");
 
+// Llamada a la función para establecer la mascara del campo teléfono.
+vanillaTextMask.maskInput({
+  inputElement: document.getElementById("telefonoUsuario"),
+  mask: [/\d/, /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, /\d/],
+});
+
 SEARCH_INPUT.addEventListener("input", (event) => {
   // Constante tipo objeto con los datos del formulario.
   event.preventDefault();
@@ -89,7 +95,6 @@ const readOne = async (id) => {
   }
 };
 
-
 const populateUserModal = (userData) => {
   seeModal.show();
   modalTitle2.value = "Información del Usuario";
@@ -117,6 +122,8 @@ const openDelete = async (id) => {
     if (data.status) {
       await sweetAlert(1, data.message, true);
       fillCards();
+      seeModal.hide();
+      saveModal.hide();
     } else {
       sweetAlert(2, data.error, false);
     }
@@ -192,8 +199,9 @@ const createUserCard = (user) => {
     </div>`;
 };
 
-
-var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+var popoverTriggerList = [].slice.call(
+  document.querySelectorAll('[data-bs-toggle="popover"]')
+);
 var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-    return new bootstrap.Popover(popoverTriggerEl)
-})
+  return new bootstrap.Popover(popoverTriggerEl);
+});

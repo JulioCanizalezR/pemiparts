@@ -15,7 +15,7 @@ if (isset($_GET['action'])) {
         $result['session'] = 1;
         // Se compara la acción a realizar cuando un cliente ha iniciado sesión.
         switch ($_GET['action']) {
-            // Acción para agregar un producto al carrito de compras.
+                // Acción para agregar un producto al carrito de compras.
             case 'searchRows':
                 if (!Validator::validateSearch($_POST['search'])) {
                     $result['error'] = Validator::getSearchError();
@@ -29,21 +29,28 @@ if (isset($_GET['action'])) {
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$cotizacion->setCosto($_POST['costo_envio']) or
-                    !$cotizacion->setTiempo_final($_POST['fecha_final']) 
+                    !$cotizacion->setTiempo_final($_POST['fecha_final'])
                 ) {
                     $result['error'] = $contenedor->getDataError();
                 } elseif ($contenedor->createRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'contenedor creado correctamente';
+                    $result['message'] = 'cotizacion creado correctamente';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al crear el contenedor';
+                    $result['error'] = 'Ocurrió un problema al crear la cotizacion';
                 }
                 break;
             case 'readAll':
                 if ($result['dataset'] = $cotizacion->readAll()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'No existen contenedores registrados';
+                    $result['error'] = 'No existen cotizaciones registrados';
+                }
+                break;
+            case 'readAllCoti':
+                if ($result['dataset'] = $cotizacion->readAllCoti()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'No existen cotizaciones registrados';
                 }
                 break;
             case 'readOne':
@@ -58,10 +65,10 @@ if (isset($_GET['action'])) {
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$contenedor->setId($_POST['idContenedor']) or
-                    !$contenedor->setContenedor($_POST['contenedor']) or
-                    !$contenedor->setFecha_inicio($_POST['fecha_inicial']) or
-                    !$contenedor->setTiempo_final($_POST['tiempo_final']) 
+                    !$cotizacion->setId($_POST['idContenedor']) or
+                    !$cotizacion->setIdAlmacen($_POST['contenedor']) or
+                    !$cotizacion->setCosto($_POST['fecha_inicial']) or
+                    !$cotizacion->setTiempo_final($_POST['tiempo_final'])
                 ) {
                     $result['error'] = $contenedor->getDataError();
                 } elseif ($contenedor->updateRow()) {

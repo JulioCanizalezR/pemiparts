@@ -135,9 +135,9 @@ class UsuarioHandler
     public function updateRow()
     {
         $sql = 'UPDATE tb_usuarios
-                SET nombre = ?, apellido = ?, cargo = ?, correo_electronico = ?, numero_telefono = ?, imagen_usuario = ?, contraseña = ?
+                SET nombre = ?, apellido = ?, cargo = ?, correo_electronico = ?, numero_telefono = ?, imagen_usuario = ?
                 WHERE id_usuario = ?';
-        $params = array($this->nombre, $this->apellido, $this->cargo, $this->correo, $this->telefono, $this->imagen, $this->clave, $this->id);
+        $params = array($this->nombre, $this->apellido, $this->cargo, $this->correo, $this->telefono, $this->imagen, $this->id);
         return Database::executeRow($sql, $params);
     }
 
