@@ -94,7 +94,7 @@ if (isset($_GET['action'])) {
                     $result['status'] = 1;
                     $result['message'] = 'Cliente eliminado correctamente';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar el cliente';
+                    $result['error'] = 'Este cliente esta siendo ocupado en otro apartado';
                 }
                 break;
             case 'getUser':

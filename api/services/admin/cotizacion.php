@@ -28,17 +28,41 @@ if (isset($_GET['action'])) {
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$cotizacion->setCosto($_POST['costo_envio']) or
-                    !$cotizacion->setTiempo_final($_POST['fecha_final'])
+                    !$cotizacion->setEstado($_POST['estadoEnvio']) or
+                    !$cotizacion->setFechaEstimada($_POST['fechaEstimada']) or
+                    !$cotizacion->setNumeroSeguimiento($_POST['numeroSeguimiento']) or
+                    !$cotizacion->setEtiquetaEdificacion($_POST['etiquetaEdificacion']) or
+                    !$cotizacion->setIdCliente($_POST['nombreCliente'])
                 ) {
-                    $result['error'] = $contenedor->getDataError();
-                } elseif ($contenedor->createRow()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'cotizacion creado correctamente';
+                    $result['error'] = $cotizacion->getDataError();
+                } elseif ($cotizacion->createRow()) {
+                    $lastId = $cotizacion->getLastInsertedId(); // Obtener el último ID insertado
+
+                    if (!$lastId) {
+                        $result['error'] = 'No se pudo obtener el ID del envío recién creado';
+                    } else {
+                        if (
+                            !$cotizacion->setIdEnvio($lastId) or
+                            !$cotizacion->setMedioEnvio($_POST['medioEnvio']) or
+                            !$cotizacion->setCostoEnvio($_POST['costoEnvio']) or
+                            !$cotizacion->setImpuestoEnvio($_POST['impuestoEnvio']) or
+                            !$cotizacion->setIdEntidad($_POST['nombreEntidad']) or
+                            !$cotizacion->setCantidadEntidad($_POST['cantidadEntidad']) or
+                            !$cotizacion->setDireccionEnvio($_POST['direccionEnvio'])
+                        ) {
+                            $result['error'] = $cotizacion->getDataError();
+                        } elseif ($cotizacion->createRowDetalle()) {
+                            $result['status'] = 1;
+                            $result['message'] = 'Cotización y detalles de envío creados correctamente';
+                        } else {
+                            $result['error'] = 'Ocurrió un problema al crear los detalles de envío';
+                        }
+                    }
                 } else {
-                    $result['error'] = 'Ocurrió un problema al crear la cotizacion';
+                    $result['error'] = 'Ocurrió un problema al crear la cotización';
                 }
                 break;
+
             case 'readAll':
                 if ($result['dataset'] = $cotizacion->readAll()) {
                     $result['status'] = 1;
@@ -53,41 +77,97 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen cotizaciones registrados';
                 }
                 break;
-            case 'readOne':
-                if (!$contenedor->setId($_POST['idContenedor'])) {
-                    $result['error'] = $contenedor->getDataError();
-                } elseif ($result['dataset'] = $contenedor->readOne()) {
+            case 'readAllDetalle':
+                if ($result['dataset'] = $cotizacion->readAllDetalle()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'Contenedor inexistente';
+                    $result['error'] = 'No existen cotizaciones registrados';
+                }
+                break;
+            case 'readOne':
+                if (!$cotizacion->setIdEnvio($_POST['idEnvio'])) {
+                    $result['error'] = $cotizacion->getDataError();
+                } elseif ($result['dataset'] = $cotizacion->readOne()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Cotización inexistente';
+                }
+                break;
+            case 'readOneDetalle':
+                if (!$cotizacion->setIdDetalle($_POST['idDetalle'])) {
+                    $result['error'] = $cotizacion->getDataError();
+                } elseif ($result['dataset'] = $cotizacion->readOneDetalle()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Detalle envio inexistente';
+                }
+                break;
+            case 'updateRowDetalle':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$cotizacion->setMedioEnvio($_POST['medioEnvio2']) or
+                    !$cotizacion->setCostoEnvio($_POST['costoEnvio2']) or
+                    !$cotizacion->setImpuestoEnvio($_POST['impuestoEnvio2']) or
+                    !$cotizacion->setIdEntidad($_POST['nombreEntidad2']) or
+                    !$cotizacion->setCantidadEntidad($_POST['cantidadEntidad2']) or
+                    !$cotizacion->setDireccionEnvio($_POST['direccionEnvio2']) or
+                    !$cotizacion->setId($_POST['idDetalle2'])
+                ) {
+                    $result['error'] = $cotizacion->getDataError();
+                } elseif ($cotizacion->updateRowDetalle()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Cotización modificada correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al modificar el detalle de la cotización';
                 }
                 break;
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$cotizacion->setId($_POST['idContenedor']) or
-                    !$cotizacion->setIdAlmacen($_POST['contenedor']) or
-                    !$cotizacion->setCosto($_POST['fecha_inicial']) or
-                    !$cotizacion->setTiempo_final($_POST['tiempo_final'])
+                    !$cotizacion->setEstado($_POST['estadoEnvio2']) or
+                    !$cotizacion->setFechaEstimada($_POST['fechaEstimada2']) or
+                    !$cotizacion->setNumeroSeguimiento($_POST['numeroSeguimiento2']) or
+                    !$cotizacion->setEtiquetaEdificacion($_POST['etiquetaEdificacion2']) or
+                    !$cotizacion->setIdCliente($_POST['nombreCliente2']) or
+                    !$cotizacion->setIdEnvio($_POST['idEnvio2'])
                 ) {
-                    $result['error'] = $contenedor->getDataError();
-                } elseif ($contenedor->updateRow()) {
+                    $result['error'] = $cotizacion->getDataError();
+                } elseif ($cotizacion->updateRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Contenedor modificado correctamente';
+                    $result['message'] = 'Cotización modificada correctamente';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al modificar el contenedor';
+                    $result['error'] = 'Ocurrió un problema al modificar la cotización';
+                }
+                break;
+            case 'getEstados':
+                if ($result['dataset'] = $cotizacion->getEstados()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'No existen estados registrados';
                 }
                 break;
             case 'deleteRow':
                 if (
-                    !$contenedor->setId($_POST['idContenedor'])
+                    !$cotizacion->setIdEnvio($_POST['idEnvio'])
                 ) {
-                    $result['error'] = $contenedor->getDataError();
-                } elseif ($contenedor->deleteRow()) {
+                    $result['error'] = $cotizacion->getDataError();
+                } elseif ($cotizacion->deleteRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Contenedor eliminado correctamente';
+                    $result['message'] = 'Cotización eliminada correctamente';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar el contenedor';
+                    $result['error'] = 'Ocurrió un problema al eliminar la cotización';
+                }
+                break;
+            case 'deleteRowDetalle':
+                if (
+                    !$cotizacion->setId($_POST['idDetalle'])
+                ) {
+                    $result['error'] = $cotizacion->getDataError();
+                } elseif ($cotizacion->deleteRowDetalle()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Detalle de la cotización eliminada correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al eliminar la cotización';
                 }
                 break;
             default:

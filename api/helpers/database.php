@@ -103,10 +103,10 @@ class Database
                 self::$error;
                 break;
             case '23000':
-                self::$error = 'Violación de restricción de integridad';
+             //   self::$error = 'Violación de restricción de integridad';
                 break;
             default:
-                self::$error = 'Ocurrió un problema en la base de datos';
+          //      self::$error = 'Ocurrió un problema en la base de datos';
         }
     }
 
@@ -114,8 +114,7 @@ class Database
      *   Método para obtener el último ID insertado por la conexión PDO.
      *   Retorno: numérico entero (último ID insertado) o 0 si no hay ID disponible.
      */
-    public static function getLastInsertId()
-    {
+    public static function getLastInsertId() {
         return self::$connection->lastInsertId();
     }
 

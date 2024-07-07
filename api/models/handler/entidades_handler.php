@@ -9,15 +9,15 @@ class EntidadesHandler
     /*
      *  Declaración de atributos para el manejo de datos.
      */
- 
+
     protected $id = null;
     protected $id_almacenamiento = null;
     protected $id_producto = null;
     protected $existencias = null;
     protected $estado = null;
- 
+
     // Constante para establecer la ruta de las imágenes.
- 
+
     /*
      *  Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
      */
@@ -50,7 +50,7 @@ class EntidadesHandler
         $params = array($value, $value);
         return Database::getRows($sql, $params);
     }
- 
+
     public function createRow()
     {
         $this->estado = 'Disponible';
@@ -60,16 +60,18 @@ class EntidadesHandler
             existencias,
             estado)
             VALUES(?,?,?,?)';
-        $params = array($this->id_almacenamiento,$this->id_producto,$this->existencias,$this->estado);
+        $params = array($this->id_almacenamiento, $this->id_producto, $this->existencias, $this->estado);
         return Database::executeRow($sql, $params);
     }
 
-    public function readEntidades(){
-        $sql = 'SELECT id_entidad, id_entidad FROM
-            tb_entidades';
+    public function readEntidades()
+    {
+        $sql = 'SELECT id_entidad, nombre_almacenamiento 
+                FROM tb_entidades 
+                INNER JOIN tb_almacenamientos ON tb_entidades.id_almacenamiento = tb_almacenamientos.id_almacenamiento;';
         return Database::getRows($sql);
     }
- 
+
     public function readAll()
     {
         $sql = 'SELECT 
@@ -96,7 +98,7 @@ class EntidadesHandler
         tb_productos p ON e.id_producto = p.id_producto';
         return Database::getRows($sql);
     }
- 
+
     public function readAllForContainer()
     {
         $sql = 'SELECT 
@@ -129,7 +131,7 @@ class EntidadesHandler
         return Database::getRows($sql, $params);
     }
 
-    
+
     public function readProducts()
     {
         $sql = 'SELECT id_producto, nombre_producto
@@ -167,42 +169,40 @@ class EntidadesHandler
         $params = array($this->id);
         return Database::getRow($sql, $params);
     }
- 
+
     public function checkExistencias($cambio_existencias)
     {
-    $sql = 'SELECT existencias
+        $sql = 'SELECT existencias
             FROM tb_entidades
             WHERE id_entidad = ?';
-    $params = array($this->id);
-    $row = Database::getRow($sql, $params);
+        $params = array($this->id);
+        $row = Database::getRow($sql, $params);
 
-    if ($row) {
-        $existencias_actuales = $row['existencias'];
-        return ($existencias_actuales + $cambio_existencias) >= 0;
+        if ($row) {
+            $existencias_actuales = $row['existencias'];
+            return ($existencias_actuales + $cambio_existencias) >= 0;
+        }
+        return false;
     }
-    return false;
-    }
- 
+
     public function updateRow()
     {
-        if($this->checkExistencias($this->existencias)){
+        if ($this->checkExistencias($this->existencias)) {
             $sql = 'UPDATE tb_entidades
             SET id_almacenamiento = ?, id_producto = ?, existencias = existencias + ?, estado = ?
             WHERE id_entidad = ?';
-            $params = array($this->id_almacenamiento,$this->id_producto,$this->existencias,$this->estado, $this->id);
+            $params = array($this->id_almacenamiento, $this->id_producto, $this->existencias, $this->estado, $this->id);
             return Database::executeRow($sql, $params);
         } else {
             return false;
         }
     }
- 
+
     public function deleteRow()
     {
         $sql = 'DELETE FROM tb_entidades
                 WHERE id_entidad = ?';
         $params = array($this->id);
         return Database::executeRow($sql, $params);
-        
     }
 }
- 

@@ -68,7 +68,7 @@ class UsuarioHandler
 
     public function readProfile()
     {
-        $sql = 'SELECT id_usuario, nombre_usuario, apellido_usuario, correo_usuario, alias_usuario
+        $sql = 'SELECT id_usuario, nombre, apellido, numero_telefono, correo_electronico, cargo, contraseña
                 FROM tb_usuarios
                 WHERE id_usuario = ?';
         $params = array($_SESSION['idUsuario']);

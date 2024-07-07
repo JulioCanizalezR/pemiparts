@@ -6,9 +6,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pemi</title>
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
     <link href="../recursos/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../recursos/css/cotizaciones.css">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
@@ -38,30 +42,6 @@
                     </div>
                 </div>
 
-                <!-- Modal Ver Más -->
-                <div class="modal fade" id="envioModal" tabindex="-1" aria-labelledby="envioModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="envioModalLabel">Detalles del Envío</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <p>Estado del Envío: Entregado</p>
-                                <p>Fecha Estimada: 20/02/2024</p>
-                                <p>Número de Seguimiento: 123456789</p>
-                                <p>Etiqueta Edificación: Edificio Central</p>
-                                <p>ID Cliente: 001</p>
-                                <!-- Agrega aquí más detalles según sea necesario -->
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
                 <!-- Modal agregar cotización y detalle de cotización -->
                 <div class="modal fade" id="cotizacionModal" tabindex="-1" aria-labelledby="ModalFormLabel"
@@ -74,138 +54,209 @@
                                     aria-label="Close"></button>
                             </div>
                             <div class="modal-body" id="modalBodyCotizacion">
-                                <!-- Contenido de la pantalla de cotización -->
-                                <form id="formCotizacion">
-                                    <div class="row mb-3">
-                                        <div class="col">
-                                            <input type="number" class="d-none" id="idEnvio" name="idEnvio">
-
-                                            <label for="estadoEnvio" class="form-label">Estado del Envío</label>
-                                            <select class="form-select" id="estadoEnvio" required>
-                                                <option selected disabled value="">Seleccionar estado</option>
-                                                <option value="Entregado">Entregado</option>
-                                                <option value="Cancelado">Cancelado</option>
-                                                <option value="Finalizado">Finalizado</option>
-                                                <option value="Pendiente">Pendiente</option>
+                                <!-- Formulario combinado para cotización y detalle de cotización -->
+                                <form id="saveForm">
+                                    <!-- Pantalla de cotización -->
+                                    <div id="cotizacionSection">
+                                        <div class="row mb-3">
+                                            <div class="col">
+                                                <input type="number" class="d-none" id="idEnvio" name="idEnvio">
+                                                <label for="estadoEnvio" class="form-label">Estado del Envío</label>
+                                                <select class="form-select" id="estadoEnvio" name="estadoEnvio"
+                                                    required>
+                                                </select>
+                                            </div>
+                                            <div class="col">
+                                                <label for="fechaEstimada" class="form-label">Fecha Estimada</label>
+                                                <input type="date" class="form-control" id="fechaEstimada"
+                                                    name="fechaEstimada" required>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col">
+                                                <label for="numeroSeguimiento" class="form-label">Número de
+                                                    Seguimiento</label>
+                                                <input type="number" class="form-control" id="numeroSeguimiento"
+                                                    name="numeroSeguimiento" required>
+                                            </div>
+                                            <div class="col">
+                                                <label for="etiquetaEdificacion" class="form-label">Etiqueta
+                                                    Edificación</label>
+                                                <input type="text" class="form-control" id="etiquetaEdificacion"
+                                                    name="etiquetaEdificacion" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-12">
+                                            <label for="nombreCliente" class="form-label">ID Cliente</label>
+                                            <select id="nombreCliente" name="nombreCliente"
+                                                class="form-select rounded-5" required>
                                             </select>
                                         </div>
-                                        <div class="col">
-                                            <label for="fechaEstimada" class="form-label">Fecha Estimada</label>
-                                            <input type="date" class="form-control" id="fechaEstimada" required>
+                                        <div class="row mt-4">
+                                            <div class="col">
+                                                <!-- Botón Cancelar -->
+                                                <button type="button" class="btn btn-custom btn-lg"
+                                                    data-bs-dismiss="modal">Cancelar</button>
+                                            </div>
+                                            <div class="col">
+                                                <!-- Botón de siguiente -->
+                                                <button type="button" class="btn btn-custom btn-lg"
+                                                    id="btnSiguienteCotizacion">Siguiente</button>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div class="row mb-3">
-                                        <div class="col">
-                                            <label for="numeroSeguimiento" class="form-label">Número de
-                                                Seguimiento</label>
-                                            <input type="number" class="form-control" id="numeroSeguimiento" required>
+                                    <!-- Pantalla de detalle de cotización -->
+                                    <div id="detalleCotizacionSection" class="d-none">
+                                        <div class="row mb-3">
+                                            <input type="number" class="d-none" id="idDetalle" name="idDetalle">
+                                            <input type="number" class="d-none" id="idEnvioD" name="idEnvioD">
+                                            <div class="col">
+                                                <label for="medioEnvio" class="form-label">Medio de Envío</label>
+                                                <select class="form-select" id="medioEnvio" name="medioEnvio" required>
+                                                    <option selected disabled value="">Seleccionar medio</option>
+                                                    <option value="Tierra">Tierra</option>
+                                                    <option value="Mar">Mar</option>
+                                                    <option value="Aire">Aire</option>
+                                                </select>
+                                            </div>
                                         </div>
-                                        <div class="col">
-                                            <label for="etiquetaEdificacion" class="form-label">Etiqueta
-                                                Edificación</label>
-                                            <input type="text" class="form-control" id="etiquetaEdificacion" required>
+                                        <div class="row mb-3">
+                                            <div class="col">
+                                                <label for="costoEnvio" class="form-label">Costo de Envío</label>
+                                                <input type="number" step="0.01" class="form-control" id="costoEnvio"
+                                                    name="costoEnvio" required>
+                                            </div>
+                                            <div class="col">
+                                                <label for="impuestoEnvio" class="form-label">Impuesto de Envío</label>
+                                                <input type="number" step="0.01" class="form-control" id="impuestoEnvio"
+                                                    name="impuestoEnvio">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col">
+                                                <label for="nombreEntidad" class="form-label">Nombre de la
+                                                    entidad</label>
+                                                <select id="nombreEntidad" name="nombreEntidad"
+                                                    class="form-select rounded-3" required>
+                                                </select>
+                                            </div>
+                                            <div class="col">
+                                                <label for="cantidadEntidad" class="form-label">Cantidad Entidad</label>
+                                                <input type="number" class="form-control" id="cantidadEntidad"
+                                                    name="cantidadEntidad" required>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col">
+                                                <label for="direccionEnvio" class="form-label">Dirección de
+                                                    Envío</label>
+                                                <input type="text" class="form-control" id="direccionEnvio"
+                                                    name="direccionEnvio" required>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col">
+                                                <!-- Botón Regresar -->
+                                                <button type="button" class="btn btn-custom btn-lg"
+                                                    id="btnRegresarDetalleCotizacion">Regresar</button>
+                                            </div>
+                                            <div class="col">
+                                                <!-- Botón Guardar -->
+                                                <button type="submit" class="btn btn-custom btn-lg"
+                                                    id="btnGuardarDetalleCotizacion">Guardar</button>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-12 col-md-12">
-                                        <label for="nombreCliente" class="form-label">ID Cliente</label>
-                                        <select id="nombreCliente" name="nombreCliente" class="form-select rounded-5"
-                                            required>
-                                        </select>
-                                    </div>
-                                    <div class="row mt-4">
-                                        <div class="col">
-                                            <!-- Botón Cancelar -->
-                                            <button type="button" class="btn btn-custom btn-lg"
-                                                data-bs-dismiss="modal">Cancelar</button>
-                                        </div>
-                                        <div class="col">
-                                            <!-- Botón de siguiente -->
-                                            <button type="submit" class="btn btn-custom btn-lg"
-                                                id="btnSiguienteCotizacion">Siguiente</button>
-                                        </div>
-                                    </div>
-
-                            </form>
+                                </form>
+                            </div>
                         </div>
-                        <div class="modal-body d-none" id="modalBodyDetalleCotizacion">
-                            <!-- Contenido de la pantalla de detalle de cotización -->
-                            <form id="formDetalleCotizacion">
-                                <div class="row mb-3">
-                                    <input type="number" class="d-none" id="idDetalle" name="idDetalle">
-                                    <input type="number" class="d-none" id="idEnvioD" name="idEnvioD">
-                                    <div class="col">
-                                        <label for="medioEnvio" class="form-label">Medio de Envío</label>
-                                        <select class="form-select" id="medioEnvio" required>
-                                            <option selected disabled value="">Seleccionar medio</option>
-                                            <option value="Tierra">Tierra</option>
-                                            <option value="Mar">Mar</option>
-                                            <option value="Aire">Aire</option>
-                                        </select>
+                    </div>
+                </div>
+
+                <!-- Modal cotización -->
+                <div class="modal fade" id="envioModal" tabindex="-1" aria-labelledby="ModalFormLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="envioTitle">Agregar Detalle de Envío</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="envioForm">
+                                    <div id="cotizacionSection">
+                                        <div class="row mb-3">
+                                            <div class="col">
+                                                <input type="number" class="d-none" id="idEnvio2" name="idEnvio2">
+                                                <label for="estadoEnvio2" class="form-label">Estado del Envío</label>
+                                                <select class="form-select" id="estadoEnvio2" name="estadoEnvio2"
+                                                    required>
+                                                </select>
+                                            </div>
+                                            <div class="col">
+                                                <label for="fechaEstimada2" class="form-label">Fecha Estimada</label>
+                                                <input type="date" class="form-control" id="fechaEstimada2"
+                                                    name="fechaEstimada2" required>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col">
+                                                <label for="numeroSeguimiento2" class="form-label">Número de
+                                                    Seguimiento</label>
+                                                <input type="number" class="form-control" id="numeroSeguimiento2"
+                                                    name="numeroSeguimiento2" required>
+                                            </div>
+                                            <div class="col">
+                                                <label for="etiquetaEdificacion2" class="form-label">Etiqueta
+                                                    Edificación</label>
+                                                <input type="text" class="form-control" id="etiquetaEdificacion2"
+                                                    name="etiquetaEdificacion2" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-12">
+                                            <label for="nombreCliente2" class="form-label">ID Cliente</label>
+                                            <select id="nombreCliente2" name="nombreCliente2"
+                                                class="form-select rounded-5" required>
+                                            </select>
+                                        </div>
+                                        <div class="row mt-4">
+                                            <div class="col">
+                                                <!-- Botón Cancelar -->
+                                                <button type="button" class="btn btn-custom btn-lg"
+                                                    data-bs-dismiss="modal">Cancelar</button>
+                                            </div>
+                                            <div class="col">
+                                                <!-- Botón Guardar -->
+                                                <button type="submit" class="btn btn-custom btn-lg"
+                                                    id="btnGuardarDetalleCotizacion">Guardar</button>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col">
-                                        <label for="costoEnvio" class="form-label">Costo de Envío</label>
-                                        <input type="number" step="0.01" class="form-control" id="costoEnvio" required>
-                                    </div>
-                                    <div class="col">
-                                        <label for="impuestoEnvio" class="form-label">Impuesto de Envío</label>
-                                        <input type="number" step="0.01" class="form-control" id="impuestoEnvio">
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col">
-                                        <label for="nombreEntidad" class="form-label">Nombre de la entidad</label>
-                                        <select id="nombreEntidad" name="nombreEntidad" class="form-select rounded-3"
-                                            required>
-                                        </select>
-                                    </div>
-                                    <div class="col">
-                                        <label for="cantidadEntidad" class="form-label">Cantidad Entidad</label>
-                                        <input type="number" class="form-control" id="cantidadEntidad" required>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col">
-                                        <label for="direccionEnvio" class="form-label">Dirección de Envío</label>
-                                        <input type="text" class="form-control" id="direccionEnvio" required>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col">
-                                        <!-- Botón Cancelar -->
-                                        <button type="button" class="btn btn-custom btn-lg"
-                                            id="btnRegresarDetalleCotizacion">Regresar</button>
-                                    </div>
-                                    <div class="col">
-                                        <!-- Botón Guardar -->
-                                        <button type="submit" class="btn btn-custom btn-lg"  id="btnGuardarDetalleCotizacion">Guardar</button>
-                                    </div>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-
             <!-- Modal detalle cotización -->
-            <div class="modal fade" id="saveModal2" tabindex="-1" aria-labelledby="ModalFormLabel" aria-hidden="true">
+            <div class="modal fade" id="detalleModal" tabindex="-1" aria-labelledby="ModalFormLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="modalTitle2">Agregar Detalle de Envío</h5>
+                            <h5 class="modal-title" id="detalleTitle">Agregar Detalle de Envío</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <form id="detalleEnvioForm">
                                 <div class="row mb-3">
-                                    <input type="number" class="d-none" id="idDetalle" name="idDetalle">
-                                    <input type="number" class="d-none" id="idEnvioD" name="idEnvioD">
+                                    <input type="number" class="d-none" id="idDetalle2" name="idDetalle2">
+                                    <input type="number" class="d-none" id="idEnvioD2" name="idEnvioD2">
                                     <div class="col">
-                                        <label for="medioEnvio" class="form-label">Medio de Envío</label>
-                                        <select class="form-select" id="medioEnvio" required>
+                                        <label for="medioEnvio2" class="form-label">Medio de Envío</label>
+                                        <select class="form-select" id="medioEnvio2" name="medioEnvio2" required>
                                             <option selected disabled value="">Seleccionar medio</option>
                                             <option value="Tierra">Tierra</option>
                                             <option value="Mar">Mar</option>
@@ -215,41 +266,48 @@
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col">
-                                        <label for="costoEnvio" class="form-label">Costo de Envío</label>
-                                        <input type="number" step="0.01" class="form-control" id="costoEnvio" required>
+                                        <label for="costoEnvio2" class="form-label">Costo de Envío</label>
+                                        <input type="number" step="0.01" class="form-control" id="costoEnvio2"
+                                            name="costoEnvio2" required>
                                     </div>
                                     <div class="col">
-                                        <label for="impuestoEnvio" class="form-label">Impuesto de Envío</label>
-                                        <input type="number" step="0.01" class="form-control" id="impuestoEnvio">
+                                        <label for="impuestoEnvio2" class="form-label">Impuesto de Envío</label>
+                                        <input type="number" step="0.01" class="form-control" id="impuestoEnvio2"
+                                            name="impuestoEnvio2">
                                     </div>
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col">
-                                        <label for="nombreEntidad" class="form-label">Nombre de la empresa</label>
-                                        <select id="nombreEntidad" name="nombreEntidad" class="form-select rounded-3"
+                                        <label for="nombreEntidad2" class="form-label">Nombre de la
+                                            entidad</label>
+                                        <select id="nombreEntidad2" name="nombreEntidad2" class="form-select rounded-3"
                                             required>
                                         </select>
                                     </div>
                                     <div class="col">
-                                        <label for="cantidadEntidad" class="form-label">Cantidad Entidad</label>
-                                        <input type="number" class="form-control" id="cantidadEntidad" required>
+                                        <label for="cantidadEntidad2" class="form-label">Cantidad Entidad</label>
+                                        <input type="number" class="form-control" id="cantidadEntidad2"
+                                            name="cantidadEntidad2" required>
                                     </div>
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col">
-                                        <label for="direccionEnvio" class="form-label">Dirección de Envío</label>
-                                        <input type="text" class="form-control" id="direccionEnvio" required>
+                                        <label for="direccionEnvio2" class="form-label">Dirección de
+                                            Envío</label>
+                                        <input type="text" class="form-control" id="direccionEnvio2"
+                                            name="direccionEnvio2" required>
                                     </div>
                                 </div>
                                 <div class="row mb-3">
+                                    <div class="col">
+                                        <!-- Botón Regresar -->
+                                        <button type="button" class="btn btn-custom btn-lg"
+                                            id="btnRegresarDetalleCotizacion">Regresar</button>
+                                    </div>
                                     <div class="col">
                                         <!-- Botón Guardar -->
-                                        <button type="submit" class="btn btn-custom btn-lg">Guardar</button>
-                                    </div>
-                                    <div class="col">
-                                        <!-- Botón Cancelar -->
-                                        <button type="button" class="btn btn-custom btn-lg"
-                                            data-bs-dismiss="modal">Cancelar</button>
+                                        <button type="submit" class="btn btn-custom btn-lg"
+                                            id="btnGuardarDetalleCotizacion">Guardar</button>
                                     </div>
                                 </div>
                             </form>
@@ -257,68 +315,29 @@
                     </div>
                 </div>
             </div>
+            <div id="pagination" class="d-flex justify-content-center my-3">
+                <button id="prevPage" class="btn btn-secondary me-2" onclick="prevPage()">Anterior</button>
+                <span id="pageInfo" class="align-self-center"></span>
+                <button id="nextPage" class="btn btn-secondary ms-2" onclick="nextPage()">Siguiente</button>
+            </div>
+
         </div>
 
-        <!-- Tabla de cotizaciones -->
-        <table class="table table-striped rounded-3 overflow-hidden mt-5">
-            <thead class="table-primary">
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Tiempo inicial</th>
-                    <th scope="col">Tiempo final</th>
-                    <th scope="col">Opciones</th>
-                </tr>
-            </thead>
-            <tbody id="tableBody">
-            </tbody>
-        </table>
+
+
         </div>
         </div>
     </main>
     <!-- Llamada a jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <!-- Llamada al controlador del boostrap bundle javascript -->
+    <script type="text/javascript" src="../recursos/js/sweetalert.min.js"></script>
     <script type="text/javascript" src="../recursos/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="../controladores/utilidades/components.js"></script>
     <!-- Importación de la librería para generar los gráficos. Para más información https://www.chartjs.org/ -->
     <script type="text/javascript" src="../recursos/js/chart.umd.min.js"></script>
     <!--Cargar el template-->
     <script type="text/javascript" src="../controladores/utilidades/template.js"></script>
-
-
-    <script>
-        $(document).ready(function () {
-            // Manejo de eventos cuando el modal se muestra
-            $('#cotizacionModal').on('show.bs.modal', function () {
-                // Mostrar pantalla de cotización y ocultar detalle de cotización
-                $('#modalBodyCotizacion').removeClass('d-none');
-                $('#modalBodyDetalleCotizacion').addClass('d-none');
-            });
-
-            // Manejo del evento de click en el botón Siguiente (de cotización a detalle de cotización)
-            $('#btnSiguienteCotizacion').on('click', function () {
-                // Ocultar pantalla de cotización y mostrar detalle de cotización
-                $('#modalBodyCotizacion').addClass('d-none');
-                $('#modalBodyDetalleCotizacion').removeClass('d-none');
-            });
-
-            // Manejo del evento de click en el botón Regresar (de detalle de cotización a cotización)
-            $('#btnRegresarDetalleCotizacion').on('click', function () {
-                // Mostrar pantalla de cotización y ocultar detalle de cotización
-                $('#modalBodyCotizacion').removeClass('d-none');
-                $('#modalBodyDetalleCotizacion').addClass('d-none');
-            });
-
-            // Manejo del evento de click en el botón Guardar (de detalle de cotización)
-            $('#btnGuardarDetalleCotizacion').on('click', function () {
-                // Aquí puedes implementar la lógica para guardar la cotización y el detalle
-                // Por ejemplo, hacer una petición AJAX para enviar los datos al servidor y luego cerrar el modal
-                // Después de guardar, puedes cerrar el modal usando:
-                // $('#cotizacionModal').modal('hide');
-            });
-        });
-    </script>
 
     <!-- Llamada al controlador del template javascript -->
 

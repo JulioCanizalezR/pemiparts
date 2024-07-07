@@ -1,206 +1,374 @@
 const COTIZACION_API = "services/admin/cotizacion.php";
-const CLIENTE_API = "services/admin/cliente.php"
+const CLIENTE_API = "services/admin/cliente.php";
+const ENTIDAD_API = "services/admin/entidades.php";
+
 // Constante para establecer el formulario de buscar.
 const SEARCH_INPUT = document.getElementById("searchInput");
 
 // Constantes para establecer el contenido de la tabla.
-const TABLE_BODY = document.getElementById('tableBody'),
-    ROWS_FOUND = document.getElementById('rowsFound');
+const TABLE_BODY = document.getElementById('tableBody');
 
 // Constantes para establecer los elementos del componente Modal.
-const SAVE_MODAL = new bootstrap.Modal('#saveModal'),
+const SAVE_MODAL = new bootstrap.Modal('#cotizacionModal'),
     MODAL_TITLE = document.getElementById('modalTitle');
 
-//Constante para cotizacion
-/*
-const PRIMER_MODAL = new boostrap.Modal('#ModalPrimario'),
-    MODAL_LABEL = document.getElementById('ModalFormLabel');
-/*
-const COTIZACION_FORM = document.getElementById('cotizacionForm'),
-    ID_COTIZACION = document.getElementById();
-
-*/
 // Constantes para establecer los elementos del formulario de guardar.
 const SAVE_FORM = document.getElementById('saveForm'),
-    ID_ENVIO = document.getElementById('idEnvio'),
-    ESTADO_ENVIO = document.getElementById('estado_envio'),
-    FECHA_ESTIMADA = document.getElementById('fecha_estimada'),
-    NUMERO_SEGUIMIENTO = document.getElementById('numero_seguimiento');
-NOMBRE_CLIENTE = document.getElementById('nombre_cliente');
-APELLIDO_CLIENTE = document.getElementById('apellido_cliente');
+    ID_ENVIO = document.getElementById('idEnvio');
 
-const CotizacionesPorPagina = 10;
+
+const DETALLE_MODAL = new bootstrap.Modal('#detalleModal'),
+    DETALLE_TITLE = document.getElementById('detalleTitle');
+
+// Constantes para establecer los elementos del modal envio.
+const ENVIO_MODAL = new bootstrap.Modal('#envioModal'),
+    ENVIO_TITLE = document.getElementById('envioTitle');
+
+const ENVIO_FORM = document.getElementById('envioForm'),
+    ID_ENVIO2 = document.getElementById('idEnvio2'),
+    FECHA_ESTIMADA2 = document.getElementById('fechaEstimada2'),
+    NUMERO_SEGUIMIENTO2 = document.getElementById('numeroSeguimiento2'),
+    ETIQUETA_EDIFICACION2 = document.getElementById('etiquetaEdificacion2'),
+NOMBRE_CLIENTE2 = document.getElementById('nombreCliente2');
+
+
+const DETALLE_FORM = document.getElementById('detalleEnvioForm'),
+    ID_DETALLE = document.getElementById('idDetalle2'),
+    ID_ENVIO_DETALLE = document.getElementById('idEnvioD2'),
+    MEDIO_ENVIO = document.getElementById('medioEnvio2'),
+    COSTO_ENVIO = document.getElementById('costoEnvio2'),
+    IMPUESTO_ENVIO = document.getElementById('impuestoEnvio2'),
+    NOMBRE_ENTIDAD = document.getElementById('nombreEntidad2'),
+    CANTIDAD_ENTIDAD = document.getElementById('cantidadEntidad2'),
+DIRECCION_ENVIO = document.getElementById('direccionEnvio2');
+
+const COTIZACIONES_POR_PAGINA = 2;
 let paginaActual = 1;
-let Cotizaciones = [];
+let cotizaciones = [];
 
 
 // Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', () => {
-    fillTable();
+    fillTableDetalle();
 });
 
-/*
-*   Función asíncrona para llenar la tabla con los registros disponibles, utilizando paginación.
-*   Parámetros: form (objeto opcional con los datos de búsqueda).
-*   Retorno: ninguno.
-*/
-async function fillTable(form = null) {
-    try {
-        TABLE_BODY.innerHTML = '';
-        // Petición para obtener los registros disponibles.
-        let action;
-        form ? action = 'searchRows' : action = 'readAllCoti';
-        const DATA = await fetchData(COTIZACION_API, action, form);
+$(document).ready(function () {
+    document.getElementById('btnSiguienteCotizacion').addEventListener('click', function () {
+        document.getElementById('cotizacionSection').classList.add('d-none');
+        document.getElementById('detalleCotizacionSection').classList.remove('d-none');
+    });
 
+    document.getElementById('btnRegresarDetalleCotizacion').addEventListener('click', function () {
+        document.getElementById('detalleCotizacionSection').classList.add('d-none');
+        document.getElementById('cotizacionSection').classList.remove('d-none');
+    });
+});
+
+// Función para obtener cotizaciones
+async function obtenerCotizaciones(form = null) {
+    try {
+        let action = form ? 'searchRows' : 'readAllCoti';
+        const DATA = await fetchData(COTIZACION_API, action, form);
         if (DATA.status) {
-            Cotizaciones = DATA.dataset;
-            mostrarCotizaciones(paginaActual);
-            // Se muestra un mensaje de acuerdo con el resultado.
-            ROWS_FOUND.textContent = DATA.message;
+            return DATA.dataset;
         } else {
-            // Se muestra un mensaje de acuerdo con el resultado.
-            ROWS_FOUND.textContent = "Existen 0 coincidencias";
+            console.log("No se encontraron coincidencias.");
+            return [];
         }
     } catch (error) {
-        console.error('Error al obtener datos de la API:', error);
+        console.error('Error al obtener cotizaciones de la API:', error);
+        return [];
     }
 }
 
-const openCreate = () => {
-    // Se muestra la caja de diálogo con su título.
-    SAVE_MODAL.show();
-    MODAL_TITLE.textContent = "Crear cotizaciones";
-    // Se prepara el formulario.
-    SAVE_FORM.reset();
-    fillSelect(CLIENTE_API, "readClientes", "nombreCliente")
-};
-
-// Función para mostrar contenedores en una página específica
-async function mostrarCotizaciones(pagina) {
-    const inicio = (pagina - 1) * CotizacionesPorPagina;
-    const fin = inicio + CotizacionesPorPagina;
-    const CotizacionesPagina = Cotizaciones.slice(inicio, fin);
-
-    TABLE_BODY.innerHTML = '';
-
-    for (const row of CotizacionesPagina) {
-        const tablaHtml = `
-      <div class="card">
-      <div class="card-body">
-          <h5 class="card-title">Información General de Envíos</h5>
-          <p class="card-text">Estado del Envío: ${row.estado_envio}</p>
-          <p class="card-text">Fecha Estimada: ${row.fecha_estimada}</p>
-          <p class="card-text">Número de Seguimiento: ${row.numero_seguimiento}</p>
-          <p class="card-text">Etiqueta Edificación: ${row.etiqueta_edificacion}</p>
-          <p class="card-text">ID Cliente: ${row.id_cliente}</p>
-          <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#envioModal">Ver más</a>
-      </div>
-  </div>
-      `;
-        TABLE_BODY.innerHTML += tablaHtml;
-        await cargarCarrouselParaCotizacion(row.id_envio);
+// Función para obtener detalles de cotizaciones
+async function obtenerDetallesCotizaciones(form = null) {
+    try {
+        const DATA = await fetchData(COTIZACION_API, 'readAllDetalle', form);
+        if (DATA.status) {
+            return DATA.dataset;
+        } else {
+            console.log("No se encontraron coincidencias.");
+            return [];
+        }
+    } catch (error) {
+        console.error('Error al obtener detalles de cotizaciones de la API:', error);
+        return [];
     }
+}
+let detallesPorCotizacion = {};   
 
-    // actualizarPaginacion();
+// Función para llenar la tabla con cotizaciones y detalles
+async function fillTableDetalle(form = null) {
+    try {
+        cotizaciones = await obtenerCotizaciones(form);
+        const detallesCotizaciones = await obtenerDetallesCotizaciones(form);
 
-    // Función para cargar el carrusel para un contenedor específico
-    async function cargarCarrouselParaCotizacion(id) {
-        try {
-            // Petición para obtener los items del contenedor
-            const form = new FormData();
-            form.append('idCotizacion', id);
-            //   const itemsResponse = await fetchData(entidad_api, 'getItems', form);
-            const items = itemsResponse.dataset;
-
-            const carouselInner = document.querySelector(`#carousel-container-${id} .carousel-inner`);
-            carouselInner.innerHTML = '';
-
-            if (Array.isArray(items) && items.length > 0) {
-                // Agrupar los items en pares para mostrar 2 items por pestaña
-                for (let i = 0; i < items.length; i += 2) {
-                    const activeClass = i === 0 ? 'active' : '';
-                    const item1 = items[i];
-                    const item2 = items[i + 1];
-
-                    let itemHtml = `
-                    <div class="carousel-item ${activeClass}">
-                        <div class="row">
-                `;
-
-                    // Agregar primer item
-                    if (item1) {
-                        itemHtml += `
-                        <div class="col-md-6 col-sm-12 mt-4 mb-4">
-                            <div class="tarjeta shadow d-flex align-items-center p-3">
-                                <div class="col-4 p-2 d-flex justify-content-center align-items-center">
-                                    <img class="img-fluid rounded" src="${SERVER_URL}images/productos/${item1.imagen_producto}" alt="${item1.nombre_producto}">
-                                </div>
-                                <div class="col-8 p-2 d-flex flex-column">
-                                    <p class="text-secondary mb-1">Nombre: ${item1.nombre_producto}</p>
-                                    <p class="text-secondary mb-1">Código del producto: ${item1.codigo_producto}</p>
-                                    <p class="text-secondary mb-1">Cantidad: ${item1.existencias}</p>
-                                    <p class="text-secondary mb-1">Precio: $${item1.precio_producto}</p>
-                                    <p class="text-secondary mb-1">Categoría: ${item1.nombre}</p>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    }
-
-                    // Agregar segundo item si existe
-                    if (item2) {
-                        itemHtml += `
-                        <div class="col-md-6 col-sm-12 mt-4 mb-4">
-                            <div class="tarjeta shadow d-flex align-items-center p-3">
-                                <div class="col-4 p-2 d-flex justify-content-center align-items-center">
-                                </div>
-                                <div class="col-8 p-2 d-flex flex-column">
-                                    <p class="text-secondary mb-1">Nombre: ${item2.nombre_almacenamiento}</p>
-                                    <p class="text-secondary mb-1">Código del producto: ${item2.codigo_producto}</p>
-                                    <p class="text-secondary mb-1">Cantidad: ${item2.existencias}</p>
-                                    <p class="text-secondary mb-1">Precio: $${item2.precio_producto}</p>
-                                    <p class="text-secondary mb-1">Categoría: ${item2.nombre}</p>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    }
-
-                    itemHtml += `
-                        </div>
-                    </div>
-                `;
-
-                    carouselInner.innerHTML += itemHtml;
-                }
-
-                // Mostrar controles de carrusel solo si hay más de un item
-                if (items.length <= 2) {
-                    const carouselPrev = document.querySelector(`#carousel-container-${id} .carousel-control-prev`);
-                    const carouselNext = document.querySelector(`#carousel-container-${id} .carousel-control-next`);
-                    if (carouselPrev && carouselNext) {
-                        carouselPrev.style.display = 'none';
-                        carouselNext.style.display = 'none';
-                    }
-                }
-            } else {
-                carouselInner.innerHTML = `<div class="carousel-item"><p class="text-center">No hay items disponibles para este contenedor.</p></div>`;
-
-                // Ocultar controles de carrusel si no hay items
-                const carouselPrev = document.querySelector(`#carousel-container-${id} .carousel-control-prev`);
-                const carouselNext = document.querySelector(`#carousel-container-${id} .carousel-control-next`);
-                if (carouselPrev && carouselNext) {
-                    carouselPrev.style.display = 'none';
-                    carouselNext.style.display = 'none';
-                }
+        // Agrupar detalles de cotización por ID de cotización
+        detallesPorCotizacion = detallesCotizaciones.reduce((acc, detalle) => {
+            if (!acc[detalle.id_envio]) {
+                acc[detalle.id_envio] = [];
             }
-        } catch (error) {
-            console.error('Error en la API:', error);
+            acc[detalle.id_envio].push(detalle);
+            return acc;
+        }, {});
+
+        mostrarDetalleCotizacion();
+        actualizarPaginacion();
+    } catch (error) {
+        console.error('Error al llenar la tabla:', error);
+    }
+}
+
+
+// Función para mostrar detalle de cotizaciones en la tabla
+function mostrarDetalleCotizacion() {
+    TABLE_BODY.innerHTML = '';
+    const inicio = (paginaActual - 1) * COTIZACIONES_POR_PAGINA;
+    const fin = inicio + COTIZACIONES_POR_PAGINA;
+    const cotizacionesPagina = cotizaciones.slice(inicio, fin);
+
+    for (const ROW of cotizacionesPagina) {
+        const detalles = detallesPorCotizacion[ROW.id_envio] || [];
+        const tablaHtml = `
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Información General de Envíos</h5>
+                    <p class="card-text">Estado del Envío: ${ROW.estado_envio}</p>
+                    <p class="card-text">Fecha Estimada: ${ROW.fecha_estimada}</p>
+                    <p class="card-text">Número de Seguimiento: ${ROW.numero_seguimiento}</p>
+                    <p class="card-text">Etiqueta Edificación: ${ROW.etiqueta_edificacion}</p>
+                    <p class="card-text">Nombre Cliente: ${ROW.nombre_cliente}</p>
+
+                    <div class="d-flex justify-content-end mb-3">
+                        <button type="button" class="btn btn-info me-2" onclick="openUpdate(${ROW.id_envio})">
+                            <i class="fa-solid fa-pen-to-square"></i> Editar
+                        </button>
+                        <button type="button" class="btn btn-danger" onclick="openDelete(${ROW.id_envio})">
+                            <i class="fa-solid fa-trash"></i> Eliminar
+                        </button>
+                    </div>
+
+                    <div class="accordion" id="accordionExample-${ROW.id_envio}">
+                        ${detalles.map(detalle => `
+                        <div class="accordion-item border-0">
+                            <h2 class="accordion-header text-center" id="heading-${detalle.id_detalle_envio}">
+                                <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${detalle.id_detalle_envio}" aria-expanded="true" aria-controls="collapse-${detalle.id_detalle_envio}">
+                                    Ver más
+                                </button>
+                            </h2>
+                            <div id="collapse-${detalle.id_detalle_envio}" class="accordion-collapse collapse" aria-labelledby="heading-${detalle.id_detalle_envio}" data-bs-parent="#accordionExample-${ROW.id_envio}">
+                                <div class="accordion-body">
+                                    <table class="table table-striped rounded-3 overflow-hidden mt-5">
+                                        <thead class="table-primary">
+                                            <tr>
+                                                <th scope="col">ID Detalle</th>
+                                                <th scope="col">Medio de Envío</th>
+                                                <th scope="col">Costo de Envío</th>
+                                                <th scope="col">Impuesto de Envío</th>
+                                                <th scope="col">Nombre de la Entidad</th>
+                                                <th scope="col">Cantidad Entidad</th>
+                                                <th scope="col">Dirección de Envío</th>
+                                                <th scope="col">Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>${detalle.id_detalle_envio}</td>
+                                                <td>${detalle.medio_envio}</td>
+                                                <td>${detalle.costo_envio}</td>
+                                                <td>${detalle.impuesto_envio}</td>
+                                                <td>${detalle.nombre_almacenamiento}</td>
+                                                <td>${detalle.cantidad_entidad}</td>
+                                                <td>${detalle.direccion_envio}</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-info" onclick="openUpdateDetalle(${detalle.id_detalle_envio})">
+                                                        <i class="fa-solid fa-pen-to-square"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger" onclick="openDeleteDetalle(${detalle.id_detalle_envio})">
+                                                        <i class="fa-solid fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        `).join('')}
+                    </div>
+                </div>
+            </div>
+        `;
+        TABLE_BODY.innerHTML += tablaHtml;
+    }
+}
+
+
+function actualizarPaginacion() {
+    const totalPaginas = Math.ceil(cotizaciones.length / COTIZACIONES_POR_PAGINA);
+    document.getElementById('pageInfo').textContent = `Página ${paginaActual} de ${totalPaginas}`;
+
+    document.getElementById('prevPage').disabled = paginaActual === 1;
+    document.getElementById('nextPage').disabled = paginaActual === totalPaginas;
+}
+
+function nextPage() {
+    const totalPaginas = Math.ceil(cotizaciones.length / COTIZACIONES_POR_PAGINA);
+    if (paginaActual < totalPaginas) {
+        paginaActual++;
+        mostrarDetalleCotizacion();
+        actualizarPaginacion();
+    }
+}
+
+function prevPage() {
+    if (paginaActual > 1) {
+        paginaActual--;
+        mostrarDetalleCotizacion();
+        actualizarPaginacion();
+    }
+}
+
+const openUpdate = async (id) => {
+    // Aqui defini un objeto con los datos del registro seleccionado.
+    const FORM = new FormData();
+    FORM.append('idEnvio', id);
+    // Petición para obtener los datos del registro solicitado.
+    const DATA = await fetchData(COTIZACION_API, 'readOne', FORM);
+    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+    if (DATA.status) {
+        // Mostrar la caja de diálogo con su título.
+        ENVIO_MODAL.show();
+        ENVIO_TITLE.textContent = 'Actualizar la cotización';
+        // Preparar el formulario.
+        ENVIO_FORM.reset();
+        // Se inicializan los campos con los datos.
+        const ROW = DATA.dataset;
+        fillSelect(COTIZACION_API, 'getEstados', 'estadoEnvio2', ROW.estado_envio);
+        ID_ENVIO2.value = ROW.id_envio;
+        FECHA_ESTIMADA2.value = ROW.fecha_estimada;
+        NUMERO_SEGUIMIENTO2.value = ROW.numero_seguimiento;
+        ETIQUETA_EDIFICACION2.value = ROW.etiqueta_edificacion;
+        fillSelect(CLIENTE_API, 'readAll', 'nombreCliente2', ROW.id_cliente);
+    } else {
+        sweetAlert(2, DATA.error, false);
+    }
+}
+
+
+const openUpdateDetalle = async (id) => {
+    // Se define un objeto con los datos del registro seleccionado.
+    const FORM = new FormData();
+    FORM.append('idDetalle', id);
+    // Petición para obtener los datos del registro solicitado.
+    const DATA = await fetchData(COTIZACION_API, 'readOneDetalle', FORM);
+    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+    if (DATA.status) {
+        // Se muestra la caja de diálogo con su título.
+        DETALLE_MODAL.show();
+        DETALLE_TITLE.textContent = 'Actualizar detalle de la cotización';
+        // Se prepara el formulario.
+        DETALLE_FORM.reset();
+        // Se inicializan los campos con los datos.
+        const ROW = DATA.dataset;
+        ID_DETALLE.value = ROW.id_detalle_envio;
+        ID_ENVIO_DETALLE.value = ROW.id_envio;
+        MEDIO_ENVIO.value = ROW.medio_envio;
+        COSTO_ENVIO.value = ROW.costo_envio;
+        IMPUESTO_ENVIO.value = ROW.impuesto_envio;
+        fillSelect(ENTIDAD_API, 'readEntidades', 'nombreEntidad2', ROW.id_entidad);
+        CANTIDAD_ENTIDAD.value = ROW.cantidad_entidad;
+        DIRECCION_ENVIO.value = ROW.direccion_envio;
+    } else {
+        sweetAlert(2, DATA.error, false);
+    }
+}
+
+const openDelete = async (id) => {
+    const response = await confirmAction('¿Desea eliminar la cotización de forma permanente?');
+    if (response) {
+        const formData = new FormData();
+        formData.append('idEnvio', id);
+        const data = await fetchData(COTIZACION_API, 'deleteRow', formData);
+        if (data.status) {
+            ENVIO_MODAL.hide();
+            await sweetAlert(1, data.message, true);
+            fillTableDetalle();
+        } else {
+            sweetAlert(2, data.error, false);
         }
     }
-}
+};
+
+const openDeleteDetalle = async (id) => {
+    const response = await confirmAction('¿Desea eliminar el detalle de la cotización de forma permanente?');
+    if (response) {
+        const formData = new FormData();
+        formData.append('idDetalle', id);
+        const data = await fetchData(COTIZACION_API, 'deleteRowDetalle', formData);
+        if (data.status) {
+            SAVE_MODAL.hide();
+            await sweetAlert(1, data.message, true);
+            fillTableDetalle();
+        } else {
+            sweetAlert(2, data.error, false);
+        }
+    }
+};
+
+// Función para manejar el guardado de cotizaciones
+const openCreate = () => {
+    SAVE_MODAL.show();
+    MODAL_TITLE.textContent = "Crear cotizaciones";
+    SAVE_FORM.reset();
+    fillSelect(COTIZACION_API, 'getEstados', 'estadoEnvio');
+    fillSelect(CLIENTE_API, "readAll", "nombreCliente");
+    fillSelect(ENTIDAD_API, "readEntidades", "nombreEntidad");
+};
+
+// Método del evento para cuando se envía el formulario de guardar.
+SAVE_FORM.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const action = (ID_ENVIO.value) ? 'updateRow' : 'createRow';
+    const FORM = new FormData(SAVE_FORM);
+    const DATA = await fetchData(COTIZACION_API, action, FORM);
+    if (DATA.status) {
+        SAVE_MODAL.hide();
+        sweetAlert(1, DATA.message, true);
+        fillTableDetalle();
+    } else {
+        sweetAlert(2, DATA.error, false);
+    }
+});
+
+// Método del evento para cuando se envía el formulario de guardar.
+ENVIO_FORM.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const action = (ID_ENVIO2.value) ? 'updateRow' : 'createRow';
+    const FORM = new FormData(ENVIO_FORM);
+    const DATA = await fetchData(COTIZACION_API, action, FORM);
+    if (DATA.status) {
+        ENVIO_MODAL.hide();
+        sweetAlert(1, DATA.message, true);
+        fillTableDetalle();
+    } else {
+        sweetAlert(2, DATA.error, false);
+    }
+});
 
 
-document.addEventListener("DOMContentLoaded", () => {
-    fillTable();
+// Método del evento para cuando se envía el formulario de guardar.
+DETALLE_FORM.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const action = (ID_ENVIO_DETALLE.value) ? 'updateRowDetalle' : 'createRowDetalle';
+    const FORM = new FormData(DETALLE_FORM);
+    const DATA = await fetchData(COTIZACION_API, action, FORM);
+    if (DATA.status) {
+        DETALLE_MODAL.hide();
+        sweetAlert(1, DATA.message, true);
+        fillTableDetalle();
+    } else {
+        sweetAlert(2, DATA.error, false);
+    }
 });

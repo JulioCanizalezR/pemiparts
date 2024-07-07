@@ -25,12 +25,23 @@ class CotizacionHandler
     protected $nombre_cliente = null;
     protected $etiqueta_edificacion = null;
     protected $id_cliente = null;
- 
+    private $data_error = null;
     // Constante para establecer la ruta de las imágenes.
- 
+
     /*
      *  Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
      */
+
+    public function setIdEnvio($value)
+    {
+        if (Validator::validateNaturalNumber($value)) {
+            $this->id_detalle_envio = $value;
+            return true;
+        } else {
+            $this->data_error = 'El identificador del contenedor es incorrecto';
+            return false;
+        }
+    }
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
@@ -54,7 +65,7 @@ class CotizacionHandler
         $params = array($this->estado_envio, $this->fecha_estimada, $this->numero_seguimiento, $this->etiqueta_edificacion, $this->id_cliente);
         return Database::executeRow($sql, $params);
     }
- 
+
     public function getLastInsertedId()
     {
         return Database::getLastInsertId(); // Este método debe obtener el último ID insertado por la conexión de base de datos.
@@ -83,28 +94,50 @@ class CotizacionHandler
     }
     public function readAll()
     {
-        $sql = 'SELECT 
-    de.id_detalle_envio,
-    de.id_envio,
-    de.medio_envio,
-    de.costo_envio,
-    de.id_entidad,
-    de.cantidad_entidad,
-    e.estado_envio,
-    e.fecha_estimada,
-    e.numero_seguimiento,
-    c.nombre_cliente,
-    c.apellido_cliente,
-    en.id_almacenamiento,
-    en.existencias,
-    en.estado,
-    FROM tb_detalle_envios de
-    INNER JOIN tb_envios e ON de.id_envio = e.id_envio
-    INNER JOIN tb_clientes c ON e.id_cliente = c.id_cliente
-    INNER JOIN tb_entidades en ON de.id_entidad = en.id_entidad
-    INNER JOIN tb_productos p ON en.id_producto = p.id_producto';
+        $sql = '
+        SELECT
+        de.id_detalle_envio,
+        de.id_envio,
+        de.medio_envio,
+        de.costo_envio,
+        de.impuesto_envio,
+        e.id_entidad,
+        a.nombre_almacenamiento,
+        e.existencias,
+        e.estado,
+        de.direccion_envio
+        FROM
+            tb_detalle_envios de
+        INNER JOIN
+            tb_entidades e ON de.id_entidad = e.id_entidad
+        INNER JOIN
+            tb_almacenamientos a ON e.id_almacenamiento = a.id_almacenamiento;';
         return Database::getRows($sql);
     }
+
+    public function readAllDetalle()
+    {
+        $sql = 'SELECT
+        de.id_detalle_envio,
+        de.id_envio,
+        de.medio_envio,
+        de.costo_envio,
+        de.impuesto_envio,
+        e.id_entidad,
+        a.nombre_almacenamiento,
+        de.cantidad_entidad,
+        e.estado,
+        de.direccion_envio
+        FROM
+            tb_detalle_envios de
+        INNER JOIN
+            tb_entidades e ON de.id_entidad = e.id_entidad
+        INNER JOIN
+            tb_almacenamientos a ON e.id_almacenamiento = a.id_almacenamiento;
+        ';
+        return Database::getRows($sql);
+    }
+
 
     public function readAllCoti()
     {
@@ -121,56 +154,93 @@ class CotizacionHandler
         INNER JOIN tb_clientes c ON e.id_cliente = c.id_cliente';
         return Database::getRows($sql);
     }
- 
+
     public function readOne()
     {
         $sql = 'SELECT 
+        e.id_envio,
+        e.estado_envio,
+        e.fecha_estimada,
+        e.numero_seguimiento,
+        e.etiqueta_edificacion,
+        c.id_cliente,
+        c.nombre_cliente,
+        c.apellido_cliente
+        FROM tb_envios e
+        INNER JOIN tb_clientes c ON e.id_cliente = c.id_cliente
+        WHERE e.id_envio = ?';
+        $params = array($this->id_envio);
+        return Database::getRow($sql, $params);
+    }
+
+    public function readOneDetalle()
+    {
+        $sql = 'SELECT
         de.id_detalle_envio,
         de.id_envio,
         de.medio_envio,
         de.costo_envio,
         de.impuesto_envio,
-        de.id_entidad,
+        e.id_entidad,
+        a.nombre_almacenamiento,
         de.cantidad_entidad,
-        e.estado_envio,
-        e.fecha_estimada,
-        e.numero_seguimiento,
-        e.etiqueta_edificacion,
-        c.nombre_cliente,
-        c.apellido_cliente,
-        c.sufijo_cliente,
-        en.id_almacenamiento,
-        en.existencias,
-        en.estado AS estado_entidad,
-    FROM tb_detalle_envios de
-    INNER JOIN tb_envios e ON de.id_envio = e.id_envio
-    INNER JOIN tb_clientes c ON e.id_cliente = c.id_cliente
-    INNER JOIN tb_entidades en ON de.id_entidad = en.id_entidad
-    WHERE id_detalle_envio = ?';
+        e.estado,
+        de.direccion_envio
+        FROM
+            tb_detalle_envios de
+        INNER JOIN
+            tb_entidades e ON de.id_entidad = e.id_entidad
+        INNER JOIN
+            tb_almacenamientos a ON e.id_almacenamiento = a.id_almacenamiento 
+        WHERE id_detalle_envio = ? ';
         $params = array($this->id_detalle_envio);
         return Database::getRow($sql, $params);
     }
- 
- 
-    public function updateRow()
+
+    public function updateRowDetalle()
     {
-        $sql = 'UPDATE tb_detalle_envios de
-        INNER JOIN tb_entidades en ON de.id_entidad = en.id_entidad
-        INNER JOIN tb_productos p ON en.id_producto = p.id_producto
-        SET 
-            de.nombre_producto = ?,
-            de.cantidad_entidad = ?
-        WHERE de.id_detalle_envio = ?';
-        $params = array($this->nombre_producto,$this->cantidad_entidad, $this->id_envio);
+        $sql = 'UPDATE tb_detalle_envios 
+        SET medio_envio =? , costo_envio = ? , impuesto_envio = ? , id_entidad = ?, cantidad_entidad = ?, direccion_envio = ?
+        WHERE id_detalle_envio = ?';
+        $params = array(
+            $this->medio_envio,
+            $this->costo_envio,
+            $this->impuesto_envio,
+            $this->id_entidad,
+            $this->cantidad_entidad,
+            $this->direccion_envio,
+            $this->id_detalle_envio
+        );
         return Database::executeRow($sql, $params);
     }
- 
+
+    public function updateRow()
+    {
+        $sql = 'UPDATE tb_envios 
+          SET  estado_envio = ? , fecha_estimada = ? , numero_seguimiento = ? , etiqueta_edificacion = ? , id_cliente = ?
+        WHERE id_envio = ?';
+        $params = array($this->estado_envio, 
+        $this->fecha_estimada,
+         $this->numero_seguimiento, 
+         $this->etiqueta_edificacion,
+          $this->id_cliente, 
+          $this->id_envio);
+        return Database::executeRow($sql, $params);
+    }
+
     public function deleteRow()
     {
-        $sql = 'DELETE FROM tb_detalle_envios
+        $sql = 'DELETE FROM tb_envios
                 WHERE id_envio = ?';
+        $params = array($this->id_envio);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function deleteRowDetalle()
+    {
+        $sql = 'DELETE FROM tb_detalle_envios
+                WHERE id_detalle_envio = ?';
         $params = array($this->id_detalle_envio);
         return Database::executeRow($sql, $params);
     }
 }
- 

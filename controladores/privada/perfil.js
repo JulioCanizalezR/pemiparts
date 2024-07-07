@@ -1,16 +1,12 @@
 //perfil.js
 
-const UsuarioApi = "services/admin/usuario.php";
-
-const saveModal = new bootstrap.Modal("#saveModal"),
-  modalTitle = document.getElementById("modalTitle");
 const seeModal = new bootstrap.Modal("#seeModal"),
   modalTitle2 = document.getElementById("modalTitle2");
 
 const SEARCH_INPUT = document.getElementById("searchInput");
 
 // Constantes para establecer los elementos del formulario de editar perfil.
-const profileForm = document.getElementById('profileForm'),
+const profileForm = document.getElementById('seeForm'),
 idUsuario = document.getElementById("idUsuario"),
 Nombre = document.getElementById("nombreUsuario"),
 Apellido = document.getElementById("apellidoUsuario"),
@@ -23,8 +19,6 @@ ConfirmarClave = document.getElementById("confirmarClave");
 
 // Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', async () => {
-    // Llamada a la función para mostrar el encabezado y pie del documento.
-    loadTemplate();
     // Constante tipo objeto con los datos del producto seleccionado.
     const FORM = new FormData();
     FORM.append('idUsuario', PARAMS.get('id'));
