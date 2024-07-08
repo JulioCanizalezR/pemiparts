@@ -34,7 +34,7 @@ if (isset($_GET['action'])) {
                     !$producto->setPrecio($_POST['precioProducto']) or
                     !$producto->setCosto($_POST['costoProducto']) or
                     !$producto->setCodigo($_POST['codigoProducto']) or
-                    !$producto->setCategoria(($_POST['categoriaProducto'])) 
+                    !$producto->setCategoria(($_POST['categoriaProducto']))
                 ) {
                     $result['error'] = $producto->getDataError();
                 } elseif ($producto->createRow()) {
@@ -70,9 +70,11 @@ if (isset($_GET['action'])) {
                     !$producto->setFilename() or
                     !$producto->setNombre($_POST['nombreProducto']) or
                     !$producto->setDescripcion($_POST['descripcionProducto']) or
+                    !$producto->setImpuesto($_POST['impuestoProducto']) or
                     !$producto->setPrecio($_POST['precioProducto']) or
+                    !$producto->setCosto($_POST['costoProducto']) or
                     !$producto->setCategoria($_POST['categoriaProducto']) or
-                    !$producto->setEstado(isset($_POST['estadoProducto']) ? 1 : 0) or
+                    !$producto->setCodigo($_POST['codigoProducto']) or
                     !$producto->setImagen($_FILES['imagenProducto'], $producto->getFilename())
                 ) {
                     $result['error'] = $producto->getDataError();
@@ -91,6 +93,8 @@ if (isset($_GET['action'])) {
                     !$producto->setFilename()
                 ) {
                     $result['error'] = $producto->getDataError();
+                } elseif ($producto->checkRelacion()) {
+                    $result['error'] = 'No se puede eliminar el producto porque está asociado con otras entidades.';
                 } elseif ($producto->deleteRow()) {
                     $result['status'] = 1;
                     $result['message'] = 'Producto eliminado correctamente';

@@ -44,7 +44,7 @@ class UsuarioHandler
 
     public function checkPassword($password)
     {
-        $sql = 'SELECT tb_usuarios
+        $sql = 'SELECT contraseña
                 FROM tb_usuarios
                 WHERE id_usuario = ?';
         $params = array($_SESSION['idUsuario']);
@@ -60,7 +60,7 @@ class UsuarioHandler
     public function changePassword()
     {
         $sql = 'UPDATE tb_usuarios
-                SET clave_usuario = ?
+                SET contraseña = ?
                 WHERE id_usuario = ?';
         $params = array($this->clave, $_SESSION['idUsuario']);
         return Database::executeRow($sql, $params);
@@ -68,9 +68,9 @@ class UsuarioHandler
 
     public function readProfile()
     {
-        $sql = 'SELECT id_usuario, nombre, apellido, numero_telefono, correo_electronico, cargo, contraseña
-                FROM tb_usuarios
-                WHERE id_usuario = ?';
+        $sql = 'SELECT id_usuario, nombre, apellido, numero_telefono, correo_electronico, cargo, contraseña, imagen_usuario
+                FROM tb_usuarios 
+                WHERE id_usuario = ? ';
         $params = array($_SESSION['idUsuario']);
         return Database::getRow($sql, $params);
     }
@@ -78,9 +78,9 @@ class UsuarioHandler
     public function editProfile()
     {
         $sql = 'UPDATE tb_usuarios
-                SET nombre_usuario = ?, apellido_usuario = ?, correo_usuario = ?, alias_usuario = ?
+                SET nombre = ?, apellido = ?, numero_telefono = ?, correo_electronico = ?,  imagen_usuario = ?
                 WHERE id_usuario = ?';
-        $params = array($this->nombre, $this->apellido, $this->correo, $this->alias, $_SESSION['idUsuario']);
+        $params = array($this->nombre, $this->apellido, $this->telefono, $this->correo, $this->imagen, $_SESSION['idUsuario']);
         return Database::executeRow($sql, $params);
     }
 

@@ -127,9 +127,13 @@ if (isset($_GET['action'])) {
             case 'editProfile':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$usuario->setNombre($_POST['nombreAdministrador']) or
-                    !$usuario->setApellido($_POST['apellidoAdministrador']) or
-                    !$usuario->setCorreo($_POST['correoAdministrador'])
+                    !$usuario->setId($_POST['idUsuario']) or
+                    !$usuario->setNombre($_POST['nombreUsuario']) or
+                    !$usuario->setFilename() or 
+                    !$usuario->setApellido($_POST['apellidoUsuario']) or
+                    !$usuario->setCorreo($_POST['correoUsuario']) or
+                    !$usuario->setTelefono($_POST['telefonoUsuario']) or
+                    !$usuario->setImagen($_FILES['imagenUsuario'], $usuario->getFilename())
                     /*    !$usuario->setAlias($_POST['correoUsuario']) */
                 ) {
                     $result['error'] = $usuario->getDataError();
@@ -137,6 +141,7 @@ if (isset($_GET['action'])) {
                     $result['status'] = 1;
                     $result['message'] = 'Perfil modificado correctamente';
                     $_SESSION['correoUsuario'] = $_POST['correoUsuario'];
+                    $result['fileStatus'] = Validator::changeFile($_FILES['imagenUsuario'], $usuario::RUTA_IMAGEN, $usuario->getFilename());
                 } else {
                     $result['error'] = 'Ocurrió un problema al modificar el perfil';
                 }
@@ -145,9 +150,9 @@ if (isset($_GET['action'])) {
                 $_POST = Validator::validateForm($_POST);
                 if (!$usuario->checkPassword($_POST['claveActual'])) {
                     $result['error'] = 'Contraseña actual incorrecta';
-                } elseif ($_POST['claveNueva'] != $_POST['confirmarClave']) {
+                } elseif ($_POST['claveUsuario'] != $_POST['confirmarClave']) {
                     $result['error'] = 'Confirmación de contraseña diferente';
-                } elseif (!$usuario->setClave($_POST['claveNueva'])) {
+                } elseif (!$usuario->setClave($_POST['claveUsuario'])) {
                     $result['error'] = $usuario->getDataError();
                 } elseif ($usuario->changePassword()) {
                     $result['status'] = 1;

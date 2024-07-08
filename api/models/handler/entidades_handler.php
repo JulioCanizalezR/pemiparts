@@ -72,6 +72,20 @@ class EntidadesHandler
         return Database::getRows($sql);
     }
 
+    public function checkRelacion()
+    {
+        $sql = '
+            SELECT COUNT(*) AS conteo FROM (
+                SELECT id_entidad FROM tb_detalle_envios WHERE id_entidad = ?
+                UNION ALL
+                SELECT id_entidad FROM tb_entidades WHERE id_entidad = ?
+            ) AS relaciones';
+        $params = array($this->id, $this->id);
+        $data = Database::getRow($sql, $params);
+        return $data['conteo'] > 1;  
+    }
+    
+
     public function readAll()
     {
         $sql = 'SELECT 

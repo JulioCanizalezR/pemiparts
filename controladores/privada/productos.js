@@ -5,8 +5,7 @@ const saveModal = new bootstrap.Modal("#saveModal"),
 const seeModal = new bootstrap.Modal("#seeModal"),
   modalTitle2 = document.getElementById("modalTitle2");
 
-  const SEARCH_INPUT = document.getElementById("searchInput");
-
+const SEARCH_INPUT = document.getElementById("searchInput");
 
 const saveForm = document.getElementById("saveForm"),
   sidProducto = document.getElementById("idProducto"),
@@ -15,7 +14,7 @@ const saveForm = document.getElementById("saveForm"),
   sImpuestoProducto = document.getElementById("impuestoProducto"),
   sCostoProducto = document.getElementById("costoProducto"),
   sPrecioProducto = document.getElementById("precioProducto"),
-  sCodigoProducto = document.getElementById("codigoProducto"), 
+  sCodigoProducto = document.getElementById("codigoProducto"),
   sCategoriaProducto = document.getElementById("categoriaProducto"),
   sImagenProducto = document.getElementById("imagenProducto");
 
@@ -33,8 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
   fillCards();
 });
 
-
-
 saveForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   await saveOrUpdateProduct();
@@ -45,17 +42,15 @@ seeForm.addEventListener("submit", async (event) => {
   await saveOrUpdateProduct();
 });
 
-
 SEARCH_INPUT.addEventListener("input", (event) => {
-  // Constante tipo objeto con los datos del formulario.
   event.preventDefault();
   const FORM = new FormData();
   FORM.append("search", SEARCH_INPUT.value);
   if (SEARCH_INPUT.value == "") {
     fillCards();
+  } else {
+    fillCards(FORM);
   }
-  // Llamada a la función para llenar la tabla con los resultados de la búsqueda.
-  fillCards(FORM);
 });
 
 const saveOrUpdateProduct = async () => {
@@ -148,17 +143,15 @@ const populateUpdateForm = (productData) => {
   sPrecioProducto.value = productData.precio_producto;
   sCodigoProducto.value = productData.codigo_producto;
   fillSelect(CATEGORIA_API, 'readAll', 'categoriaProducto', productData.id_categoria);
-  
-  
 };
 
 const fillCards = async (form = null) => {
   const cardsContainer = document.getElementById("cards");
   try {
-    cardsContainer.innerHTML = "";
     let action;
     form ? (action = "searchRows") : (action = "readAll");
-    const data = await fetchData(PRODUCTO_API,action, form);
+    const data = await fetchData(PRODUCTO_API, action, form);
+    cardsContainer.innerHTML = ""; // Limpia el contenedor de tarjetas
     if (data.status) {
       data.dataset.forEach((product) => {
         const productCard = createProductCard(product);
@@ -174,7 +167,7 @@ const fillCards = async (form = null) => {
 };
 
 const createProductCard = (product) => {
-    const precioRedondeado = parseFloat(product.precio_producto).toFixed(2);
+  const precioRedondeado = parseFloat(product.precio_producto).toFixed(2);
   return `
     <div class="col-md-5 col-sm-12 mb-4">
       <div class="tarjeta shadow d-flex align-items-center p-3">
@@ -195,8 +188,7 @@ const createProductCard = (product) => {
     </div>`;
 };
 
-
 var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
 var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-    return new bootstrap.Popover(popoverTriggerEl)
-})
+  return new bootstrap.Popover(popoverTriggerEl)
+});

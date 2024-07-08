@@ -107,6 +107,8 @@ if (isset($_GET['action'])) {
                     !$entidad->setId($_POST['idEntidad'])
                 ) {
                     $result['error'] = $entidad->getDataError();
+                } elseif ($entidad->checkRelacion()) {
+                    $result['error'] = 'No se puede eliminar el producto porque está asociado con alguna cotización.';
                 } elseif ($entidad->deleteRow()) {
                     $result['status'] = 1;
                     $result['message'] = 'Entidad eliminado correctamente';

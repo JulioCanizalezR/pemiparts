@@ -20,11 +20,11 @@ class ProductoHandler
     protected $impuesto_producto = null;
     protected $costo_produccion = null;
     protected $codigo = null;
- 
- 
+
+
     // Constante para establecer la ruta de las imágenes.
     const RUTA_IMAGEN = '../../images/productos/';
- 
+
     /*
     *   Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
     */
@@ -39,7 +39,7 @@ class ProductoHandler
         $params = array($value, $value);
         return Database::getRows($sql, $params);
     }
- 
+
     public function createRow()
     {
         $sql = 'INSERT INTO tb_productos (nombre_producto, descripcion_producto, impuesto_producto, imagen_producto,
@@ -48,8 +48,8 @@ class ProductoHandler
         $params = array($this->nombre, $this->descripcion, $this->impuesto_producto, $this->imagen, $this->precio, $this->costo_produccion, $this->codigo, $this->categoria);
         return Database::executeRow($sql, $params);
     }
-   
- 
+
+
     public function readAll()
     {
         $sql = 'SELECT id_producto, nombre_producto, descripcion_producto, impuesto_producto, imagen_producto, precio_producto, costo_produccion_producto, codigo_producto,  tb_categorias.nombre AS "nombre_categoria" , existencias
@@ -59,7 +59,7 @@ class ProductoHandler
                 ORDER BY nombre_producto;';
         return Database::getRows($sql);
     }
- 
+
     public function readOne()
     {
         $sql = 'SELECT id_producto, nombre_producto, descripcion_producto, impuesto_producto, imagen_producto, precio_producto, costo_produccion_producto, codigo_producto,  tb_categorias.nombre AS "nombre_categoria" , existencias, id_categoria
@@ -70,7 +70,7 @@ class ProductoHandler
         $params = array($this->id);
         return Database::getRow($sql, $params);
     }
- 
+
     public function readFilename()
     {
         $sql = 'SELECT imagen_producto
@@ -79,7 +79,7 @@ class ProductoHandler
         $params = array($this->id);
         return Database::getRow($sql, $params);
     }
- 
+
     public function updateRow()
     {
         $sql = 'UPDATE tb_productos
@@ -89,7 +89,7 @@ class ProductoHandler
         $params = array($this->nombre, $this->descripcion, $this->impuesto_producto, $this->imagen, $this->precio, $this->costo_produccion, $this->codigo, $this->categoria, $this->id);
         return Database::executeRow($sql, $params);
     }
- 
+
     public function deleteRow()
     {
         $sql = 'DELETE FROM tb_productos
@@ -97,7 +97,7 @@ class ProductoHandler
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
- 
+
     public function readProductosCategoria()
     {
         $sql = 'SELECT id_producto, imagen_producto, nombre_producto, descripcion_producto, precio_producto, existencias_producto
@@ -108,7 +108,21 @@ class ProductoHandler
         $params = array($this->categoria);
         return Database::getRows($sql, $params);
     }
- 
+
+    public function checkRelacion()
+    {
+        $sql = '
+            SELECT COUNT(*) AS conteo FROM (
+                SELECT id_producto FROM tb_entidades WHERE id_producto = ?
+                UNION ALL
+                SELECT id_producto FROM tb_productos WHERE id_producto = ?
+            ) AS relaciones';
+        $params = array($this->id, $this->id);
+        $data = Database::getRow($sql, $params);
+        return $data['conteo'] > 1;  
+    }
+    
+
     /*
     *   Métodos para generar gráficos.
     */
@@ -120,7 +134,7 @@ class ProductoHandler
                 GROUP BY nombre_categoria ORDER BY cantidad DESC LIMIT 5';
         return Database::getRows($sql);
     }
- 
+
     public function porcentajeProductosCategoria()
     {
         $sql = 'SELECT nombre_categoria, ROUND((COUNT(id_producto) * 100.0 / (SELECT COUNT(id_producto) FROM producto)), 2) porcentaje
@@ -129,23 +143,23 @@ class ProductoHandler
                 GROUP BY nombre_categoria ORDER BY porcentaje DESC';
         return Database::getRows($sql);
     }
- 
+
     public function checkDuplicate($value)
     {
         $sql = 'SELECT id_usuario
             FROM tb_usuarios
             WHERE correo_electronico = ?';
- 
+
         $params = array($value);
- 
+
         if ($this->id !== null) {
             $sql .= ' AND id_usuario <> ?';
             $params[] = $this->id;
         }
- 
+
         return Database::getRow($sql, $params);
     }
- 
+
     /*
     *   Métodos para generar reportes.
     */
@@ -160,4 +174,3 @@ class ProductoHandler
         return Database::getRows($sql, $params);
     }
 }
- 
