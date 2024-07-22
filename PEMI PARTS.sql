@@ -26,11 +26,11 @@ CREATE TABLE tb_categorias(
 CREATE TABLE tb_productos(
     id_producto INT PRIMARY KEY,
     nombre_producto VARCHAR(200) NOT NULL,
-    descripción_producto VARCHAR(200) NOT NULL,
+    descripcion_producto VARCHAR(200) NOT NULL,
     impuesto_producto DECIMAL(24,6) NOT NULL,
     imagen_producto VARCHAR(200),
     precio_producto DECIMAL(36,26) NOT NULL,
-    costo_producción_producto DECIMAL(36,26),
+    costo_produccion_producto DECIMAL(36,26),
     codigo_producto INT NOT NULL,
     id_categoria INT NOT NULL,
     CONSTRAINT fk_categoria_producto FOREIGN KEY (id_categoria)
@@ -140,11 +140,7 @@ CREATE TABLE tb_chat(
     fecha_registro DATE DEFAULT NOW()
 );
 
-¡Por supuesto! Aquí tienes todas las inserciones agrupadas en un solo bloque:
-
-```sql
--- Inserciones en la tabla tb_usuarios
-
+ 
 -- Inserciones en la tabla tb_categorias
 INSERT INTO tb_categorias (id_categoria, nombre) VALUES
 (1, 'Electrónica'),
@@ -154,7 +150,7 @@ INSERT INTO tb_categorias (id_categoria, nombre) VALUES
 (5, 'Libros');
 
 -- Inserciones en la tabla tb_productos
-INSERT INTO tb_productos (id_producto, nombre_producto, descripción_producto, impuesto_producto, imagen_producto, precio_producto, costo_producción_producto, codigo_producto, id_categoria) VALUES
+INSERT INTO tb_productos (id_producto, nombre_producto, descripcion_producto, impuesto_producto, imagen_producto, precio_producto, costo_produccion_producto, codigo_producto, id_categoria) VALUES
 (1, 'Laptop', 'Portátil de alta gama', 15.00, 'laptop.jpg', 1500.00, 1200.00, 1001, 1),
 (2, 'Camiseta', 'Camiseta de algodón', 10.00, 'camiseta.jpg', 20.00, 5.00, 2001, 2),
 (3, 'Pizza', 'Pizza de pepperoni', 8.00, 'pizza.jpg', 12.00, 4.00, 3001, 3),
@@ -209,15 +205,4 @@ INSERT INTO tb_detalle_envios (id_detalle_envio, id_envio, medio_envio, costo_en
 (4, 4, 'Tierra', 45.00, 4.50, 4, 20, 'Calle del Sol 101'),
 (5, 5, 'Mar', 55.00, 5.50, 5, 25, 'Plaza Central 202');
 
--- Inserciones en la tabla tb_notificaciones
-INSERT INTO tb_notificaciones (id_notificacion, estado_producto, fecha_inicio, fecha_final, id_usuario) VALUES
-(1, 'Almacenes temporales', '2023-01-01', '2023-01-31', 1),
-(2, 'Almacenes duraderos', '2023-02-01', '2023-02-28', 2),
-(3, 'Chat de empleados', '2023-03-01', '2023-03-31', 3),
-(4, 'Almacenes temporales', '2023-04-01', '2023-04-30', 4),
-(5, 'Almacenes duraderos', '2023-05-01', '2023-05-31', 5);
-
--- Inserciones en la tabla tb_detalle_notificaciones
-INSERT INTO tb_detalle_notificaciones (id_detalle_notificacion, id_notificacion, nombre, descripcion, fecha_caducidad, factura) VALUES
-(1, 1, 'Aviso de Almacén Temporal', 'Los productos estarán en el almacén temporal hasta fin de mes', '2023-01-31 23:59:59', NULL),
-(2, 2, 'Aviso de Almacén Duradero', 'Revisar inventario en almacén duradero', '2023-02-
+ 

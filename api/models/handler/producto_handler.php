@@ -52,14 +52,15 @@ class ProductoHandler
 
     public function readAll()
     {
-        $sql = 'SELECT id_producto, nombre_producto, descripcion_producto, impuesto_producto, imagen_producto, precio_producto, costo_produccion_producto, codigo_producto,  tb_categorias.nombre AS "nombre_categoria" , existencias
-                FROM tb_productos
-                INNER JOIN tb_categorias USING(id_categoria)
-                LEFT JOIN tb_entidades USING (id_producto)
-                ORDER BY nombre_producto;';
+        $sql = 'SELECT p.id_producto, p.nombre_producto, p.descripcion_producto, p.impuesto_producto, p.imagen_producto, p.precio_producto, p.costo_produccion_producto, p.codigo_producto, c.nombre AS "nombre_categoria", 
+            (SELECT SUM(e.existencias) FROM tb_entidades e WHERE e.id_producto = p.id_producto) AS existencias
+            FROM tb_productos p
+            INNER JOIN tb_categorias c ON p.id_categoria = c.id_categoria
+            ORDER BY p.nombre_producto;
+        ';
         return Database::getRows($sql);
     }
-
+    
     public function readOne()
     {
         $sql = 'SELECT id_producto, nombre_producto, descripcion_producto, impuesto_producto, imagen_producto, precio_producto, costo_produccion_producto, codigo_producto,  tb_categorias.nombre AS "nombre_categoria" , existencias, id_categoria
