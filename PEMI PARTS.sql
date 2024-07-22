@@ -27,22 +27,14 @@ CREATE TABLE tb_productos(
     id_producto INT PRIMARY KEY,
     nombre_producto VARCHAR(200) NOT NULL,
     descripcion_producto VARCHAR(200) NOT NULL,
-    impuesto_producto DECIMAL(24,6) NOT NULL,
+    impuesto_producto DECIMAL(24,2) NOT NULL,
     imagen_producto VARCHAR(200),
-    precio_producto DECIMAL(36,26) NOT NULL,
-    costo_produccion_producto DECIMAL(36,26),
+    precio_producto DECIMAL(36,2) NOT NULL,
+    costo_produccion_producto DECIMAL(36,2),
     codigo_producto INT NOT NULL,
     id_categoria INT NOT NULL,
     CONSTRAINT fk_categoria_producto FOREIGN KEY (id_categoria)
     REFERENCES tb_categorias(id_categoria)
-);
-
--- Falta pantalla de SCRUD
-CREATE TABLE tb_almacenamientos(
-    id_almacenamiento INT PRIMARY KEY,
-    nombre_almacenamiento VARCHAR(200),
-    tiempo_inicial TIME,
-    tiempo_final TIME
 );
 
 -- Falta pantalla de SCRUD
@@ -98,13 +90,21 @@ CREATE TABLE tb_detalle_envios(
     CONSTRAINT fk_envio_producto FOREIGN KEY (id_envio)
     REFERENCES tb_envios(id_envio),
     medio_envio ENUM('Tierra', 'Mar', 'Aire'),
-    costo_envio DECIMAL(36,26),
-    impuesto_envio DECIMAL(36,26),
+    costo_envio DECIMAL(36,2),
+    impuesto_envio DECIMAL(36, 2),
     id_entidad INT,
     CONSTRAINT fk_entidades_enviadas FOREIGN KEY (id_entidad)
     REFERENCES tb_entidades(id_entidad),
     cantidad_entidad INT,
     direccion_envio VARCHAR(100) NOT NULL
+);
+
+-- Falta pantalla de SCRUD
+CREATE TABLE tb_almacenamientos(
+    id_almacenamiento INT PRIMARY KEY,
+    nombre_almacenamiento VARCHAR(200),
+    tiempo_inicial TIME,
+    tiempo_final TIME
 );
 
 CREATE TABLE tb_notificaciones(
