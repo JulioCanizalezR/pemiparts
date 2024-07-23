@@ -31,11 +31,12 @@ class ProductoHandler
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
-        $sql = 'SELECT id_producto, imagen_producto, nombre_producto, descripcion_producto, precio_producto, nombre_categoria, estado_producto
-                FROM producto 
-                INNER JOIN categoria USING(id_categoria)
-                WHERE nombre_producto LIKE ? OR descripcion_producto LIKE ?
-                ORDER BY nombre_producto';
+        $sql = 'SELECT p.id_producto, p.nombre_producto, p.descripcion_producto, p.impuesto_producto, p.imagen_producto, p.precio_producto, p.costo_produccion_producto, p.codigo_producto, c.nombre AS "nombre_categoria", 
+            (SELECT SUM(e.existencias) FROM tb_entidades e WHERE e.id_producto = p.id_producto) AS existencias
+            FROM tb_productos p
+            INNER JOIN tb_categorias c ON p.id_categoria = c.id_categoria
+             WHERE nombre_producto LIKE ? OR descripcion_producto LIKE ?
+             ORDER BY nombre_producto';
         $params = array($value, $value);
         return Database::getRows($sql, $params);
     }
@@ -60,7 +61,7 @@ class ProductoHandler
         ';
         return Database::getRows($sql);
     }
-    
+
     public function readOne()
     {
         $sql = 'SELECT id_producto, nombre_producto, descripcion_producto, impuesto_producto, imagen_producto, precio_producto, costo_produccion_producto, codigo_producto,  tb_categorias.nombre AS "nombre_categoria" , existencias, id_categoria
@@ -120,9 +121,9 @@ class ProductoHandler
             ) AS relaciones';
         $params = array($this->id, $this->id);
         $data = Database::getRow($sql, $params);
-        return $data['conteo'] > 1;  
+        return $data['conteo'] > 1;
     }
-    
+
 
     /*
     *   Métodos para generar gráficos.

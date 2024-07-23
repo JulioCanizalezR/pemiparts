@@ -1,7 +1,6 @@
 DROP DATABASE IF EXISTS PemiDB;
 CREATE DATABASE PemiDB;
 USE PemiDB;
- 
 CREATE TABLE tb_usuarios(
     id_usuario INT AUTO_INCREMENT PRIMARY KEY,
     imagen_usuario varchar(200),
@@ -12,25 +11,25 @@ CREATE TABLE tb_usuarios(
     correo_electronico VARCHAR(200) UNIQUE NOT NULL,
     contraseña VARCHAR(200) NOT NULL
 );
-
-
-INSERT INTO `tb_usuarios` ( id_usuario, `nombre`, `apellido`, `numero_telefono`, `cargo`, `correo_electronico`, `contraseña`) 
-VALUES (1,  'Kenneth', 'Ramos', '8989-9898', 0, 'kenneth@gmail.com', '$2y$10$d/xoGWtEj7DNaMdlRe9JuujUKTPWZHj67drnsuUMhLe8mXDgORecG');
  
+SELECT * FROM tb_usuarios
+ 
+INSERT INTO tb_usuarios ( id_usuario, `nombre`, `apellido`, `numero_telefono`, `cargo`, `correo_electronico`, `contraseña`) 
+VALUES (1,  'Kenneth', 'Ramos', '8989-9898', 0, 'kenneth@gmail.com', '$2y$10$d/xoGWtEj7DNaMdlRe9JuujUKTPWZHj67drnsuUMhLe8mXDgORecG');
 -- Falta pantalla de SCRUD
 CREATE TABLE tb_categorias(
-    id_categoria INT PRIMARY KEY,
+    id_categoria INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(200)  
 );
-
+ 
 CREATE TABLE tb_productos(
-    id_producto INT PRIMARY KEY,
+    id_producto INT AUTO_INCREMENT PRIMARY KEY,
     nombre_producto VARCHAR(200) NOT NULL,
     descripcion_producto VARCHAR(200) NOT NULL,
     impuesto_producto DECIMAL(24,2) NOT NULL,
     imagen_producto VARCHAR(200),
     precio_producto DECIMAL(36,2) NOT NULL,
-    costo_produccion_producto DECIMAL(36,2),
+    costo_produccion_producto DECIMAL(36, 2),
     codigo_producto INT NOT NULL,
     id_categoria INT NOT NULL,
     CONSTRAINT fk_categoria_producto FOREIGN KEY (id_categoria)
@@ -38,8 +37,18 @@ CREATE TABLE tb_productos(
 );
 
 -- Falta pantalla de SCRUD
+CREATE TABLE tb_almacenamientos(
+    id_almacenamiento INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_almacenamiento VARCHAR(200),
+    tiempo_inicial DATE,
+    tiempo_final DATE
+);
+
+
+ 
+-- Falta pantalla de SCRUD
 CREATE TABLE tb_entidades(
-    id_entidad INT PRIMARY KEY,
+    id_entidad INT AUTO_INCREMENT PRIMARY KEY,
     id_almacenamiento INT,
     CONSTRAINT fk_almacenamiento FOREIGN KEY (id_almacenamiento)
     REFERENCES tb_almacenamientos(id_almacenamiento),
@@ -49,15 +58,15 @@ CREATE TABLE tb_entidades(
     existencias INT,
     estado ENUM('Disponible', 'Agotado', 'No disponible')
 );
-
+ 
 CREATE TABLE tb_empresas(
-    id_empresa INT PRIMARY KEY,
+    id_empresa INT AUTO_INCREMENT PRIMARY KEY,
     nombre_empresa VARCHAR(150) NOT NULL
 );
-
+ 
 -- Falta pantalla de SCRUD
 CREATE TABLE tb_clientes(
-    id_cliente INT PRIMARY KEY,
+    id_cliente INT AUTO_INCREMENT PRIMARY KEY,
     nombre_cliente VARCHAR(200) NOT NULL,
     apellido_cliente VARCHAR(200) NOT NULL, 
     correo_electronico_cliente VARCHAR(200) UNIQUE NOT NULL,
@@ -70,10 +79,10 @@ CREATE TABLE tb_clientes(
     fecha_registro_cliente DATE NOT NULL,
     sufijo_cliente VARCHAR(150) NOT NULL
 );
-
+ 
 -- Falta pantalla de SCRUD
 CREATE TABLE tb_envios(
-    id_envio INT PRIMARY KEY,
+    id_envio INT AUTO_INCREMENT PRIMARY KEY,
     estado_envio ENUM('Entregado','Cancelado','Finalizado','Pendiente') DEFAULT 'Pendiente',
     fecha_estimada DATE NOT NULL,
     numero_seguimiento INT(100),
@@ -83,32 +92,29 @@ CREATE TABLE tb_envios(
     REFERENCES tb_clientes(id_cliente)
 );
 
+SELECT
+    id_envio,
+    ROW_NUMBER() OVER (ORDER BY id_envio) AS indice_actual
+FROM
+    tb_envios;
 -- Falta pantalla de SCRUD
 CREATE TABLE tb_detalle_envios(
-    id_detalle_envio INT PRIMARY KEY,
+    id_detalle_envio INT AUTO_INCREMENT PRIMARY KEY,
     id_envio INT,
     CONSTRAINT fk_envio_producto FOREIGN KEY (id_envio)
     REFERENCES tb_envios(id_envio),
     medio_envio ENUM('Tierra', 'Mar', 'Aire'),
-    costo_envio DECIMAL(36,2),
-    impuesto_envio DECIMAL(36, 2),
+    costo_envio DECIMAL(36,26),
+    impuesto_envio DECIMAL(36,26),
     id_entidad INT,
     CONSTRAINT fk_entidades_enviadas FOREIGN KEY (id_entidad)
     REFERENCES tb_entidades(id_entidad),
     cantidad_entidad INT,
     direccion_envio VARCHAR(100) NOT NULL
 );
-
--- Falta pantalla de SCRUD
-CREATE TABLE tb_almacenamientos(
-    id_almacenamiento INT PRIMARY KEY,
-    nombre_almacenamiento VARCHAR(200),
-    tiempo_inicial TIME,
-    tiempo_final TIME
-);
-
+ 
 CREATE TABLE tb_notificaciones(
-	id_notificacion INT PRIMARY KEY,
+	id_notificacion INT AUTO_INCREMENT PRIMARY KEY,
 	estado_producto VARCHAR(50), -- estado_notificacion ENUM('Almacenes temporales','Almacenes duraderos','Chat de empleados')
 	fecha_inicio DATE, -- fecha registro DATETIME DEFAULT NOW()
 	fecha_final DATE, -- detalle
@@ -116,9 +122,9 @@ CREATE TABLE tb_notificaciones(
     CONSTRAINT fk_id_usuario_noti FOREIGN KEY (id_usuario)
     REFERENCES tb_usuarios(id_usuario)
 );
-
+ 
 CREATE TABLE tb_detalle_notificaciones(
-    id_detalle_notificacion INT PRIMARY KEY,
+    id_detalle_notificacion INT AUTO_INCREMENT PRIMARY KEY,
     id_notificacion INT,
     CONSTRAINT fk_notis_entidades FOREIGN KEY (id_notificacion)
     REFERENCES tb_notificaciones(id_notificacion),
@@ -127,9 +133,9 @@ CREATE TABLE tb_detalle_notificaciones(
     fecha_caducidad DATETIME NULL,
     factura VARCHAR(200) NULL
 );
-
+ 
 CREATE TABLE tb_chat(
-    id_chat INT PRIMARY KEY,
+    id_chat INT AUTO_INCREMENT PRIMARY KEY,
     id_usuario_emisor INT,
     CONSTRAINT fk_id_usuario_emisor FOREIGN KEY (id_usuario_emisor)
     REFERENCES tb_usuarios(id_usuario),
@@ -139,8 +145,11 @@ CREATE TABLE tb_chat(
     mensaje VARCHAR(250),
     fecha_registro DATE DEFAULT NOW()
 );
-
  
+
+```sql
+-- Inserciones en la tabla tb_usuarios
+
 -- Inserciones en la tabla tb_categorias
 INSERT INTO tb_categorias (id_categoria, nombre) VALUES
 (1, 'Electrónica'),
@@ -150,7 +159,7 @@ INSERT INTO tb_categorias (id_categoria, nombre) VALUES
 (5, 'Libros');
 
 -- Inserciones en la tabla tb_productos
-INSERT INTO tb_productos (id_producto, nombre_producto, descripcion_producto, impuesto_producto, imagen_producto, precio_producto, costo_produccion_producto, codigo_producto, id_categoria) VALUES
+INSERT INTO tb_productos (id_producto, nombre_producto, descripcion_producto , impuesto_producto, imagen_producto, precio_producto, costo_produccion_producto, codigo_producto, id_categoria) VALUES
 (1, 'Laptop', 'Portátil de alta gama', 15.00, 'laptop.jpg', 1500.00, 1200.00, 1001, 1),
 (2, 'Camiseta', 'Camiseta de algodón', 10.00, 'camiseta.jpg', 20.00, 5.00, 2001, 2),
 (3, 'Pizza', 'Pizza de pepperoni', 8.00, 'pizza.jpg', 12.00, 4.00, 3001, 3),
@@ -205,4 +214,15 @@ INSERT INTO tb_detalle_envios (id_detalle_envio, id_envio, medio_envio, costo_en
 (4, 4, 'Tierra', 45.00, 4.50, 4, 20, 'Calle del Sol 101'),
 (5, 5, 'Mar', 55.00, 5.50, 5, 25, 'Plaza Central 202');
 
- 
+-- Inserciones en la tabla tb_notificaciones
+INSERT INTO tb_notificaciones (id_notificacion, estado_producto, fecha_inicio, fecha_final, id_usuario) VALUES
+(1, 'Almacenes temporales', '2023-01-01', '2023-01-31', 1),
+(2, 'Almacenes duraderos', '2023-02-01', '2023-02-28', 2),
+(3, 'Chat de empleados', '2023-03-01', '2023-03-31', 3),
+(4, 'Almacenes temporales', '2023-04-01', '2023-04-30', 4),
+(5, 'Almacenes duraderos', '2023-05-01', '2023-05-31', 5);
+
+-- Inserciones en la tabla tb_detalle_notificaciones
+INSERT INTO tb_detalle_notificaciones (id_detalle_notificacion, id_notificacion, nombre, descripcion, fecha_caducidad, factura) VALUES
+(1, 1, 'Aviso de Almacén Temporal', 'Los productos estarán en el almacén temporal hasta fin de mes', '2023-01-31 23:59:59', NULL),
+(2, 2, 'Aviso de Almacén Duradero', 'Revisar inventario en almacén duradero', '2023-02-

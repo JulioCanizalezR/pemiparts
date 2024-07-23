@@ -42,4 +42,7 @@ body{
     color: white; /* Texto blanco para mejor contraste */
 }
  
- 
+.table-scroll {
+    max-height: 740px; /* Ajusta según sea necesario */
+    overflow-y: auto;
+}

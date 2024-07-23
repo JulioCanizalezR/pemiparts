@@ -132,7 +132,7 @@ function mostrarDetalleCotizacion() {
         const detalles = detallesPorCotizacion[ROW.id_envio] || [];
         const tablaHtml = `
             <div class="card mb-3">
-                <div class="card-body">
+                <div class="card-body ">
                     <h5 class="card-title">Información General de Envíos</h5>
                     <p class="card-text">Estado del Envío: ${ROW.estado_envio}</p>
                     <p class="card-text">Fecha Estimada: ${ROW.fecha_estimada}</p>

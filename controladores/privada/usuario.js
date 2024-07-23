@@ -166,6 +166,11 @@ const fillCards = async (form = null) => {
     form ? (action = "searchRows") : (action = "readAll");
     const data = await fetchData(UsuarioApi, action, form);
     if (data.status) {
+      if(data.dataset.lenght === 1) {
+        cardsContainer.classList.add("single-card");
+      } else {
+        cardsContainer.classList.remove("single-card");
+      }
       data.dataset.forEach((user) => {
         const userCard = createUserCard(user);
         cardsContainer.innerHTML += userCard;

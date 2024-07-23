@@ -8,7 +8,9 @@ body {
     padding: 20px;
 }
 
-.custom-search-btn, .custom-search-input, .custom-add-btn {
+.custom-search-btn,
+.custom-search-input,
+.custom-add-btn {
     border: 0;
 }
 
@@ -84,8 +86,33 @@ body {
     color: #000;
 }
 
-.offcanvas, .offcanvas-lg, .offcanvas-md, .offcanvas-sm, .offcanvas-xl, .offcanvas-xxl {
+.offcanvas,
+.offcanvas-lg,
+.offcanvas-md,
+.offcanvas-sm,
+.offcanvas-xl,
+.offcanvas-xxl {
     --bs-offcanvas-width: 300px;
 }
 
+/* Estilo para cuando haya solo una tarjeta */
+.single-card .tarjeta {
+    width: 50%;
+    max-width: 50%;
+}
 
+/* Opcional: Estilo adicional para mejorar el diseño */
+.tarjeta {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+/* Estilo para cuando solo haya una tarjeta */
+#cards.single-card .col-md-5 {
+    flex: 1 1 100%;
+    /* Forzar a que la tarjeta ocupe todo el ancho */
+    max-width: 100%;
+}

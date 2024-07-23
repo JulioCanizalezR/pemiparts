@@ -148,11 +148,17 @@ const populateUpdateForm = (productData) => {
 const fillCards = async (form = null) => {
   const cardsContainer = document.getElementById("cards");
   try {
-    let action;
-    form ? (action = "searchRows") : (action = "readAll");
+    let action = form ? "searchRows" : "readAll";
     const data = await fetchData(PRODUCTO_API, action, form);
-    cardsContainer.innerHTML = ""; // Limpia el contenedor de tarjetas
+    cardsContainer.innerHTML = "";  
+
     if (data.status) {
+      if (data.dataset.length === 1) {
+        cardsContainer.classList.add("single-card");
+      } else {
+        cardsContainer.classList.remove("single-card");
+      }
+
       data.dataset.forEach((product) => {
         const productCard = createProductCard(product);
         cardsContainer.innerHTML += productCard;
@@ -165,6 +171,7 @@ const fillCards = async (form = null) => {
     sweetAlert(2, error, false);
   }
 };
+
 
 const createProductCard = (product) => {
   const precioRedondeado = parseFloat(product.precio_producto).toFixed(2);
@@ -187,6 +194,7 @@ const createProductCard = (product) => {
       </div>
     </div>`;
 };
+
 
 var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
 var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
