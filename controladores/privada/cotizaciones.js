@@ -29,7 +29,7 @@ const ENVIO_FORM = document.getElementById('envioForm'),
     FECHA_ESTIMADA2 = document.getElementById('fechaEstimada2'),
     NUMERO_SEGUIMIENTO2 = document.getElementById('numeroSeguimiento2'),
     ETIQUETA_EDIFICACION2 = document.getElementById('etiquetaEdificacion2'),
-NOMBRE_CLIENTE2 = document.getElementById('nombreCliente2');
+    NOMBRE_CLIENTE2 = document.getElementById('nombreCliente2');
 
 
 const DETALLE_FORM = document.getElementById('detalleEnvioForm'),
@@ -40,7 +40,7 @@ const DETALLE_FORM = document.getElementById('detalleEnvioForm'),
     IMPUESTO_ENVIO = document.getElementById('impuestoEnvio2'),
     NOMBRE_ENTIDAD = document.getElementById('nombreEntidad2'),
     CANTIDAD_ENTIDAD = document.getElementById('cantidadEntidad2'),
-DIRECCION_ENVIO = document.getElementById('direccionEnvio2');
+    DIRECCION_ENVIO = document.getElementById('direccionEnvio2');
 
 const COTIZACIONES_POR_PAGINA = 2;
 let paginaActual = 1;
@@ -61,6 +61,11 @@ $(document).ready(function () {
     document.getElementById('btnRegresarDetalleCotizacion').addEventListener('click', function () {
         document.getElementById('detalleCotizacionSection').classList.add('d-none');
         document.getElementById('cotizacionSection').classList.remove('d-none');
+    });
+    // Restablecer las secciones cuando se cierre el modal
+    $('#cotizacionModal').on('hidden.bs.modal', function () {
+        document.getElementById('cotizacionSection').classList.remove('d-none');
+        document.getElementById('detalleCotizacionSection').classList.add('d-none');
     });
 });
 
@@ -96,7 +101,7 @@ async function obtenerDetallesCotizaciones(form = null) {
         return [];
     }
 }
-let detallesPorCotizacion = {};   
+let detallesPorCotizacion = {};
 
 // Función para llenar la tabla con cotizaciones y detalles
 async function fillTableDetalle(form = null) {

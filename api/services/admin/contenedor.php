@@ -15,7 +15,7 @@ if (isset($_GET['action'])) {
         $result['session'] = 1;
         // Se compara la acción a realizar cuando un cliente ha iniciado sesión.
         switch ($_GET['action']) {
-            // Acción para agregar un producto al carrito de compras.
+                // Acción para agregar un producto al carrito de compras.
             case 'searchRows':
                 if (!Validator::validateSearch($_POST['search'])) {
                     $result['error'] = Validator::getSearchError();
@@ -31,8 +31,10 @@ if (isset($_GET['action'])) {
                 if (
                     !$contenedor->setContenedor($_POST['contenedor']) or
                     !$contenedor->setFecha_inicio($_POST['fecha_inicial']) or
-                    !$contenedor->setTiempo_final($_POST['tiempo_final']) 
+                    !$contenedor->setTiempo_final($_POST['tiempo_final'])
                 ) {
+                    $result['error'] = $contenedor->getDataError();
+                } else if (!$contenedor->ValidarFechas($_POST['fecha_inicial'], $_POST['tiempo_final'])) {
                     $result['error'] = $contenedor->getDataError();
                 } elseif ($contenedor->createRow()) {
                     $result['status'] = 1;
@@ -64,7 +66,7 @@ if (isset($_GET['action'])) {
                     !$contenedor->setId($_POST['idContenedor']) or
                     !$contenedor->setContenedor($_POST['contenedor']) or
                     !$contenedor->setFecha_inicio($_POST['fecha_inicial']) or
-                    !$contenedor->setTiempo_final($_POST['tiempo_final']) 
+                    !$contenedor->setTiempo_final($_POST['tiempo_final'])
                 ) {
                     $result['error'] = $contenedor->getDataError();
                 } elseif ($contenedor->updateRow()) {

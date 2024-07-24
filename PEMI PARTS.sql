@@ -29,13 +29,13 @@ CREATE TABLE tb_productos(
     impuesto_producto DECIMAL(24,2) NOT NULL,
     imagen_producto VARCHAR(200),
     precio_producto DECIMAL(36,2) NOT NULL,
-    costo_produccion_producto DECIMAL(36, 2),
+    costo_compra DECIMAL(36, 2),
     codigo_producto INT NOT NULL,
     id_categoria INT NOT NULL,
     CONSTRAINT fk_categoria_producto FOREIGN KEY (id_categoria)
     REFERENCES tb_categorias(id_categoria)
 );
-
+ 
 -- Falta pantalla de SCRUD
 CREATE TABLE tb_almacenamientos(
     id_almacenamiento INT AUTO_INCREMENT PRIMARY KEY,
@@ -92,27 +92,21 @@ CREATE TABLE tb_envios(
     REFERENCES tb_clientes(id_cliente)
 );
 
-SELECT
-    id_envio,
-    ROW_NUMBER() OVER (ORDER BY id_envio) AS indice_actual
-FROM
-    tb_envios;
--- Falta pantalla de SCRUD
 CREATE TABLE tb_detalle_envios(
     id_detalle_envio INT AUTO_INCREMENT PRIMARY KEY,
     id_envio INT,
     CONSTRAINT fk_envio_producto FOREIGN KEY (id_envio)
     REFERENCES tb_envios(id_envio),
     medio_envio ENUM('Tierra', 'Mar', 'Aire'),
-    costo_envio DECIMAL(36,26),
-    impuesto_envio DECIMAL(36,26),
+    costo_envio DECIMAL(36,2),
+    impuesto_envio DECIMAL(36,2),
     id_entidad INT,
     CONSTRAINT fk_entidades_enviadas FOREIGN KEY (id_entidad)
     REFERENCES tb_entidades(id_entidad),
     cantidad_entidad INT,
     direccion_envio VARCHAR(100) NOT NULL
 );
- 
+
 CREATE TABLE tb_notificaciones(
 	id_notificacion INT AUTO_INCREMENT PRIMARY KEY,
 	estado_producto VARCHAR(50), -- estado_notificacion ENUM('Almacenes temporales','Almacenes duraderos','Chat de empleados')
@@ -146,8 +140,6 @@ CREATE TABLE tb_chat(
     fecha_registro DATE DEFAULT NOW()
 );
  
-
-```sql
 -- Inserciones en la tabla tb_usuarios
 
 -- Inserciones en la tabla tb_categorias
@@ -159,7 +151,7 @@ INSERT INTO tb_categorias (id_categoria, nombre) VALUES
 (5, 'Libros');
 
 -- Inserciones en la tabla tb_productos
-INSERT INTO tb_productos (id_producto, nombre_producto, descripcion_producto , impuesto_producto, imagen_producto, precio_producto, costo_produccion_producto, codigo_producto, id_categoria) VALUES
+INSERT INTO tb_productos (id_producto, nombre_producto, descripcion_producto , impuesto_producto, imagen_producto, precio_producto, costo_compra, codigo_producto, id_categoria) VALUES
 (1, 'Laptop', 'Portátil de alta gama', 15.00, 'laptop.jpg', 1500.00, 1200.00, 1001, 1),
 (2, 'Camiseta', 'Camiseta de algodón', 10.00, 'camiseta.jpg', 20.00, 5.00, 2001, 2),
 (3, 'Pizza', 'Pizza de pepperoni', 8.00, 'pizza.jpg', 12.00, 4.00, 3001, 3),

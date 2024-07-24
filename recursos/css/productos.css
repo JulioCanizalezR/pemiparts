@@ -116,3 +116,23 @@ body {
     /* Forzar a que la tarjeta ocupe todo el ancho */
     max-width: 100%;
 }
+
+/* Ocultar los botones de incremento y decremento en Chrome, Safari, Edge, y Opera */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.position-relative .input-symbol {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #6c757d;
+}

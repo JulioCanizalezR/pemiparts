@@ -70,11 +70,11 @@ class ProductoData extends ProductoHandler
 
     public function setImpuesto($value)
     {
-        if (Validator::validateMoney($value)) {
+        if (Validator::validateNaturalNumber($value)) {
             $this->impuesto_producto = $value;
             return true;
         } else {
-            $this->data_error = 'El impuesto debe ser un número positivo';
+            $this->data_error = 'El impuesto debe ser un número entero';
             return false;
         }
     }

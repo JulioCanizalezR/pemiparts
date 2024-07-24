@@ -32,26 +32,6 @@ class ContenedorHandler
  
     public function createRow()
     {
-        // Validar fechas en el servidor
-        $fecha_actual = date('Y-m-d');
-        $diez_anios_despues = date('Y-m-d', strtotime('+10 years'));
-
-        if ($this->fecha_inicio < $fecha_actual) {
-            throw new Exception('La fecha inicial no puede ser menor a la fecha actual.');
-        }
-
-        if ($this->tiempo_final <= $this->fecha_inicio) {
-            throw new Exception('La fecha final debe ser mayor que la fecha inicial.');
-        }
-
-        if ($this->tiempo_final < $fecha_actual) {
-            throw new Exception('La fecha final no puede ser menor a la fecha actual.');
-        }
-
-        if ($this->tiempo_final > $diez_anios_despues) {
-            throw new Exception('La fecha final no puede ser mayor a 10 años desde la fecha actual.');
-        }
-
         $sql = 'INSERT INTO tb_almacenamientos (
             nombre_almacenamiento,
             tiempo_inicial,

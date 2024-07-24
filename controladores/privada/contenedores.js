@@ -43,9 +43,7 @@ async function fillTable(form = null) {
         // Petición para obtener los registros disponibles.
         let action;
         form ? action = 'searchRows' : action = 'readAll';
-        console.log(form);
         const DATA = await fetchData(Contenedor_api, action, form);
-        console.log(DATA);
 
         if (DATA.status) {
             Contenedores = DATA.dataset;
@@ -68,7 +66,7 @@ async function mostrarContenedores(pagina) {
     const ContenedoresPagina = Contenedores.slice(inicio, fin);
 
     TABLE_BODY.innerHTML = '';
-    
+
     for (const row of ContenedoresPagina) {
         const tablaHtml = `
             <tr>
@@ -200,7 +198,7 @@ async function cargarCarrouselParaContenedor(id) {
             }
         } else {
             carouselInner.innerHTML = `<div class="carousel-item"><p class="text-center">No hay items disponibles para este contenedor.</p></div>`;
-            
+
             // Ocultar controles de carrusel si no hay items
             const carouselPrev = document.querySelector(`#carousel-container-${id} .carousel-control-prev`);
             const carouselNext = document.querySelector(`#carousel-container-${id} .carousel-control-next`);
@@ -408,7 +406,7 @@ SAVE_FORM.addEventListener('submit', async (event) => {
 });
 
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     var fechaInicial = document.getElementById('fecha_inicial');
     var fechaFinal = document.getElementById('fecha_final');
 
@@ -416,30 +414,32 @@ document.addEventListener('DOMContentLoaded', function() {
     var tenYearsLater = new Date();
     tenYearsLater.setFullYear(tenYearsLater.getFullYear() + 10);
     var maxDate = tenYearsLater.toISOString().split('T')[0];
-
-    // Establecer la fecha mínima para la fecha inicial como la fecha actual
-    fechaInicial.setAttribute('min', today);
-
-    // Establecer la fecha mínima para la fecha final como la fecha actual
-    fechaFinal.setAttribute('min', today);
-    // Establecer la fecha máxima para la fecha final como 10 años después de la fecha actual
-    fechaFinal.setAttribute('max', maxDate);
-
-    fechaInicial.addEventListener('change', function() {
-        var selectedDate = new Date(this.value);
-        selectedDate.setDate(selectedDate.getDate() + 1);
-        var minFinalDate = selectedDate.toISOString().split('T')[0];
-
-        fechaFinal.value = ''; // Limpiar el valor de fecha final
-        fechaFinal.setAttribute('min', minFinalDate);
-    });
-
-    fechaFinal.addEventListener('change', function() {
-        if (fechaFinal.value === fechaInicial.value) {
-            alert('La fecha final no puede ser la misma que la fecha inicial.');
-            fechaFinal.value = '';
-        }
-    });
+    /*
+        // Establecer la fecha mínima para la fecha inicial como la fecha actual
+        fechaInicial.setAttribute('min', today);
+    
+        // Establecer la fecha mínima para la fecha final como la fecha actual
+        fechaFinal.setAttribute('min', today);
+        // Establecer la fecha máxima para la fecha final como 10 años después de la fecha actual
+        fechaFinal.setAttribute('max', maxDate);
+    
+        fechaInicial.addEventListener('change', function() {
+            var selectedDate = new Date(this.value);
+            selectedDate.setDate(selectedDate.getDate() + 1);
+            var minFinalDate = selectedDate.toISOString().split('T')[0];
+    
+            fechaFinal.value = ''; // Limpiar el valor de fecha final
+            fechaFinal.setAttribute('min', minFinalDate);
+        });
+    */
+    /*
+        fechaFinal.addEventListener('change', function() {
+            if (fechaFinal.value === fechaInicial.value) {
+                alert('La fecha final no puede ser la misma que la fecha inicial.');
+                fechaFinal.value = '';
+            }
+        });
+        */
 });
 
 

@@ -129,7 +129,6 @@ class CotizacionData extends CotizacionHandler
 
     public function setEstado($value)
     {
-        // Valida que el valor esté dentro de las opciones permitidas
         $allowedValues = ['Entregado', 'Cancelado', 'Finalizado', 'Pendiente'];
         if (!in_array($value, $allowedValues)) {
             $this->data_error = 'El estado del pedido no es válido';
@@ -155,7 +154,7 @@ class CotizacionData extends CotizacionHandler
 
     public function setCosto($value)
     {
-        if (Validator::validateNaturalNumber($value)) {
+        if (Validator::validateMoney($value)) {
             $this->costo_envio = $value;
             return true;
         } else {

@@ -96,7 +96,7 @@ const populateProductModal = (productData) => {
   precioProducto.textContent = priceProduct;
   cantidadProducto.textContent = productData.existencias;
   descripcionProducto.textContent = productData.descripcion_producto;
-  costoProducto.textContent = productData.costo_produccion_producto;
+  costoProducto.textContent = productData.costo_compra;
   imagenProducto.src = `${SERVER_URL}images/productos/${productData.imagen_producto}`;
   document.getElementById('Actualizar').onclick = () => openUpdate(productData.id_producto);
   document.getElementById('Eliminar').onclick = () => openDelete(productData.id_producto);
@@ -139,7 +139,7 @@ const populateUpdateForm = (productData) => {
   sNombreProducto.value = productData.nombre_producto;
   sDescripcionProducto.value = productData.descripcion_producto;
   sImpuestoProducto.value = productData.impuesto_producto;
-  sCostoProducto.value = productData.costo_produccion_producto;
+  sCostoProducto.value = productData.costo_compra;
   sPrecioProducto.value = productData.precio_producto;
   sCodigoProducto.value = productData.codigo_producto;
   fillSelect(CATEGORIA_API, 'readAll', 'categoriaProducto', productData.id_categoria);
