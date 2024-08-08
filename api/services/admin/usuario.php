@@ -4,6 +4,7 @@ require_once('../../models/data/usuario_data.php');
 const POST_NCONTRASEÑA = "usuario_nueva_contraseña";
 const POST_CNCONTRASEÑA = "usuario_confirmar_nueva_contraseña";
 
+const POST_CORREO = "usuario_correo";
 const POST_CODIGO_SECRETO_CONTRASEÑA = "codigoSecretoContraseña";
 
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.

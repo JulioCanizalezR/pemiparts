@@ -28,15 +28,15 @@ class UsuarioHandler
      */
     public function checkUser($username, $password)
     {
-        $sql = 'SELECT id_usuario, correo_electronico, contraseña
+        $sql = 'SELECT id_usuario, correo, clave
                 FROM tb_usuarios
-                WHERE correo_electronico = ?';
+                WHERE correo = ?';
         $params = array($username);
         if (!($data = Database::getRow($sql, $params))) {
             return false;
-        } elseif (password_verify($password, $data['contraseña'])) {
+        } elseif (password_verify($password, $data['clave'])) {
             $_SESSION['idUsuario'] = $data['id_usuario'];
-            $_SESSION['correoUsuario'] = $data['correo_electronico'];
+            $_SESSION['correoUsuario'] = $data['correo'];
             return true;
         } else {
             return false;
@@ -45,13 +45,13 @@ class UsuarioHandler
 
     public function checkPassword($password)
     {
-        $sql = 'SELECT contraseña
+        $sql = 'SELECT clave
                 FROM tb_usuarios
                 WHERE id_usuario = ?';
         $params = array($_SESSION['idUsuario']);
         $data = Database::getRow($sql, $params);
-        // Se verifica si la contraseña coincide con el hash almacenado en la base de datos.
-        if (password_verify($password, $data['contraseña'])) {
+        // Se verifica si la clave coincide con el hash almacenado en la base de datos.
+        if (password_verify($password, $data['clave'])) {
             return true;
         } else {
             return false;
@@ -61,7 +61,7 @@ class UsuarioHandler
     public function changePassword()
     {
         $sql = 'UPDATE tb_usuarios
-                SET contraseña = ?
+                SET clave = ?
                 WHERE id_usuario = ?';
         $params = array($this->clave, $_SESSION['idUsuario']);
         return Database::executeRow($sql, $params);
@@ -69,7 +69,7 @@ class UsuarioHandler
 
     public function readProfile()
     {
-        $sql = 'SELECT id_usuario, nombre, apellido, numero_telefono, correo_electronico, cargo, contraseña, imagen_usuario
+        $sql = 'SELECT id_usuario, nombre, apellido, numero_telefono, correo, cargo, clave, imagen_usuario
                 FROM tb_usuarios 
                 WHERE id_usuario = ? ';
         $params = array($_SESSION['idUsuario']);
@@ -79,7 +79,7 @@ class UsuarioHandler
     public function editProfile()
     {
         $sql = 'UPDATE tb_usuarios
-                SET nombre = ?, apellido = ?, numero_telefono = ?, correo_electronico = ?,  imagen_usuario = ?
+                SET nombre = ?, apellido = ?, numero_telefono = ?, correo = ?,  imagen_usuario = ?
                 WHERE id_usuario = ?';
         $params = array($this->nombre, $this->apellido, $this->telefono, $this->correo, $this->imagen, $_SESSION['idUsuario']);
         return Database::executeRow($sql, $params);
@@ -100,9 +100,9 @@ class UsuarioHandler
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
-        $sql = 'SELECT id_usuario, imagen_usuario, nombre, apellido, numero_telefono, cargo, correo_electronico
+        $sql = 'SELECT id_usuario, imagen_usuario, nombre, apellido, numero_telefono, cargo, correo
                 FROM tb_usuarios
-                WHERE apellido LIKE ? OR nombre LIKE ? OR correo_electronico LIKE ?
+                WHERE apellido LIKE ? OR nombre LIKE ? OR correo LIKE ?
                 ORDER BY apellido';
         $params = array($value, $value, $value);
         return Database::getRows($sql, $params);
@@ -110,7 +110,7 @@ class UsuarioHandler
 
     public function createRow()
     {
-        $sql = 'INSERT INTO tb_usuarios(imagen_usuario, nombre, apellido, numero_telefono, cargo, correo_electronico, contraseña )
+        $sql = 'INSERT INTO tb_usuarios(imagen_usuario, nombre, apellido, numero_telefono, cargo, correo, clave )
                 VALUES(?, ?, ?, ?, ?, ?, ?)';
         $params = array($this->imagen, $this->nombre, $this->apellido, $this->telefono, $this->cargo, $this->correo, $this->clave);
         return Database::executeRow($sql, $params);
@@ -118,7 +118,7 @@ class UsuarioHandler
 
     public function readAll()
     {
-        $sql = 'SELECT id_usuario, imagen_usuario, nombre, apellido, numero_telefono, cargo, correo_electronico
+        $sql = 'SELECT id_usuario, imagen_usuario, nombre, apellido, numero_telefono, cargo, correo
                 FROM tb_usuarios
                 ORDER BY apellido';
         return Database::getRows($sql);
@@ -126,7 +126,7 @@ class UsuarioHandler
 
     public function readOne()
     {
-        $sql = 'SELECT id_usuario, imagen_usuario, nombre, apellido, numero_telefono, cargo, correo_electronico
+        $sql = 'SELECT id_usuario, imagen_usuario, nombre, apellido, numero_telefono, cargo, correo
                 FROM tb_usuarios
                 WHERE id_usuario = ?';
         $params = array($this->id);
@@ -136,7 +136,7 @@ class UsuarioHandler
     public function updateRow()
     {
         $sql = 'UPDATE tb_usuarios
-                SET nombre = ?, apellido = ?, cargo = ?, correo_electronico = ?, numero_telefono = ?, imagen_usuario = ?
+                SET nombre = ?, apellido = ?, cargo = ?, correo = ?, numero_telefono = ?, imagen_usuario = ?
                 WHERE id_usuario = ?';
         $params = array($this->nombre, $this->apellido, $this->cargo, $this->correo, $this->telefono, $this->imagen, $this->id);
         return Database::executeRow($sql, $params);
@@ -154,7 +154,7 @@ class UsuarioHandler
     {
         $sql = 'SELECT id_usuario
             FROM tb_usuarios
-            WHERE correo_electronico = ?';
+            WHERE correo = ?';
 
         $params = array($value);
 
@@ -168,8 +168,8 @@ class UsuarioHandler
     
     public function changePasswordFromEmail()
     {
-        $sql = 'UPDATE tb_usuarios SET contraseña = ? WHERE correo_electronico = ?';
-        $params = array($this->contraseña, $_SESSION['correo_electronico_vcc']['correo']);
+        $sql = 'UPDATE tb_usuarios SET clave = ? WHERE correo = ?';
+        $params = array($this->clave, $_SESSION['correo_vcc']['correo']);
         return Database::executeRow($sql, $params);
     }
 
@@ -177,8 +177,8 @@ class UsuarioHandler
     {
         $sql = 'SELECT COUNT(*) as count
                 FROM tb_usuarios
-                WHERE correo_electronico = ?';
-        $params = array($this->correo_electronico);
+                WHERE correo = ?';
+        $params = array($this->correo);
         $result = Database::getRow($sql, $params);
     
         if ($result['count'] > 0) {
