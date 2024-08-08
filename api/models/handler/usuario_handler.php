@@ -164,4 +164,26 @@ class UsuarioHandler
 
         return Database::getRow($sql, $params);
     }
+    
+    public function changePasswordFromEmail()
+    {
+        $sql = 'UPDATE tb_usuarios SET contraseña = ? WHERE correo_electronico = ?';
+        $params = array($this->contraseña, $_SESSION['correo_electronico_vcc']['correo']);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function verifyExistingEmail()
+    {
+        $sql = 'SELECT COUNT(*) as count
+                FROM tb_usuarios
+                WHERE correo_electronico = ?';
+        $params = array($this->correo_electronico);
+        $result = Database::getRow($sql, $params);
+    
+        if ($result['count'] > 0) {
+            return true; // Hay resultados
+        } else {
+            return false; // No hay resultados
+        }
+    }
 }
