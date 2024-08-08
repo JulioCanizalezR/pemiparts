@@ -65,7 +65,7 @@ function sendEmail($to, $subject, $body) {
         $mail->Host = 'smtp.gmail.com'; // Cambia esto al host de tu servidor SMTP
         $mail->SMTPAuth = true;
         $mail->Username = 'partspemi@gmail.com'; // Cambia esto a tu usuario SMTP
-        $mail->Password = 'quguntmejkjnrflw'; // Cambia esto a tu contraseña SMTP
+        $mail->Password = 'jzlzmwchsqrovpxi'; // Cambia esto a tu contraseña SMTP
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port = 587; // Cambia esto al puerto de tu servidor SMTP
 
