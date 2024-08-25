@@ -131,6 +131,17 @@ class UsuarioData extends UsuarioHandler
             return false;
         }
     }
+    
+    public function setFilenameProfile()
+    {
+        if ($data = $this->readFilenameProfile()) {
+            $this->filename = $data['imagen_usuario'];
+            return true;
+        } else {
+            $this->data_error = 'Imagen inexistente';
+            return false;
+        }
+    }
 
     public function getFilename()
     {

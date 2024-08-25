@@ -102,7 +102,7 @@ const populateUserModal = (userData) => {
   apellidoUsuario.textContent = userData.apellido;
   cargoUsuario.value = userData.cargo == 1 ? "Empleado" : "Gerente";
   imagenUsuario.src = `${SERVER_URL}images/usuarios/${userData.imagen_usuario}`;
-  emailUsuario.textContent = userData.correo_electronico;
+  emailUsuario.textContent = userData.correo;
   telefonoUsuario.textContent = userData.numero_telefono;
   document.getElementById("Actualizar").onclick = () =>
     openUpdate(userData.id_usuario);
@@ -151,7 +151,7 @@ const populateUpdateForm = (userData) => {
   sNombre.value = userData.nombre;
   sApellido.value = userData.apellido;
   sCargo.value = userData.cargo;
-  sEmail.value = userData.correo_electronico;
+  sEmail.value = userData.correo;
   sTelefono.value = userData.numero_telefono;
   sClave.disabled = true;
   sConfirmarClave.disabled = true;
@@ -194,7 +194,7 @@ const createUserCard = (user) => {
         <div class="col-8 p-2 d-flex flex-column">
           <p class="text-secondary mb-1">Nombre: ${user.nombre} ${user.apellido}</p>
           <p class="text-secondary mb-1">Cargo: ${cargoField}</p>
-          <p class="text-secondary mb-1">Correo: ${user.correo_electronico}</p>
+          <p class="text-secondary mb-1">Correo: ${user.correo}</p>
           <p class="text-secondary mb-1">Teléfono: ${user.numero_telefono}</p>
           <div class="mt-auto d-flex justify-content-end">
             <button class="btn btn-primary" onclick="readOne(${user.id_usuario})">Ver más</button>

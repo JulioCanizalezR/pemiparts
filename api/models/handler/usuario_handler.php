@@ -78,10 +78,11 @@ class UsuarioHandler
 
     public function editProfile()
     {
+        $this->id = $_SESSION['idUsuario'];
         $sql = 'UPDATE tb_usuarios
                 SET nombre = ?, apellido = ?, numero_telefono = ?, correo = ?,  imagen_usuario = ?
                 WHERE id_usuario = ?';
-        $params = array($this->nombre, $this->apellido, $this->telefono, $this->correo, $this->imagen, $_SESSION['idUsuario']);
+        $params = array($this->nombre, $this->apellido, $this->telefono, $this->correo, $this->imagen, $this->id);
         return Database::executeRow($sql, $params);
     }
 
@@ -91,6 +92,17 @@ class UsuarioHandler
                 FROM tb_usuarios
                 WHERE id_usuario = ?';
         $params = array($this->id);
+        return Database::getRow($sql, $params);
+    }
+
+    
+    // Leer la imagen del administrador que ha iniciado sesion.
+    public function readFilenameProfile()
+    {
+        $sql = 'SELECT imagen_usuario
+                FROM tb_usuarios
+                WHERE id_usuario = ?';
+        $params = array($_SESSION['idUsuario'],);
         return Database::getRow($sql, $params);
     }
 

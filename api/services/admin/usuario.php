@@ -132,21 +132,19 @@ if (isset($_GET['action'])) {
             case 'editProfile':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$usuario->setId($_POST['idUsuario']) or
                     !$usuario->setNombre($_POST['nombreUsuario']) or
-                    !$usuario->setFilename() or 
+                    !$usuario->setFilenameProfile() or 
                     !$usuario->setApellido($_POST['apellidoUsuario']) or
                     !$usuario->setCorreo($_POST['correoUsuario']) or
                     !$usuario->setTelefono($_POST['telefonoUsuario']) or
                     !$usuario->setImagen($_FILES['imagenUsuario'], $usuario->getFilename())
-                    /*    !$usuario->setAlias($_POST['correoUsuario']) */
                 ) {
                     $result['error'] = $usuario->getDataError();
                 } elseif ($usuario->editProfile()) {
                     $result['status'] = 1;
                     $result['message'] = 'Perfil modificado correctamente';
-                    $_SESSION['correoUsuario'] = $_POST['correoUsuario'];
                     $result['fileStatus'] = Validator::changeFile($_FILES['imagenUsuario'], $usuario::RUTA_IMAGEN, $usuario->getFilename());
+                    $_SESSION['correoUsuario'] = $_POST['correoUsuario'];
                 } else {
                     $result['error'] = 'Ocurrió un problema al modificar el perfil';
                 }

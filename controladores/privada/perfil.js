@@ -51,7 +51,7 @@ const fillCard = async (form = null) => {
     cardImagen.src = SERVER_URL.concat('images/usuarios/', ROW.imagen_usuario);
     cardNombre.textContent = ROW.nombre;
     cardApellido.textContent = ROW.apellido;
-    cardCorreo.textContent = ROW.correo_electronico;
+    cardCorreo.textContent = ROW.correo;
     cardTelefono.textContent = ROW.numero_telefono;
   } else {
     sweetAlert(2, DATA.error, null);
@@ -127,7 +127,7 @@ const openEdit = async (id) => {
       idUsuario.value = ROW.id_usuario
       nombreUsuario.value = ROW.nombre;
       apellidoUsuario.value = ROW.apellido;
-      emailUsuario.value = ROW.correo_electronico;
+      emailUsuario.value = ROW.correo;
       telefonoUsuario.value = ROW.numero_telefono;
 
     } else {

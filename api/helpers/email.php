@@ -1,7 +1,7 @@
 <?php
-require_once ('../../libs/PHPMailer/PHPMailer.php');
-require_once ('../../libs/PHPMailer/SMTP.php');
-require_once ('../../libs/PHPMailer/Exception.php');
+require_once ('../../libraries/phpmailer651/src/PHPMailer.php');
+require_once ('../../libraries/phpmailer651/src/SMTP.php');
+require_once ('../../libraries/phpmailer651/src/Exception.php');
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;

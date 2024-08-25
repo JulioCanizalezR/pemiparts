@@ -8,14 +8,17 @@ CREATE TABLE tb_usuarios(
     apellido VARCHAR(200) NOT NULL,
     numero_telefono VARCHAR(60) NOT NULL, 
     cargo BOOLEAN NOT NULL,
-    correo_electronico VARCHAR(200) UNIQUE NOT NULL,
-    contraseña VARCHAR(200) NOT NULL
+    correo VARCHAR(200) UNIQUE NOT NULL,
+    clave VARCHAR(200) NOT NULL
 );
  
-SELECT * FROM tb_usuarios
+ SELECT imagen_usuario
+                FROM tb_usuarios
+                WHERE id_usuario = 1;
+SELECT * FROM tb_usuarios;
  
-INSERT INTO tb_usuarios ( id_usuario, `nombre`, `apellido`, `numero_telefono`, `cargo`, `correo_electronico`, `contraseña`) 
-VALUES (1,  'Kenneth', 'Ramos', '8989-9898', 0, 'kenneth@gmail.com', '$2y$10$d/xoGWtEj7DNaMdlRe9JuujUKTPWZHj67drnsuUMhLe8mXDgORecG');
+INSERT INTO tb_usuarios ( id_usuario, `nombre`, `apellido`, `numero_telefono`, `cargo`, `correo`, `clave`, imagen_usuario) 
+VALUES (1,  'Kenneth', 'Ramos', '8989-9898', 0, 'kenneth@gmail.com', '$2y$10$d/xoGWtEj7DNaMdlRe9JuujUKTPWZHj67drnsuUMhLe8mXDgORecG', 'default.png');
 -- Falta pantalla de SCRUD
 CREATE TABLE tb_categorias(
     id_categoria INT AUTO_INCREMENT PRIMARY KEY,
@@ -136,8 +139,8 @@ CREATE TABLE tb_chat(
     id_usuario_receptor INT,
     CONSTRAINT fk_id_usuario_receptor FOREIGN KEY (id_usuario_receptor)
     REFERENCES tb_usuarios(id_usuario),
-    mensaje VARCHAR(250),
-    fecha_registro DATE DEFAULT NOW()
+    mensaje VARCHAR(2000),
+    fecha_registro DATETIME DEFAULT NOW()
 );
  
 -- Inserciones en la tabla tb_usuarios
@@ -206,6 +209,11 @@ INSERT INTO tb_detalle_envios (id_detalle_envio, id_envio, medio_envio, costo_en
 (4, 4, 'Tierra', 45.00, 4.50, 4, 20, 'Calle del Sol 101'),
 (5, 5, 'Mar', 55.00, 5.50, 5, 25, 'Plaza Central 202');
 
+INSERT INTO tb_chat(id_usuario_emisor, id_usuario_receptor, mensaje) VALUES
+(1,2,'Hola ¿como estas?');
+INSERT INTO tb_chat(id_usuario_emisor, id_usuario_receptor, mensaje) VALUES
+(2,1,'Hola, bien y ¿tu?');
+
 -- Inserciones en la tabla tb_notificaciones
 INSERT INTO tb_notificaciones (id_notificacion, estado_producto, fecha_inicio, fecha_final, id_usuario) VALUES
 (1, 'Almacenes temporales', '2023-01-01', '2023-01-31', 1),
@@ -213,6 +221,27 @@ INSERT INTO tb_notificaciones (id_notificacion, estado_producto, fecha_inicio, f
 (3, 'Chat de empleados', '2023-03-01', '2023-03-31', 3),
 (4, 'Almacenes temporales', '2023-04-01', '2023-04-30', 4),
 (5, 'Almacenes duraderos', '2023-05-01', '2023-05-31', 5);
+
+SELECT 
+    c.mensaje, 
+    CONCAT(ue.nombre, " ", ue.apellido) AS nombre_emisor,
+    CONCAT(ur.nombre, " ", ur.apellido) AS nombre_receptor,
+    c.fecha_registro AS fecha
+FROM 
+    tb_chat c
+JOIN 
+    tb_usuarios ue ON c.id_usuario_emisor = ue.id_usuario
+JOIN 
+    tb_usuarios ur ON c.id_usuario_receptor = ur.id_usuario
+WHERE id_usuario_emisor = 2;
+
+INSERT INTO tb_chat(id_usuario_emisor, id_usuario_receptor, mensaje) VALUES
+(1,2,'Hola');
+INSERT INTO tb_chat(id_usuario_emisor, id_usuario_receptor, mensaje) VALUES
+(2,1,'Hola'),
+(2,1, 'Como estas');
+SELECT * FROM tb_chat WHERE id_usuario_emisor = 1;
+SELECT * FROM tb_chat WHERE id_usuario_emisor = 2;
 
 -- Inserciones en la tabla tb_detalle_notificaciones
 INSERT INTO tb_detalle_notificaciones (id_detalle_notificacion, id_notificacion, nombre, descripcion, fecha_caducidad, factura) VALUES
