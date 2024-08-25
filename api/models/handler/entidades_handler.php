@@ -145,6 +145,31 @@ class EntidadesHandler
         return Database::getRows($sql, $params);
     }
 
+    public function productosAlmacenReport()
+    {
+        $sql = 'SELECT 
+        e.id_producto,
+        e.existencias,
+        p.nombre_producto,
+        ROUND(p.precio_producto, 2) AS precio_producto,
+        p.codigo_producto,
+        c.nombre AS categoria,
+        a.nombre_almacenamiento
+        FROM 
+            tb_entidades e
+        INNER JOIN 
+            tb_productos p ON e.id_producto = p.id_producto
+        INNER JOIN 
+            tb_categorias c ON p.id_categoria = c.id_categoria
+        INNER JOIN 
+            tb_almacenamientos a ON e.id_almacenamiento = a.id_almacenamiento
+        WHERE 
+            e.id_almacenamiento = ?
+    ';
+        $params = array($this->id_almacenamiento);
+        return Database::getRows($sql, $params);
+    }
+
 
     public function readProducts()
     {
@@ -218,5 +243,19 @@ class EntidadesHandler
                 WHERE id_entidad = ?';
         $params = array($this->id);
         return Database::executeRow($sql, $params);
+    }
+
+    /*
+    *   Métodos para generar reportes.
+    */
+    public function entidadXAlmacen()
+    {
+        $sql = 'SELECT e.id_entidad, e.existencias, e.estado
+                FROM tb_entidades e
+                JOIN tb_almacenamientos a ON e.id_almacenamiento = a.id_almacenamiento
+                WHERE a.id_almacenamiento = ?;  
+                ';
+        $params = array($this->id_almacenamiento);
+        return Database::getRows($sql, $params);
     }
 }

@@ -57,6 +57,9 @@ const fillTable = async (form = null) => {
                         <button type="button" class="btn btn-danger" onclick="openDelete(${row.id_entidad})">
                         <i class="fa-solid fa-trash"></i>
                         </button>
+                         <button type="button" class="btn btn-sm btn-warning" onclick="openReport(${row.id_entidad})">
+                         <i class="bi bi-filetype-pdf"></i>
+                        </button>
                     </td>
                 </tr>
             `;
@@ -190,3 +193,12 @@ var popoverTriggerList = [].slice.call(
 var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
   return new bootstrap.Popover(popoverTriggerEl);
 });
+
+const openReport = (id) => {
+  // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
+  const PATH = new URL(`${SERVER_URL}reports/admin/entidad_almacenes.php`);
+  // Se agrega un parámetro a la ruta con el valor del registro seleccionado.
+  PATH.searchParams.append('idEntidad', id);
+  // Se abre el reporte en una nueva pestaña.
+  window.open(PATH.href);
+}

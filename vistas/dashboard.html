@@ -9,6 +9,13 @@
     <link href="../recursos/css/bootstrap-icons.min.css" rel="stylesheet">
     <link href="../recursos/css/inicio.css" rel="stylesheet">
 </head>
+<style>
+    #chart-wrapper {
+
+        position: relative;
+        width: 120%;
+    }
+</style>
 
 <body>
     <main>
@@ -26,9 +33,38 @@
                     <div class="col-md-6 mb-3">
                         <div class="card custom-card h-100">
                             <div class="card-body">
-                                <h4>Productos Almacenados</h4>
-                                <div class="chart-container">
-                                    <canvas id="myChart"></canvas>
+                                <h4>Gráficas predictivas</h4>
+                                <div class="row" id="chart-wrapper">
+                                    <div class="col-md-6">
+                                        <div class="chart-container">
+                                            <canvas id="chartGananciasPasadas"></canvas>
+                                        </div>
+                                        <div class="chart-container">
+                                            <canvas id="chartGananciasFuturas"></canvas>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="chart-container">
+                                            <canvas id="chartClientesFuturos"></canvas>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="chart-container">
+                                            <canvas id="chartEnviosPorEstado"></canvas>
+                                            <canvas id="chartClientesPorEmpresa"></canvas>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="chart-container">
+                                            <canvas id="chartPromProductoCategoria"></canvas>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="chart-container">
+                                            <canvas id="chartClientesXmes"></canvas>
+                                        </div>
+                                    </div>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -47,14 +83,13 @@
                 </div>
             </div>
         </div>
-        
     </main>
-    <script type="text/javascript" src="../recursos/js/chart.umd.min.js"></script>
     <script type="text/javascript" src="../recursos/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="../recursos/js/sweetalert.min.js"></script>
     <script type="text/javascript" src="../controladores/utilidades/components.js"></script>
+    <script type="text/javascript" src="../recursos/js/chart.umd.min.js"></script>
     <script type="text/javascript" src="../controladores/utilidades/template.js"></script>
-    <script type="text/javascript" src="../controladores/privada/inicio.js"></script>
+    <script type="text/javascript" src="../controladores/privada/dashboard.js"></script>
 </body>
 
 </html>

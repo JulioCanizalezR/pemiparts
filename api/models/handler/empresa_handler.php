@@ -11,6 +11,8 @@ class EmpresaHandler
      */
     protected $id_empresa = null;
     protected $nombre_empresa = null;
+    protected $id_categoria = null;
+    protected $id_cliente = null;
 
     // Constante para establecer la ruta de las imágenes.
 
@@ -70,4 +72,31 @@ class EmpresaHandler
         $params = array($this->id_empresa);
         return Database::executeRow($sql, $params);
     }
+    public function compExistenciasProductos()
+    {
+        $sql = 'SELECT a.nombre_almacenamiento AS almacenamiento, SUM(e.existencias) AS total_existencias
+            FROM tb_entidades e
+            JOIN tb_almacenamientos a ON e.id_almacenamiento = a.id_almacenamiento
+            JOIN tb_productos p ON e.id_producto = p.id_producto
+            WHERE p.id_categoria = ?  
+            GROUP BY a.id_almacenamiento;
+
+        ';
+        $params = array($this->id_categoria);
+        return Database::getRows($sql, $params);
+    }
+
+    public function evoCostoEnvioCliente()
+    {
+        $sql = 'SELECT e.fecha_estimada AS fecha, SUM(de.costo_envio) AS total_costo
+        FROM tb_envios e
+        JOIN tb_detalle_envios de ON e.id_envio = de.id_envio
+        WHERE e.id_cliente = ?  
+        GROUP BY e.fecha_estimada
+        ORDER BY e.fecha_estimada;
+        ;';
+        $params = array($this->id_cliente);
+        return Database::getRows($sql, $params);
+    }
+
 }

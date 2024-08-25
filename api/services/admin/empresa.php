@@ -83,6 +83,24 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al eliminar la empresa';
                 }
                 break;
+                case 'compExistenciasProductos':
+                    if (!$Empresa->setId_categoria($_POST['idCategoria'])) {
+                        $result['error'] = $Empresa->getDataError();
+                    } elseif ($result['dataset'] = $Empresa->compExistenciasProductos()) {
+                        $result['status'] = 1;
+                    } else {
+                        $result['error'] = 'Categoria inexistente';
+                    }
+                    break;
+                case 'evoCostoEnvioCliente':
+                    if (!$Empresa->setId_cliente($_POST['idCliente'])) {
+                        $result['error'] = $Empresa->getDataError();
+                    } elseif ($result['dataset'] = $Empresa->evoCostoEnvioCliente()) {
+                        $result['status'] = 1;
+                    } else {
+                        $result['error'] = 'Cliente inexistente';
+                    }
+                    break;
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }

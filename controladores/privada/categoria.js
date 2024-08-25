@@ -105,7 +105,10 @@ const fillTable = async (form = null) => {
                   <td class="d-flex justify-content-center">
                     <img src="../recursos/img/Delete.svg" width="auto" height="auto" alt="Eliminar" onclick="openDelete(${row.id_categoria})" /> 
                    <img src="../recursos/img/Edit.svg" width="auto" height="auto" alt="Editar" onclick="openUpdate(${row.id_categoria})" />
-                  </td>
+                    <button type="button" class="btn btn-sm btn-warning" onclick="openReport(${row.id_categoria})">
+                          <i class="bi bi-filetype-pdf"></i>
+                    </button>
+                   </td>
               </tr>
           `;
     });
@@ -194,3 +197,12 @@ var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggl
 var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
     return new bootstrap.Popover(popoverTriggerEl)
 })
+
+const openReport = (id) => {
+  // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
+  const PATH = new URL(`${SERVER_URL}reports/admin/productos_categoria.php`);
+  // Se agrega un parámetro a la ruta con el valor del registro seleccionado.
+  PATH.searchParams.append('idCategoria', id);
+  // Se abre el reporte en una nueva pestaña.
+  window.open(PATH.href);
+}

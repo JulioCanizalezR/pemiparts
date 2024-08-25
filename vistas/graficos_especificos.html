@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gráficos</title>
+    <link href="../recursos/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../recursos/css/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="../recursos/css/inicio.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+
+        #chart-wrapper {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 20px;
+            justify-items: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+        }
+
+        .chart-container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+            max-width: 750px;
+            height: 450px; /* Ajusta la altura para consistencia */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        canvas {
+            width: 100% !important;
+            height: 70% !important; /* Ajusta la altura del canvas */
+            max-width: 500px; /* Opcional: límite de ancho */
+        }
+
+        .id-input {
+            text-align: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            width: 80%;
+            max-width: 300px;
+            font-size: 16px;
+        }
+
+        .chart-container h3 {
+            margin-bottom: 10px;
+            font-size: 18px;
+            color: #343a40;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <div id="mainContent" class="container">
+            <div id="chart-wrapper">
+                <!-- Gráfico 1 -->
+                <div class="chart-container">
+                    <h3>Distribución por Medios de Envío</h3>
+                    <input type="text" id="chartMediosDstCliente-id" class="id-input" placeholder="ID para gráfico 1">
+                    <canvas id="chartMediosDstCliente"></canvas>
+                </div>
+
+                <!-- Gráfico 2 -->
+                <div class="chart-container">
+                    <h3>Disponibilidad de Productos por Categoría</h3>
+                    <input type="text" id="chartDisponibilidadXcategoria-id" class="id-input" placeholder="ID para gráfico 2">
+                    <canvas id="chartDisponibilidadXcategoria"></canvas>
+                </div>
+
+                <!-- Gráfico 3 -->
+                <div class="chart-container">
+                    <h3>Comparación de Existencias de Productos</h3>
+                    <input type="text" id="chartCompExstProductos-id" class="id-input" placeholder="ID para gráfico 3">
+                    <canvas id="chartCompExstProductos"></canvas>
+                </div>
+
+                <!-- Gráfico 4 -->
+                <div class="chart-container">
+                    <h3>Evolución del Costo de Envío por Cliente</h3>
+                    <input type="text" id="chartEvoCostoEnvioCliente-id" class="id-input" placeholder="ID para gráfico 4">
+                    <canvas id="chartEvoCostoEnvioCliente"></canvas>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="text/javascript" src="../recursos/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="../recursos/js/sweetalert.min.js"></script>
+    <script type="text/javascript" src="../controladores/utilidades/components.js"></script>
+    <script type="text/javascript" src="../recursos/js/chart.umd.min.js"></script>
+    <script type="text/javascript" src="../controladores/utilidades/template.js"></script>
+    <script type="text/javascript" src="../controladores/privada/graficos_especificos.js"></script>
+</body>
+
+</html>

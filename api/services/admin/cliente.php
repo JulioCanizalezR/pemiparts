@@ -105,6 +105,29 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Correo de cliente indefinido';
                 }
                 break;
+                case 'clientesPorEmpresa':
+                    if ($result['dataset'] = $cliente->clientesPorEmpresa()) {
+                        $result['status'] = 1;
+                    } else {
+                        $result['error'] = 'No hay datos disponibles';
+                    }
+                    break;
+                case 'clientesRegistradosXmes':
+                    if ($result['dataset'] = $cliente->clientesRegistradosXmes()) {
+                        $result['status'] = 1;
+                    } else {
+                        $result['error'] = 'No hay datos disponibles';
+                    }
+                    break;
+                case 'graficoDistrubcionCliente':
+                    if (!$cliente->setId($_POST['idCliente'])) {
+                        $result['error'] = 'Cliente incorrecto';
+                    } elseif ($result['dataset'] = $cliente->graficoDistrubcionCliente()) {
+                        $result['status'] = 1;
+                    } else {
+                        $result['error'] = 'Cliente inexistente';
+                    }
+                    break;
             case 'logOut':
                 if (session_destroy()) {
                     $result['status'] = 1;

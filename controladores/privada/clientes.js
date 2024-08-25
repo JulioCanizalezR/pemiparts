@@ -102,9 +102,9 @@ const fillTable = async (form = null) => {
                   <td>${row.nombre_cliente}</td>
                   <td>${row.apellido_cliente}</td>
                   <td>${row.correo_electronico_cliente}</td>
-                  <td>${row.numero_telefono_cliente}</td>     
-                  <td>${row.direccion_cliente}</td>  
-                  <td>${row.nombre_empresa}</td>  
+                  <td>${row.numero_telefono_cliente}</td>      
+                  <td>${row.fecha_registro_cliente}</td>  
+                  <td>${row.direccion_cliente}</td>
                   <td class="d-flex justify-content-center">
                     <img src="../recursos/img/Delete.svg" width="auto" height="auto" alt="Eliminar" onclick="openDelete(${row.id_cliente})" /> 
                    <img src="../recursos/img/Edit.svg" width="auto" height="auto" alt="Editar" onclick="openUpdate(${row.id_cliente})" />
@@ -190,3 +190,11 @@ var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggl
 var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
     return new bootstrap.Popover(popoverTriggerEl)
 })
+
+
+const openPredicReport = () => {
+  // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
+  const PATH = new URL(`${SERVER_URL}reports/admin/clientes_predictivos.php`);
+  // Se abre el reporte en una nueva pestaña.
+  window.open(PATH.href);
+}

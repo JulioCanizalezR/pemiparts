@@ -27,6 +27,28 @@ class EmpresaData extends EmpresaHandler
         }
     }
 
+    public function setId_cliente($value)
+    {
+        if (Validator::validateNaturalNumber($value)) {
+            $this->id_cliente = $value;
+            return true;
+        } else {
+            $this->data_error = 'El identificador de el cliente es incorrecto';
+            return false;
+        }
+    }
+
+    public function setId_categoria($value)
+    {
+        if (Validator::validateNaturalNumber($value)) {
+            $this->id_categoria = $value;
+            return true;
+        } else {
+            $this->data_error = 'El identificador de la categoria es incorrecto';
+            return false;
+        }
+    }
+
     public function setNombre_empresa($value, $min = 2, $max = 50)
     {
         if (!Validator::validateAlphanumeric($value)) {

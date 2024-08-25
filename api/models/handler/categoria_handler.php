@@ -86,4 +86,16 @@ class CategoriaHandler
 
         return Database::getRow($sql, $params);
     }
+    
+    public function productoXcagetoria()
+    {
+        $sql = 'SELECT p.nombre_producto, p.descripcion_producto, p.precio_producto, c.nombre
+                FROM tb_productos p
+                JOIN tb_categorias c ON p.id_categoria = c.id_categoria
+                WHERE c.id_categoria = ?; 
+
+                ';
+        $params = array($this->id);
+        return Database::getRows($sql, $params);
+    }
 }

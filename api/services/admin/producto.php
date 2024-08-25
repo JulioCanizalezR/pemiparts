@@ -104,6 +104,27 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al eliminar el producto';
                 }
                 break;
+                case 'ventasPasadas':
+                    if ($result['dataset'] = $producto->ventasPasadas()) {
+                        $result['status'] = 1;
+                    } else {
+                        $result['error'] = 'No hay datos disponibles';
+                    }
+                    break;
+                case 'gananciasFuturas':
+                    if ($result['dataset'] = $producto->gananciasFuturas()) {
+                        $result['status'] = 1;
+                    } else {
+                        $result['error'] = 'No hay datos disponibles';
+                    }
+                    break;
+                case 'predecirClientesFuturos':
+                    if ($result['dataset'] = $producto->predecirClientesFuturos()) {
+                        $result['status'] = 1;
+                    } else {
+                        $result['error'] = 'No hay datos disponibles';
+                    }
+                    break;
             case 'cantidadProductosCategoria':
                 if ($result['dataset'] = $producto->cantidadProductosCategoria()) {
                     $result['status'] = 1;
@@ -111,6 +132,28 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No hay datos disponibles';
                 }
                 break;
+                case 'getPedidosEstado':
+                    if ($result['dataset'] = $producto->getPedidosEstado()) {
+                        $result['status'] = 1;
+                    } else {
+                        $result['error'] = 'No hay datos disponibles';
+                    }
+                    break;
+                case 'getPedidosEstado':
+                    if ($result['dataset'] = $producto->getPedidosEstado()) {
+                        $result['status'] = 1;
+                    } else {
+                        $result['error'] = 'No hay datos disponibles';
+                    }
+                    break;
+                case 'promProductoCategoria':
+                    if ($result['dataset'] = $producto->promProductoCategoria()) {
+                        $result['status'] = 1;
+                    } else {
+                        $result['error'] = 'No hay datos disponibles';
+                    }
+                    break;
+    
             case 'porcentajeProductosCategoria':
                 if ($result['dataset'] = $producto->porcentajeProductosCategoria()) {
                     $result['status'] = 1;
@@ -118,6 +161,16 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No hay datos disponibles';
                 }
                 break;
+                case 'disponiblidadXcategoria':
+                    if (!$producto->setIdCategoria($_POST['idCategoria'])) {
+                        $result['error'] = $producto->getDataError();
+                    } elseif ($result['dataset'] = $producto->disponiblidadXcategoria()) {
+                        $result['status'] = 1;
+                    } else {
+                        $result['error'] = 'Categoria inexistente';
+                    }
+                    break;
+                
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }
