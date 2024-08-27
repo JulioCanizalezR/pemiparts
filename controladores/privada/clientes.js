@@ -198,3 +198,10 @@ const openPredicReport = () => {
   // Se abre el reporte en una nueva pestaña.
   window.open(PATH.href);
 }
+
+const openReport = () => {
+ 
+  const PATH = new URL(`${SERVER_URL}reports/admin/reporte_general_cliente.php`);
+ 
+  window.open(PATH.href);
+}

@@ -208,3 +208,10 @@ var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggl
 var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
   return new bootstrap.Popover(popoverTriggerEl)
 });
+
+const openReport = () => {
+ 
+  const PATH = new URL(`${SERVER_URL}reports/admin/reporte_general_productos.php`);
+ 
+  window.open(PATH.href);
+}

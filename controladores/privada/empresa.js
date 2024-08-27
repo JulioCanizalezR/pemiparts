@@ -198,3 +198,10 @@ const openReport = (id) => {
   // Se abre el reporte en una nueva pestaña.
   window.open(PATH.href);
 }
+
+const openReport2 = () => {
+ 
+  const PATH = new URL(`${SERVER_URL}reports/admin/reporte_general_empresa.php`);
+ 
+  window.open(PATH.href);
+}
