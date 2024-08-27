@@ -87,6 +87,7 @@ const readOne = async (id) => {
 };
 
 const populateProductModal = (productData) => {
+  const imageUrl = `${SERVER_URL}images/productos/${productData.imagen_producto}`;
   seeModal.show();
   modalTitle2.value = "Información del Producto";
   const priceProduct = parseFloat(productData.precio_producto).toFixed(2);
@@ -97,10 +98,14 @@ const populateProductModal = (productData) => {
   cantidadProducto.textContent = productData.existencias;
   descripcionProducto.textContent = productData.descripcion_producto;
   costoProducto.textContent = productData.costo_compra;
-  imagenProducto.src = `${SERVER_URL}images/productos/${productData.imagen_producto}`;
+  imagenProducto.src = imageUrl;
+  imagenProducto.onerror = () => {
+    imagenProducto.src = `${SERVER_URL}images/productos/default.png`;
+  };
   document.getElementById('Actualizar').onclick = () => openUpdate(productData.id_producto);
   document.getElementById('Eliminar').onclick = () => openDelete(productData.id_producto);
 };
+
 
 const openDelete = async (id) => {
   const response = await confirmAction('¿Desea eliminar el producto de forma permanente?');
@@ -138,7 +143,7 @@ const populateUpdateForm = (productData) => {
   sidProducto.value = productData.id_producto;
   sNombreProducto.value = productData.nombre_producto;
   sDescripcionProducto.value = productData.descripcion_producto;
-  sImpuestoProducto.value = productData.impuesto_producto;
+  sImpuestoProducto.value = parseInt(productData.impuesto_producto, 10);
   sCostoProducto.value = productData.costo_compra;
   sPrecioProducto.value = productData.precio_producto;
   sCodigoProducto.value = productData.codigo_producto;
@@ -175,11 +180,13 @@ const fillCards = async (form = null) => {
 
 const createProductCard = (product) => {
   const precioRedondeado = parseFloat(product.precio_producto).toFixed(2);
+  const imageUrl = `${SERVER_URL}images/productos/${product.imagen_producto}`;
+
   return `
     <div class="col-md-5 col-sm-12 mb-4">
       <div class="tarjeta shadow d-flex align-items-center p-3">
         <div class="col-4 p-2 d-flex justify-content-center align-items-center">
-          <img class="img-fluid rounded" src="${SERVER_URL}images/productos/${product.imagen_producto}" alt="${product.nombre_producto}">
+          <img class="img-fluid rounded" src="${imageUrl}" alt="${product.nombre_producto}" onerror="this.src='${SERVER_URL}images/productos/default.png'">
         </div>
         <div class="col-8 p-2 d-flex flex-column">
           <p class="text-secondary mb-1">Nombre: ${product.nombre_producto}</p>
@@ -194,6 +201,7 @@ const createProductCard = (product) => {
       </div>
     </div>`;
 };
+
 
 
 var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))

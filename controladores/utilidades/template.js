@@ -125,6 +125,43 @@ async function loadTemplate() {
     const mainElement = document.querySelector('main');
 
     if (mainElement) {
+        mainElement.classList.add('wrapper', 'd-flex', 'min-vh-100'); // Ensure main takes full height
+
+        const mainTitleDiv = document.createElement('div');
+        mainTitleDiv.id = 'mainTitle';
+        mainTitleDiv.classList.add('flex-shrink-0');
+        mainElement.insertBefore(mainTitleDiv, mainElement.firstChild);
+
+        const sidebarHTML = await generateSideBarHTML();
+        mainTitleDiv.innerHTML = sidebarHTML;
+
+        const hamBurger = mainTitleDiv.querySelector(".toggle-btn");
+        hamBurger?.addEventListener("click", function () {
+            mainTitleDiv.querySelector("#sidebar").classList.toggle("expand");
+        });
+
+        const mainContentDiv = document.getElementById('mainContent');
+        if (mainContentDiv) {
+            mainContentDiv.classList.add('main', 'p-3', 'text-center', 'overflow-auto'); // Ensure scrolling
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    Promise.all([
+        cssReference('../recursos/css/template_style.css'),
+        cssReference('../recursos/css/bootstrap-icons.min.css'),
+        cssReference('../recursos/css/lineicons.css')
+    ]).then(loadTemplate).catch((error) => {
+        console.error('Error loading CSS files:', error);
+    });
+});
+
+/* back up del codigo
+async function loadTemplate() {
+    const mainElement = document.querySelector('main');
+
+    if (mainElement) {
         mainElement.classList.add('wrapper', 'd-flex');
 
         const mainTitleDiv = document.createElement('div');
@@ -158,3 +195,5 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Error loading CSS files:', error);
     });
 });
+
+*/

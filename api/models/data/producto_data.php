@@ -177,6 +177,17 @@ class ProductoData extends ProductoHandler
 
     public function getFilename()
     {
-        return $this->filename;
+        if ($this->filename) {
+            $filepath = self::RUTA_IMAGEN . $this->filename;
+    
+            if (file_exists($filepath)) {
+                return $this->filename;
+            } else {
+                return 'default.png';
+            }
+        } else {
+            return 'default.png';
+        }
     }
+    
 }

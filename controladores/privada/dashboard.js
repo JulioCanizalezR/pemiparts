@@ -32,6 +32,7 @@ const graficoLinearVentasFuturas = async () => {
     if (DATA.status) {
         let mes = [];
         let total = [];
+
         // Asegúrate de que DATA.dataset está en el formato correcto
         if (DATA.dataset) {
             DATA.dataset.forEach(row => {
@@ -48,6 +49,7 @@ const graficoLinearVentasFuturas = async () => {
         console.log(DATA.error);
     }
 }
+
 
 const graficoLinearClientesFuturos = async () => {
     const DATA = await fetchData(PRODUCTO_API, 'predecirClientesFuturos');

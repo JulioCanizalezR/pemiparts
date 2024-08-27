@@ -227,8 +227,14 @@ class EntidadesHandler
     public function updateRow()
     {
         if ($this->checkExistencias($this->existencias)) {
+            /*
             $sql = 'UPDATE tb_entidades
             SET id_almacenamiento = ?, id_producto = ?, existencias = existencias + ?, estado = ?
+            WHERE id_entidad = ?';
+            $params = array($this->id_almacenamiento, $this->id_producto, $this->existencias, $this->estado, $this->id);
+            */
+            $sql = 'UPDATE tb_entidades
+            SET id_almacenamiento = ?, id_producto = ?, existencias = ?, estado = ?
             WHERE id_entidad = ?';
             $params = array($this->id_almacenamiento, $this->id_producto, $this->existencias, $this->estado, $this->id);
             return Database::executeRow($sql, $params);

@@ -8,79 +8,73 @@
     <link href="../recursos/css/bootstrap.min.css" rel="stylesheet">
     <link href="../recursos/css/bootstrap-icons.min.css" rel="stylesheet">
     <link href="../recursos/css/inicio.css" rel="stylesheet">
+    <link href="../recursos/css/dashboard.css" rel="stylesheet">
 </head>
-<style>
-    #chart-wrapper {
-
-        position: relative;
-        width: 120%;
-    }
-</style>
 
 <body>
     <main>
         <div id="mainContent">
             <div class="container">
                 <div class="row">
+                    <!-- Card 1: Gráficos pasados y futuros -->
                     <div class="col-md-6 mb-3">
                         <div class="card custom-card h-100">
                             <div class="card-body">
-                                <h5>Bienvenidos al programa de gestión de inventario</h5>
-                                <img src="../recursos/img/vector2.png" alt="Vector Image" class="img-fluid">
+                                <h4>Gráficas pasadas y futuras</h4>
+                                <div class="chart-container">
+                                    <canvas id="chartGananciasPasadas"></canvas>
+                                </div>
+                                <div class="chart-container">
+                                    <canvas id="chartGananciasFuturas"></canvas>
+                                </div>
                             </div>
                         </div>
                     </div>
+
+                    <!-- Card 2: Clientes futuros y envíos por estado -->
                     <div class="col-md-6 mb-3">
                         <div class="card custom-card h-100">
                             <div class="card-body">
-                                <h4>Gráficas predictivas</h4>
-                                <div class="row" id="chart-wrapper">
-                                    <div class="col-md-6">
-                                        <div class="chart-container">
-                                            <canvas id="chartGananciasPasadas"></canvas>
-                                        </div>
-                                        <div class="chart-container">
-                                            <canvas id="chartGananciasFuturas"></canvas>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="chart-container">
-                                            <canvas id="chartClientesFuturos"></canvas>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="chart-container">
-                                            <canvas id="chartEnviosPorEstado"></canvas>
-                                            <canvas id="chartClientesPorEmpresa"></canvas>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="chart-container">
-                                            <canvas id="chartPromProductoCategoria"></canvas>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="chart-container">
-                                            <canvas id="chartClientesXmes"></canvas>
-                                        </div>
-                                    </div>
-                                    
+                                <h4>Clientes y Envíos</h4>
+                                <div class="chart-container">
+                                    <canvas id="chartClientesFuturos"></canvas>
+                                </div>
+                                <div class="chart-container">
+                                    <canvas id="chartEnviosPorEstado"></canvas>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row justify-content-center">
-                    <div class="col-md-6">
-                        <div class="card custom-card">
+
+                <div class="row">
+                    <!-- Card 3: Clientes por empresa, promedio por categoría y clientes por mes -->
+                    <div class="col-md-12 mb-3">
+                        <div class="card custom-card h-100">
                             <div class="card-body">
-                                <i class="bi bi-bell notification-icon"></i>
-                                <h4>Notificaciones</h4>
-                                <p>Tienes 4 notificaciones pendientes</p>
+                                <h4>Clientes y Categorías</h4>
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <div class="chart-container">
+                                            <canvas id="chartClientesPorEmpresa"></canvas>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <div class="chart-container">
+                                            <canvas id="chartPromProductoCategoria"></canvas>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <div class="chart-container">
+                                            <canvas id="chartClientesXmes"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </main>

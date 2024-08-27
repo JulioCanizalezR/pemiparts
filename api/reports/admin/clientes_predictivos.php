@@ -4,19 +4,18 @@ require_once('../../helpers/report.php');
 require_once('../../models/data/cliente_data.php');
 
 // Convertir texto a ISO-8859-1
-function convertToISO88591($text) {
+function convertToISO88591($text)
+{
     return mb_convert_encoding($text, 'ISO-8859-1', 'UTF-8');
 }
 
 // Creación de un nuevo PDF.
 $pdf = new Report();
 
-// Crear una nueva página
-$pdf->AddPage();
-
+// Se inicia el reporte con el encabezado del documento.
+$pdf->startReport('Reporte de Clientes Predictivos');
 // Título del documento.
 $pdf->SetFont('Arial', 'B', 14);
-$pdf->Cell(0, 10, convertToISO88591('Reporte de Clientes Predictivos'), 0, 1, 'C');
 $pdf->Ln(10);
 
 // Subtítulo.
@@ -46,4 +45,3 @@ foreach ($reporteCLV as $cliente) {
 
 // Salida del documento.
 $pdf->Output('I', 'clientes_predictivos.pdf');
-?>

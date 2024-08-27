@@ -18,17 +18,19 @@
                     <div class="d-flex align-items-center">
                         <div class="col-md-2 col-sm-4 fs-3 text-dark">Empresas</div>
                         <!-- Boton de informacion-->
-                        <button type="button" class="btn me-2 mb-2" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Busca por el nombre">
+                        <button type="button" class="btn me-2 mb-2" data-bs-toggle="popover" data-bs-placement="top"
+                            data-bs-content="Busca por el nombre">
                             <img src="../recursos/img/info.svg" width="18px" height="18px">
-                            </button>
+                        </button>
                         <!-- Input con botón de búsqueda -->
-                            <form id="searchForm" class="col-md-5 col-sm-12 me-2">
-                                <input class="form-control me-2 mb-2" type="search" placeholder="Buscar" name="search"
-                                    aria-label="Buscar" id="searchInput" />
-                            </form>
+                        <form id="searchForm" class="col-md-5 col-sm-12 me-4">
+                            <input class="form-control me-2 mb-2" type="search" placeholder="Buscar" name="search"
+                                aria-label="Buscar" id="searchInput" />
+                        </form>
 
                         <!-- Botón Agregar -->
-                        <button type="button" class="btn btn-custom custom-add-btn" data-bs-toggle="modal" data-bs-target="#saveModal" onclick="openCreate()">Agregar</button>
+                        <button type="button" class="btn btn-custom custom-add-btn" data-bs-toggle="modal"
+                            data-bs-target="#saveModal" onclick="openCreate()">Agregar</button>
                     </div>
                 </div>
 
@@ -52,7 +54,8 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="modalTitle">Crear Empresa</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                                 <form id="saveForm">
@@ -61,7 +64,8 @@
                                         <input type="number" class="d-none" id="idEmpresa" name="idEmpresa">
                                         <div class="col-12">
                                             <div class="form-floating mb-3">
-                                                <input id="nombreEmpresa" type="text" name="nombreEmpresa" class="form-control" placeholder="Nombre" required>
+                                                <input id="nombreEmpresa" type="text" name="nombreEmpresa"
+                                                    class="form-control" placeholder="Nombre" required>
                                                 <label for="nombreEmpresa">Nombre</label>
                                             </div>
                                         </div>

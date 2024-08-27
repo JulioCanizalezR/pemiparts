@@ -1,0 +1,24 @@
+.chart-container {
+    margin-bottom: 1rem;
+}
+.card-body h4 {
+    margin-bottom: 1rem;
+}
+.custom-card {
+    padding: 1rem;
+}
+.card-body .row {
+    margin-bottom: 1rem;
+}
+.card-body .col-md-4 {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+}
+.card-body .col-md-12 {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+}
+canvas {
+    max-width: 100%;
+    height: auto !important;
+}

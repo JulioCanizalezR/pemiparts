@@ -96,19 +96,25 @@ const readOne = async (id) => {
 };
 
 const populateUserModal = (userData) => {
+  const imageUrl = `${SERVER_URL}images/usuarios/${userData.imagen_usuario}`;
   seeModal.show();
   modalTitle2.value = "Información del Usuario";
   nombreUsuario.textContent = userData.nombre;
   apellidoUsuario.textContent = userData.apellido;
   cargoUsuario.value = userData.cargo == 1 ? "Empleado" : "Gerente";
-  imagenUsuario.src = `${SERVER_URL}images/usuarios/${userData.imagen_usuario}`;
-  emailUsuario.textContent = userData.correo;
+  imagenUsuario.src = imageUrl;
+  emailUsuario.textContent = userData.correo_electronico;
   telefonoUsuario.textContent = userData.numero_telefono;
+  imagenUsuario.onerror = () => {
+    imagenUsuario.src = `${SERVER_URL}images/usuarios/default.png`;
+  };
+
   document.getElementById("Actualizar").onclick = () =>
     openUpdate(userData.id_usuario);
   document.getElementById("Eliminar").onclick = () =>
     openDelete(userData.id_usuario);
 };
+
 
 const openDelete = async (id) => {
   const response = await confirmAction(
@@ -151,7 +157,7 @@ const populateUpdateForm = (userData) => {
   sNombre.value = userData.nombre;
   sApellido.value = userData.apellido;
   sCargo.value = userData.cargo;
-  sEmail.value = userData.correo;
+  sEmail.value = userData.correo_electronico;
   sTelefono.value = userData.numero_telefono;
   sClave.disabled = true;
   sConfirmarClave.disabled = true;
@@ -185,16 +191,18 @@ const fillCards = async (form = null) => {
 
 const createUserCard = (user) => {
   const cargoField = user.cargo == 1 ? "Empleado" : "Gerente";
+  const userImage = `${SERVER_URL}images/usuarios/${user.imagen_usuario}`;
   return `
     <div class="col-md-5 col-sm-12 mb-4">
       <div class="tarjeta shadow d-flex align-items-center p-3">
         <div class="col-4 p-2 d-flex justify-content-center align-items-center">
-          <img class="img-fluid rounded" src="${SERVER_URL}images/usuarios/${user.imagen_usuario}" alt="${user.nombre}">
+          <img class="img-fluid rounded" src="${userImage}" alt="${user.nombre}" 
+               onerror="this.src='${SERVER_URL}images/usuarios/default.png'">
         </div>
         <div class="col-8 p-2 d-flex flex-column">
           <p class="text-secondary mb-1">Nombre: ${user.nombre} ${user.apellido}</p>
           <p class="text-secondary mb-1">Cargo: ${cargoField}</p>
-          <p class="text-secondary mb-1">Correo: ${user.correo}</p>
+          <p class="text-secondary mb-1">Correo: ${user.correo_electronico}</p>
           <p class="text-secondary mb-1">Teléfono: ${user.numero_telefono}</p>
           <div class="mt-auto d-flex justify-content-end">
             <button class="btn btn-primary" onclick="readOne(${user.id_usuario})">Ver más</button>
@@ -203,6 +211,7 @@ const createUserCard = (user) => {
       </div>
     </div>`;
 };
+
 
 var popoverTriggerList = [].slice.call(
   document.querySelectorAll('[data-bs-toggle="popover"]')
