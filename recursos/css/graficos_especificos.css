@@ -60,3 +60,6 @@ canvas {
     max-width: 600px; /* Ajusta el ancho máximo del canvas */
     max-height: 250px; /* Ajusta la altura máxima del canvas */
 }
+#mainContent {
+    background-color: #E3F2FD;  
+}
