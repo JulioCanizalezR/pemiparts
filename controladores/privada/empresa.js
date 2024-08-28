@@ -206,7 +206,7 @@ const openReport = (id) => {
 
 const openReport2 = () => {
  
-  const PATH = new URL(`${ SERVER_URL } reports / admin / reporte_general_empresa.php`);
+  const PATH = new URL(`${ SERVER_URL } reports/admin/reporte_general_empresa.php`);
  
   window.open(PATH.href);
 }
