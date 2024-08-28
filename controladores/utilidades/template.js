@@ -151,7 +151,8 @@ document.addEventListener('DOMContentLoaded', () => {
     Promise.all([
         cssReference('../recursos/css/template_style.css'),
         cssReference('../recursos/css/bootstrap-icons.min.css'),
-        cssReference('../recursos/css/lineicons.css')
+        cssReference('../recursos/css/lineicons.css'),
+        cssReference('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css')
     ]).then(loadTemplate).catch((error) => {
         console.error('Error loading CSS files:', error);
     });

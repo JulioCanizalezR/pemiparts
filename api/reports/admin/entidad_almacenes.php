@@ -16,7 +16,7 @@ if (isset($_GET['idEntidad'])) {
     if ($entidad->setIdAlmacenamiento($_GET['idEntidad'])) {
 
         // Se inicia el reporte con el encabezado del documento.
-        $pdf->startReport('Entidades por almacenes');
+        $pdf->startReport('Reporte Detallado de Entidades por Almacen');
 
         // Mostrar subtítulo debajo del título.
         $pdf->setFont('Arial', '', 12);

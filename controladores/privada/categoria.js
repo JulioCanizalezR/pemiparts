@@ -89,7 +89,7 @@ const fillTable = async (form = null) => {
   TABLE_BODY.innerHTML = '';
   // Se verifica la acción a realizar.
   let action;
-    form ? (action = "searchRows") : (action = "readAll");
+  form ? (action = "searchRows") : (action = "readAll");
   // Petición para obtener los registros disponibles.
   // Petición para obtener los registros disponibles.
   const DATA = await fetchData(Categoria_api, action, form);
@@ -98,19 +98,23 @@ const fillTable = async (form = null) => {
     // Se recorre el conjunto de registros (dataset) fila por fila a través del objeto row.
     DATA.dataset.forEach(row => {
       // Se crean y concatenan las filas de la tabla con los datos de cada registro.
-      TABLE_BODY.innerHTML += `
-              <tr>
-                  <td>${row.id_categoria}</td>
-                  <td>${row.nombre}</td>
-                  <td class="d-flex justify-content-center">
-                    <img src="../recursos/img/Delete.svg" width="auto" height="auto" alt="Eliminar" onclick="openDelete(${row.id_categoria})" /> 
-                   <img src="../recursos/img/Edit.svg" width="auto" height="auto" alt="Editar" onclick="openUpdate(${row.id_categoria})" />
-                    <button type="button" class="btn btn-sm btn-warning" onclick="openReport(${row.id_categoria})">
-                          <i class="bi bi-filetype-pdf"></i>
-                    </button>
-                   </td>
-              </tr>
-          `;
+       TABLE_BODY.innerHTML += `
+      <tr>
+        <td>${row.id_categoria}</td>
+        <td>${row.nombre}</td>
+        <td class="d-flex justify-content-center">
+          <button type="button" class="btn btn-info" onclick="openUpdate(${row.id_categoria})">
+            <i class="fa-solid fa-pen-to-square"></i>
+          </button>
+          <button type="button" class="btn btn-danger" onclick="openDelete(${row.id_categoria})">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+          <button type="button" class="btn btn-sm btn-warning" onclick="openReport(${row.id_categoria})">
+            <i class="bi bi-filetype-pdf"></i>
+          </button>
+        </td>
+      </tr>
+      `;
     });
 
   } else {
@@ -200,7 +204,7 @@ var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
 
 const openReport = (id) => {
   // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
-  const PATH = new URL(`${SERVER_URL}reports/admin/productos_categoria.php`);
+  const PATH = new URL(`${ SERVER_URL } reports / admin / productos_categoria.php`);
   // Se agrega un parámetro a la ruta con el valor del registro seleccionado.
   PATH.searchParams.append('idCategoria', id);
   // Se abre el reporte en una nueva pestaña.

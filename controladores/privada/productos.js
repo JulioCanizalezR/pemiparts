@@ -215,3 +215,9 @@ const openReport = () => {
  
   window.open(PATH.href);
 }
+const openReportPred = () => {
+  // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
+  const PATH = new URL(`${SERVER_URL}reports/admin/producto_predicciones.php`);
+  // Se abre el reporte en una nueva pestaña.
+  window.open(PATH.href);
+}
