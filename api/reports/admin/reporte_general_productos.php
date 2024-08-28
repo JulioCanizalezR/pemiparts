@@ -33,7 +33,6 @@ if ($dataproductos = $productos->readAll()) {
             $pdf->addPage('P', 'Letter'); // Añade una nueva página de tamaño carta
             // Vuelve a imprimir los encabezados en la nueva página
             $pdf->setFillColor(225);
-            $pdf->setFont('Arial', 'B', 11);
             $pdf->cell(100, 15, 'Nombre', 1, 0, 'C', 1);
             $pdf->cell(30, 15, 'Precio (US$)', 1, 0, 'C', 1);
             $pdf->cell(30, 15, 'Codigo', 1, 1, 'C', 1);

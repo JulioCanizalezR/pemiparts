@@ -31,7 +31,6 @@ if ($dataempresa = $empresa->readAll()) {
             $pdf->addPage('P', 'Letter'); 
             // Vuelve a imprimir los encabezados en la nueva página
             $pdf->setFillColor(225);
-            $pdf->setFont('Arial', 'B', 11);
             $pdf->cell(50, 15, 'nombre_empresa', 1, 1, 'C', 1);
         }
 

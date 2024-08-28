@@ -112,19 +112,24 @@ const fillTable = async (form = null) => {
     // Se recorre el conjunto de registros (dataset) fila por fila a través del objeto row.
     DATA.dataset.forEach(row => {
       // Se crean y concatenan las filas de la tabla con los datos de cada registro.
-      TABLE_BODY.innerHTML += `
-              <tr>
-                  <td>${row.id_empresa}</td>
-                  <td>${row.nombre_empresa}</td>
-                  <td class="d-flex justify-content-center">
-                    <img src="../recursos/img/Delete.svg" width="auto" height="auto" alt="Eliminar" onclick="openDelete(${row.id_empresa})" /> 
-                   <img src="../recursos/img/Edit.svg" width="auto" height="auto" alt="Editar" onclick="openUpdate(${row.id_empresa})" />
-                   <button type="button" class="btn btn-sm btn-warning" onclick="openReport(${row.id_empresa})">
-                         <i class="bi bi-filetype-pdf"></i>
-                    </button>
-                   </td>
-              </tr>
-          `;
+      TABLE_BODY.innerHTML +=`
+        <tr>
+          <td>${row.id_empresa}</td>
+          <td>${row.nombre_empresa}</td>
+          <td class="d-flex justify-content-center">
+            <button type="button" class="btn btn-info" onclick="openUpdate(${row.id_empresa})">
+              <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+            <button type="button" class="btn btn-danger" onclick="op
+            enDelete(${row.id_empresa})">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+            <button type="button" class="btn btn-sm btn-warning" onclick="openReport(${row.id_empresa})">
+              <i class="bi bi-filetype-pdf"></i>
+            </button>
+          </td>
+        </tr>
+      `;
     });
 
   } else {
@@ -192,7 +197,7 @@ var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
 
 const openReport = (id) => {
   // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
-  const PATH = new URL(`${SERVER_URL}reports/admin/clientes_empresa.php`);
+  const PATH = new URL(`${ SERVER_URL } reports / admin / clientes_empresa.php`);
   // Se agrega un parámetro a la ruta con el valor del registro seleccionado.
   PATH.searchParams.append('idEmpresa', id);
   // Se abre el reporte en una nueva pestaña.
@@ -201,7 +206,7 @@ const openReport = (id) => {
 
 const openReport2 = () => {
  
-  const PATH = new URL(`${SERVER_URL}reports/admin/reporte_general_empresa.php`);
+  const PATH = new URL(`${ SERVER_URL } reports / admin / reporte_general_empresa.php`);
  
   window.open(PATH.href);
 }

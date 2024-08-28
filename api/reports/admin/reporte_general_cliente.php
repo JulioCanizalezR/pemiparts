@@ -34,7 +34,6 @@ if ($dataClientes = $Clientes->readAll()) {
             $pdf->addPage('P', 'Letter'); 
             // Vuelve a imprimir los encabezados en la nueva página
             $pdf->setFillColor(225);
-            $pdf->setFont('Arial', 'B', 11);
             $pdf->cell(60, 15, 'Nombre', 1, 0, 'C', 1);
             $pdf->cell(30, 15, 'Apellido', 1, 0, 'C', 1);
             $pdf->cell(30, 15, 'Telefono', 1, 0, 'C', 1);

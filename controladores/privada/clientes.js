@@ -5,9 +5,9 @@ const Empresa_api = "services/admin/empresa.php";
 const SAVE_MODAL = new bootstrap.Modal("#saveModal"),
   MODAL_TITLE = document.getElementById("modalTitle");
 
-  const TABLE_BODY = document.getElementById('tableBody')
+const TABLE_BODY = document.getElementById('tableBody')
 
-  const SEARCH_INPUT = document.getElementById("searchInput");
+const SEARCH_INPUT = document.getElementById("searchInput");
 
 // Constantes para establecer los elementos del formulario de guardar.
 const SAVE_FORM = document.getElementById("saveForm"),
@@ -17,7 +17,7 @@ const SAVE_FORM = document.getElementById("saveForm"),
   correoCliente = document.getElementById("correoCliente"),
   direccionCliente = document.getElementById("direccionCliente"),
   empresaCliente = document.getElementById("nombreEmpresa"),
-telefonoCliente = document.getElementById("telefonoCliente");
+  telefonoCliente = document.getElementById("telefonoCliente");
 
 // Llamada a la función para establecer la mascara del campo teléfono.
 vanillaTextMask.maskInput({
@@ -88,7 +88,7 @@ const fillTable = async (form = null) => {
   TABLE_BODY.innerHTML = '';
   // Se verifica la acción a realizar.
   let action;
-   form ? (action = "searchRows") : (action = "readAll");
+  form ? (action = "searchRows") : (action = "readAll");
   // Petición para obtener los registros disponibles.
   const DATA = await fetchData(Cliente_api, action, form);
   // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
@@ -106,8 +106,12 @@ const fillTable = async (form = null) => {
                   <td>${row.fecha_registro_cliente}</td>  
                   <td>${row.direccion_cliente}</td>
                   <td class="d-flex justify-content-center">
-                    <img src="../recursos/img/Delete.svg" width="auto" height="auto" alt="Eliminar" onclick="openDelete(${row.id_cliente})" /> 
-                   <img src="../recursos/img/Edit.svg" width="auto" height="auto" alt="Editar" onclick="openUpdate(${row.id_cliente})" />
+                     <button type="button" class="btn btn-info"onclick="openUpdate(${row.id_cliente})"">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+                    <button type="button" class="btn btn-danger" onclick="openDelete(${row.id_cliente})">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
                   </td>
               </tr>
           `;
@@ -124,7 +128,7 @@ const openCreate = () => {
   MODAL_TITLE.textContent = "Crear cliente";
   // Se prepara el formulario.
   SAVE_FORM.reset();
-  fillSelect(Empresa_api, 'readAll', 'nombreEmpresa' );
+  fillSelect(Empresa_api, 'readAll', 'nombreEmpresa');
 };
 
 
@@ -142,7 +146,7 @@ const openDelete = async (id) => {
       const DATA = await fetchData(Cliente_api, 'deleteRow', FORM);
       if (DATA.status) {
         await sweetAlert(1, DATA.message, true);
-         fillTable();
+        fillTable();
       } else {
         sweetAlert(2, DATA.error, false);
       }
@@ -188,7 +192,7 @@ const openUpdate = async (id) => {
 
 var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
 var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-    return new bootstrap.Popover(popoverTriggerEl)
+  return new bootstrap.Popover(popoverTriggerEl)
 })
 
 
@@ -200,8 +204,8 @@ const openPredicReport = () => {
 }
 
 const openReport = () => {
- 
+
   const PATH = new URL(`${SERVER_URL}reports/admin/reporte_general_cliente.php`);
- 
+
   window.open(PATH.href);
 }
