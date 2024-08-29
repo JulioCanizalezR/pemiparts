@@ -2,47 +2,49 @@
 // Importa los archivos necesarios para el reporte y la obtención de datos
 require_once('../../helpers/report.php');
 require_once('../../models/data/empresa_data.php');
-
+// Convertir texto a ISO-8859-1
+function convertToISO88591($text) {
+    return mb_convert_encoding($text, 'ISO-8859-1', 'UTF-8');
+}
 // Crea la instancia del reporte
 $pdf = new Report;
-// Inicia el reporte con el título 'Reporte de empresa'
-$pdf->startReport('Reporte de empresa');
+// Inicia el reporte con el título 'Reporte de empresas'
+$pdf->startReport('Reporte de empresas');
 
-// Crea una instancia de la clase ClienteData para obtener los datos de los empresa
+// Crea una instancia de la clase EmpresaData para obtener los datos de las empresas
 $empresa = new EmpresaData;
 
-// Verifica si existen datos en el cliente
-if ($dataempresa = $empresa->readAll()) {
+// Obtiene los datos usando el método reporteGeneralEmpresa()
+if ($dataempresa = $empresa->reporteGeneralEmpresa()) {
     // Configura los estilos del reporte
     $pdf->setFillColor(225); 
-    $pdf->setFont('Arial', 'B', 11); 
+    $pdf->setFont('Arial', 'B', 12); // Fuente para el encabezado
 
     // Agrega las celdas del encabezado con el título de cada columna
-    $pdf->cell(50, 15, 'nombre_empresa', 1, 1, 'C', 1);
+    $pdf->cell(30, 10, 'ID Empresa', 1, 0, 'C', 1);
+    $pdf->cell(30, 10, 'Empresa', 1, 0, 'C', 1);
+    $pdf->cell(30, 10, 'Clientes', 1, 0, 'C', 1);
+    $pdf->cell(40, 10, 'Productos', 1, 0, 'C', 1);
+    $pdf->cell(40, 10, 'Existencias', 1, 0, 'C', 1);
+    $pdf->cell(20, 10, convertToISO88591('Envíos'), 1, 1, 'C', 1); // Nueva línea para los encabezados
 
-    // Configura la fuente para las filas de datos
-    $pdf->setFont('Arial', '', 11);
+    $pdf->setTextColor(0); // Color de texto para los datos
+    $pdf->setFont('Arial', '', 10); // Fuente para los datos
 
-    // Recorre cada cliente obtenido de la base de datos
+    // Recorre cada empresa obtenida de la base de datos
     foreach ($dataempresa as $rowempresa) {
-
-        // Verifica si la posición Y actual más 15 (alto de la celda) supera el límite de la página
-        if ($pdf->getY() + 15 > 279 - 30) { 
-            $pdf->addPage('P', 'Letter'); 
-            // Vuelve a imprimir los encabezados en la nueva página
-            $pdf->setFillColor(225);
-            $pdf->cell(50, 15, 'nombre_empresa', 1, 1, 'C', 1);
-        }
-
-        // Imprime las celdas con los datos del cliente
-        $pdf->setFillColor(255, 255, 255); 
-        $pdf->cell(50, 15, $pdf->encodeString($rowempresa['nombre_empresa']), 1, 1, 'C'); 
+        $pdf->cell(30, 10, $rowempresa['id_empresa'], 1, 0, 'C'); 
+        $pdf->cell(30, 10, $pdf->encodeString($rowempresa['nombre_empresa']), 1, 0, 'C'); 
+        $pdf->cell(30, 10, $rowempresa['total_clientes'], 1, 0, 'C'); 
+        $pdf->cell(40, 10, $rowempresa['total_productos'], 1, 0, 'C'); 
+        $pdf->cell(40, 10, $rowempresa['total_existencias'], 1, 0, 'C'); 
+        $pdf->cell(20, 10, $rowempresa['total_envios'], 1, 1, 'C'); // Nueva línea para los datos
     }
 } else {
-    // Si no hay empresa para mostrar, se imprime un mensaje en una celda
-    $pdf->cell(0, 15, $pdf->encodeString('No hay empresa para mostrar'), 1, 1);
+    // Si no hay empresas para mostrar, se imprime un mensaje en una celda
+    $pdf->cell(0, 15, $pdf->encodeString('No hay empresas para mostrar'), 1, 1, 'C');
 }
 
-// Genera el reporte con el nombre_empresa 'empresa.pdf' y lo muestra en el navegador
+// Genera el reporte con el nombre 'empresa.pdf' y lo muestra en el navegador
 $pdf->output('I', 'empresa.pdf');
 ?>

@@ -27,13 +27,14 @@ if (isset($_GET['idEmpresa'])) {
         // Se verifica si existen registros para mostrar, de lo contrario se imprime un mensaje.
         if ($dataClientes = $cliente->clientesXempresa()) {
 
-            // Obtener el nombre de la categoría del primer registro.
-            $nombreEmpresa = $dataClientes[5]['nombre_empresa'];
+            // Obtener el nombre de la empresa del primer registro.
+            $nombreEmpresa = $dataClientes[0]['nombre_empresa']; // Cambiado de [5] a [0]
 
             // Mostrar subtítulo debajo del título.
             $pdf->setFont('Arial', '', 12);
             $pdf->cell(0, 10, convertToISO88591('Clientes de la empresa: ' . $nombreEmpresa), 0, 1, 'C');
             $pdf->ln(10); // Añade un espacio entre el subtítulo y la tabla
+            
             // Se establece un color de relleno para los encabezados.
             $pdf->setFillColor(225);
             // Se establece la fuente para los encabezados.
@@ -41,20 +42,32 @@ if (isset($_GET['idEmpresa'])) {
             // Se imprimen las celdas con los encabezados.
             $pdf->cell(30, 10, 'Cliente', 1, 0, 'C', 1);
             $pdf->cell(30, 10, 'Apellido', 1, 0, 'C', 1);
-            $pdf->cell(50, 10, convertToISO88591('Correo Electrónico'), 1, 0, 'C', 1);
+            $pdf->cell(65, 10, convertToISO88591('Correo Electrónico'), 1, 0, 'C', 1); // Ajustado a 65
+            $pdf->cell(30, 10, 'Fecha Registro', 1, 1, 'C', 1); 
 
-            $pdf->cell(30, 10, 'Fecha Registro', 1, 0, 'C', 1);
-            $pdf->cell(40, 10, 'Empresa', 1, 1, 'C', 1);
             // Se establece la fuente para los datos.
             $pdf->setFont('Arial', '', 11);
+
             // Se recorren los registros fila por fila.
             foreach ($dataClientes as $rowCliente) {
-                // Se imprimen las celdas con los datos del cliente.
+                // Verifica si la posición Y actual más 10 (alto de la celda) supera el límite de la página
+                if ($pdf->getY() + 10 > 279 - 30) { 
+                    $pdf->addPage('P', 'Letter'); 
+                    // Vuelve a imprimir los encabezados en la nueva página
+                    $pdf->setFillColor(225);
+                    $pdf->setFont('Arial', 'B', 11);
+                    $pdf->cell(30, 10, 'Cliente', 1, 0, 'C', 1);
+                    $pdf->cell(30, 10, 'Apellido', 1, 0, 'C', 1);
+                    $pdf->cell(65, 10, convertToISO88591('Correo Electrónico'), 1, 0, 'C', 1); // Ajustado a 65
+                    $pdf->cell(30, 10, 'Fecha Registro', 1, 1, 'C', 1);
+                    $pdf->setFont('Arial', '', 11);
+                }
+
+                // Imprime las celdas con los datos del cliente.
                 $pdf->cell(30, 10, convertToISO88591($rowCliente['nombre_cliente']), 1, 0);
                 $pdf->cell(30, 10, convertToISO88591($rowCliente['apellido_cliente']), 1, 0);
-                $pdf->cell(50, 10, convertToISO88591($rowCliente['correo_electronico_cliente']), 1, 0);
-                $pdf->cell(30, 10, $rowCliente['fecha_registro_cliente'], 1, 0);
-                $pdf->cell(40, 10, convertToISO88591($rowCliente['nombre_empresa']), 1, 1);
+                $pdf->cell(65, 10, convertToISO88591($rowCliente['correo_electronico_cliente']), 1, 0); // Ajustado a 65
+                $pdf->cell(30, 10, $rowCliente['fecha_registro_cliente'], 1, 1);
             }
         } else {
             // Se establece la fuente antes de imprimir el mensaje de error.
@@ -70,3 +83,4 @@ if (isset($_GET['idEmpresa'])) {
 } else {
     print('Debe seleccionar una empresa');
 }
+?>

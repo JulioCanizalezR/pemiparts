@@ -46,6 +46,35 @@ class EmpresaHandler
         return Database::getRows($sql);
     }
 
+    public function reporteGeneralEmpresa()
+    {
+        // Consulta SQL
+        $sql = 'SELECT 
+            e.id_empresa,
+            e.nombre_empresa,
+            COUNT(DISTINCT c.id_cliente) AS total_clientes,
+            COUNT(DISTINCT p.id_producto) AS total_productos,
+            SUM(d.cantidad_entidad) AS total_existencias,
+            COUNT(DISTINCT env.id_envio) AS total_envios
+        FROM 
+            tb_empresas e
+        LEFT JOIN 
+            tb_clientes c ON e.id_empresa = c.id_empresa
+        LEFT JOIN 
+            tb_envios env ON c.id_cliente = env.id_cliente
+        LEFT JOIN 
+            tb_detalle_envios d ON env.id_envio = d.id_envio
+        LEFT JOIN 
+            tb_productos p ON d.id_entidad = p.id_producto
+        GROUP BY 
+            e.id_empresa, e.nombre_empresa
+        ORDER BY 
+            e.id_empresa;
+        ';
+
+        // Ejecuta la consulta y retorna los resultados
+        return Database::getRows($sql);
+    }
     public function readOne()
     {
         $sql = 'SELECT id_empresa, nombre_empresa
@@ -98,5 +127,4 @@ class EmpresaHandler
         $params = array($this->id_cliente);
         return Database::getRows($sql, $params);
     }
-
 }
