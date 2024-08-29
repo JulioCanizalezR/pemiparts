@@ -212,7 +212,7 @@ class ClienteHandler
         return $reporte;
     }
 
-    // Consulta SQL para obtener los clientes de una empresa específica.F
+    // Consulta SQL para obtener los clientes de una empresa específicas
     public function clientesXempresa()
     {
         $sql = 'SELECT 
