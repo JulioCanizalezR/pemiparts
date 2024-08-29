@@ -32,16 +32,7 @@ class CotizacionHandler
      *  Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
      */
 
-    public function setIdEnvio($value)
-    {
-        if (Validator::validateNaturalNumber($value)) {
-            $this->id_detalle_envio = $value;
-            return true;
-        } else {
-            $this->data_error = 'El identificador del contenedor es incorrecto';
-            return false;
-        }
-    }
+    // Método para buscar registros en la tabla de envíos por número de seguimiento.
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
@@ -53,6 +44,8 @@ class CotizacionHandler
         $params = array($value);
         return Database::getRows($sql, $params);
     }
+
+    // Método para crear un nuevo registro de envío.
     public function createRow()
     {
         $sql = 'INSERT INTO tb_envios (
@@ -66,10 +59,13 @@ class CotizacionHandler
         return Database::executeRow($sql, $params);
     }
 
+    // Método para obtener el último ID insertado en la tabla de envíos.
     public function getLastInsertedId()
     {
         return Database::getLastInsertId(); // Este método debe obtener el último ID insertado por la conexión de base de datos.
     }
+
+    // Método para crear un nuevo registro en la tabla de detalle de envíos.
     public function createRowDetalle()
     {
         $sql = 'INSERT INTO tb_detalle_envios (
@@ -92,6 +88,8 @@ class CotizacionHandler
         );
         return Database::executeRow($sql, $params);
     }
+
+    // Método para leer todos los registros de la tabla de detalle de envíos.
     public function readAll()
     {
         $sql = '
@@ -114,7 +112,7 @@ class CotizacionHandler
             tb_almacenamientos a ON e.id_almacenamiento = a.id_almacenamiento;';
         return Database::getRows($sql);
     }
-
+    // Método para leer todos los registros de detalle de envíos.
     public function readAllDetalle()
     {
         $sql = 'SELECT
@@ -138,7 +136,7 @@ class CotizacionHandler
         return Database::getRows($sql);
     }
 
-
+    // Método para leer todos los registros de cotización.
     public function readAllCoti()
     {
         $sql = 'SELECT 
@@ -155,6 +153,7 @@ class CotizacionHandler
         return Database::getRows($sql);
     }
 
+    // Método para leer un registro específico de envío.
     public function readOne()
     {
         $sql = 'SELECT 
@@ -173,6 +172,7 @@ class CotizacionHandler
         return Database::getRow($sql, $params);
     }
 
+    // Método para leer un registro específico de detalle de envío.
     public function readOneDetalle()
     {
         $sql = 'SELECT
@@ -197,6 +197,7 @@ class CotizacionHandler
         return Database::getRow($sql, $params);
     }
 
+    // Método para actualizar un registro específico de detalle de envío.
     public function updateRowDetalle()
     {
         $sql = 'UPDATE tb_detalle_envios 
@@ -214,20 +215,25 @@ class CotizacionHandler
         return Database::executeRow($sql, $params);
     }
 
+    // Método para actualizar un registro específico de envío.
     public function updateRow()
     {
         $sql = 'UPDATE tb_envios 
           SET  estado_envio = ? , fecha_estimada = ? , numero_seguimiento = ? , etiqueta_edificacion = ? , id_cliente = ?
         WHERE id_envio = ?';
-        $params = array($this->estado_envio, 
-        $this->fecha_estimada,
-         $this->numero_seguimiento, 
-         $this->etiqueta_edificacion,
-          $this->id_cliente, 
-          $this->id_envio);
+        $params = array(
+            $this->estado_envio,
+            $this->fecha_estimada,
+            $this->numero_seguimiento,
+            $this->etiqueta_edificacion,
+            $this->id_cliente,
+            $this->id_envio
+        );
         return Database::executeRow($sql, $params);
     }
 
+
+    // Método para eliminar un registro específico de envío.
     public function deleteRow()
     {
         $sql = 'DELETE FROM tb_envios
@@ -236,6 +242,7 @@ class CotizacionHandler
         return Database::executeRow($sql, $params);
     }
 
+    // Método para eliminar un registro específico de detalle de envío.
     public function deleteRowDetalle()
     {
         $sql = 'DELETE FROM tb_detalle_envios

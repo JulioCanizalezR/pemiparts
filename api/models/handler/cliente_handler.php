@@ -22,6 +22,7 @@ class ClienteHandler
     /*
     *   Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
     */
+    // Método para buscar clientes en la base de datos.
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
@@ -34,6 +35,7 @@ class ClienteHandler
         return Database::getRows($sql, $params);
     }
 
+    // Método para crear un nuevo cliente en la base de datos.
     public function createRow()
     {
         $sql = 'INSERT INTO tb_clientes(nombre_cliente, apellido_cliente, correo_electronico_cliente, direccion_cliente, id_empresa, numero_telefono_cliente, fecha_registro_cliente)
@@ -42,6 +44,8 @@ class ClienteHandler
         return Database::executeRow($sql, $params);
     }
 
+
+    // Método para obtener todos los clientes de la base de datos.
     public function readAll()
     {
         $sql = 'SELECT id_cliente, nombre_cliente, apellido_cliente, correo_electronico_cliente, direccion_cliente, nombre_empresa, numero_telefono_cliente, fecha_registro_cliente
@@ -52,6 +56,7 @@ class ClienteHandler
     }
 
 
+    // Método para obtener una lista simplificada de clientes (solo ID y nombre).
     public function readClientes()
     {
         $sql = 'SELECT id_cliente, nombre_cliente
@@ -60,6 +65,7 @@ class ClienteHandler
         return Database::getRows($sql);
     }
 
+    // Método para obtener los datos de un solo cliente.
     public function readOne()
     {
         $sql = 'SELECT id_cliente, nombre_cliente, apellido_cliente, correo_electronico_cliente, direccion_cliente, tb_clientes.id_empresa, numero_telefono_cliente, fecha_registro_cliente
@@ -70,6 +76,7 @@ class ClienteHandler
         return Database::getRow($sql, $params);
     }
 
+    // Método para actualizar los datos de un cliente.
     public function updateRow()
     {
         $sql = 'UPDATE tb_clientes
@@ -79,6 +86,7 @@ class ClienteHandler
         return Database::executeRow($sql, $params);
     }
 
+    // Método para eliminar un cliente de la base de datos.
     public function deleteRow()
     {
         $sql = 'DELETE FROM tb_clientes
@@ -87,6 +95,7 @@ class ClienteHandler
         return Database::executeRow($sql, $params);
     }
 
+    // Método para verificar si un correo electrónico ya está registrado para otro cliente.
     public function checkDuplicate($value)
     {
         $sql = 'SELECT id_cliente
@@ -102,6 +111,8 @@ class ClienteHandler
 
         return Database::getRow($sql, $params);
     }
+
+    // Método para obtener la cantidad de clientes por empresa.
     public function clientesPorEmpresa()
     {
         $sql = 'SELECT e.nombre_empresa AS empresa, COUNT(c.id_cliente) AS total_clientes
@@ -111,10 +122,10 @@ class ClienteHandler
                 ';
         return Database::getRows($sql);
     }
-    /*Reportes predictivos */
+    /* Reportes predictivos */
 
     /*
-    *   Método para calcular el Valor del Ciclo de Vida del Cliente (CLV).
+    *   Método para obtener la distribución de los medios de envío utilizados por un cliente específico.
     */
     public function graficoDistrubcionCliente()
     {
@@ -124,10 +135,10 @@ class ClienteHandler
                 WHERE e.id_cliente = ?  
                 GROUP BY d.medio_envio;';
         $params = array($this->id);
-        return Database::getRows($sql, $params); 
+        return Database::getRows($sql, $params);
     }
-    
 
+    // Método para obtener la cantidad de clientes registrados por mes en el año actual.
     public function clientesRegistradosXmes()
     {
         $sql = 'SELECT MONTH(fecha_registro_cliente) AS mes, COUNT(id_cliente) AS nuevos_clientes
@@ -139,6 +150,7 @@ class ClienteHandler
         return Database::getRows($sql);
     }
 
+    // Método para calcular el Valor del Ciclo de Vida del Cliente (CLV).
     public function calcularCLV($id_cliente)
     {
         // Obtener el total de compras del cliente.
@@ -147,12 +159,12 @@ class ClienteHandler
                 JOIN tb_detalle_envios tde ON te.id_envio = tde.id_envio
                 JOIN tb_clientes c ON te.id_cliente = c.id_cliente
                 WHERE c.id_cliente = ? AND (te.estado_envio = "Finalizado" OR te.estado_envio = "Entregado")';
-        $params = array($id_cliente);
-        $data = Database::getRow($sql, $params);
+        $params = array($id_cliente);  // Parámetro con el ID del cliente.
+        $data = Database::getRow($sql, $params); // Se ejecuta la consulta y se obtiene el resultado.
 
         if ($data) {
-            $total_compras = $data['total_compras'];
-            $total_pedidos = $data['total_pedidos'];
+            $total_compras = $data['total_compras']; // Total de compras del cliente.
+            $total_pedidos = $data['total_pedidos']; // Total de pedidos del cliente.
 
             // Si no hay compras registradas, devolver 0.
             if ($total_pedidos == 0) {
@@ -173,6 +185,7 @@ class ClienteHandler
     /*
     *   Método para obtener un reporte de CLV por cliente.
     */
+    // Consulta SQL para obtener los clientes que han realizado envíos finalizados o entregados.
     public function obtenerReporteCLV()
     {
         $sql = 'SELECT c.id_cliente, c.nombre_cliente, c.apellido_cliente, c.correo_electronico_cliente
@@ -181,10 +194,12 @@ class ClienteHandler
                 WHERE te.estado_envio = "Finalizado" OR te.estado_envio = "Entregado"
                 GROUP BY c.id_cliente, c.nombre_cliente, c.apellido_cliente, c.correo_electronico_cliente
                 ORDER BY c.nombre_cliente';
+        // Se ejecuta la consulta y se obtiene la lista de clientes.
         $clientes = Database::getRows($sql);
 
-        $reporte = [];
+        $reporte = []; // Inicializa un array para almacenar el reporte.
 
+        // Itera sobre cada cliente obtenido en la consulta.
         foreach ($clientes as $cliente) {
             $clv = $this->calcularCLV($cliente['id_cliente']);
             $reporte[] = [
@@ -197,6 +212,7 @@ class ClienteHandler
         return $reporte;
     }
 
+    // Consulta SQL para obtener los clientes de una empresa específica.F
     public function clientesXempresa()
     {
         $sql = 'SELECT 
@@ -214,7 +230,7 @@ JOIN
 WHERE 
     e.id_empresa = ?; 
     ';
-    $params = array($this->id_empresa);
-    return Database::getRows($sql, $params); 
+        $params = array($this->id_empresa);
+        return Database::getRows($sql, $params);
     }
 }

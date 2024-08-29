@@ -21,24 +21,24 @@ if ($dataempresa = $empresa->reporteGeneralEmpresa()) {
     $pdf->setFont('Arial', 'B', 12); // Fuente para el encabezado
 
     // Agrega las celdas del encabezado con el título de cada columna
-    $pdf->cell(30, 10, 'ID Empresa', 1, 0, 'C', 1);
-    $pdf->cell(30, 10, 'Empresa', 1, 0, 'C', 1);
+   // $pdf->cell(30, 10, 'ID Empresa', 1, 0, 'C', 1);
+    $pdf->cell(40, 10, 'Empresa', 1, 0, 'C', 1);
     $pdf->cell(30, 10, 'Clientes', 1, 0, 'C', 1);
     $pdf->cell(40, 10, 'Productos', 1, 0, 'C', 1);
-    $pdf->cell(40, 10, 'Existencias', 1, 0, 'C', 1);
-    $pdf->cell(20, 10, convertToISO88591('Envíos'), 1, 1, 'C', 1); // Nueva línea para los encabezados
+    $pdf->cell(30, 10, 'Existencias', 1, 0, 'C', 1);
+    $pdf->cell(30, 10, convertToISO88591('Envíos'), 1, 1, 'C', 1); // Nueva línea para los encabezados
 
     $pdf->setTextColor(0); // Color de texto para los datos
     $pdf->setFont('Arial', '', 10); // Fuente para los datos
 
     // Recorre cada empresa obtenida de la base de datos
     foreach ($dataempresa as $rowempresa) {
-        $pdf->cell(30, 10, $rowempresa['id_empresa'], 1, 0, 'C'); 
-        $pdf->cell(30, 10, $pdf->encodeString($rowempresa['nombre_empresa']), 1, 0, 'C'); 
+     //   $pdf->cell(30, 10, $rowempresa['id_empresa'], 1, 0, 'C'); 
+        $pdf->cell(40, 10, $pdf->encodeString($rowempresa['nombre_empresa']), 1, 0, 'C'); 
         $pdf->cell(30, 10, $rowempresa['total_clientes'], 1, 0, 'C'); 
         $pdf->cell(40, 10, $rowempresa['total_productos'], 1, 0, 'C'); 
-        $pdf->cell(40, 10, $rowempresa['total_existencias'], 1, 0, 'C'); 
-        $pdf->cell(20, 10, $rowempresa['total_envios'], 1, 1, 'C'); // Nueva línea para los datos
+        $pdf->cell(30, 10, $rowempresa['total_existencias'], 1, 0, 'C'); 
+        $pdf->cell(30, 10, $rowempresa['total_envios'], 1, 1, 'C'); // Nueva línea para los datos
     }
 } else {
     // Si no hay empresas para mostrar, se imprime un mensaje en una celda

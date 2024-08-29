@@ -19,6 +19,8 @@ class EmpresaHandler
     /*
      *  Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
      */
+
+    // Método para buscar empresas por nombre.
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
@@ -30,6 +32,7 @@ class EmpresaHandler
         return Database::getRows($sql, $params);
     }
 
+    // Método para crear una nueva empresa.
     public function createRow()
     {
         $sql = 'INSERT INTO tb_empresas(nombre_empresa)
@@ -38,6 +41,8 @@ class EmpresaHandler
         return Database::executeRow($sql, $params);
     }
 
+
+    // Método para obtener todas las empresas.
     public function readAll()
     {
         $sql = 'SELECT id_empresa, nombre_empresa
@@ -46,9 +51,9 @@ class EmpresaHandler
         return Database::getRows($sql);
     }
 
+    // Método para obtener un reporte general de empresas.
     public function reporteGeneralEmpresa()
     {
-        // Consulta SQL
         $sql = 'SELECT 
             e.id_empresa,
             e.nombre_empresa,
@@ -71,10 +76,10 @@ class EmpresaHandler
         ORDER BY 
             e.id_empresa;
         ';
-
-        // Ejecuta la consulta y retorna los resultados
         return Database::getRows($sql);
     }
+
+    // Método para obtener los datos de una empresa específica por su ID.
     public function readOne()
     {
         $sql = 'SELECT id_empresa, nombre_empresa
@@ -84,7 +89,7 @@ class EmpresaHandler
         return Database::getRow($sql, $params);
     }
 
-
+    // Método para actualizar los datos de una empresa.
     public function updateRow()
     {
         $sql = 'UPDATE tb_empresas
@@ -94,6 +99,7 @@ class EmpresaHandler
         return Database::executeRow($sql, $params);
     }
 
+    // Método para eliminar una empresa.
     public function deleteRow()
     {
         $sql = 'DELETE FROM tb_empresas
@@ -101,6 +107,8 @@ class EmpresaHandler
         $params = array($this->id_empresa);
         return Database::executeRow($sql, $params);
     }
+
+    // Método para comparar existencias de productos por almacenamiento.
     public function compExistenciasProductos()
     {
         $sql = 'SELECT a.nombre_almacenamiento AS almacenamiento, SUM(e.existencias) AS total_existencias
@@ -114,7 +122,8 @@ class EmpresaHandler
         $params = array($this->id_categoria);
         return Database::getRows($sql, $params);
     }
-
+    
+    // Método para obtener la evolución del costo de envío por cliente.
     public function evoCostoEnvioCliente()
     {
         $sql = 'SELECT e.fecha_estimada AS fecha, SUM(de.costo_envio) AS total_costo
