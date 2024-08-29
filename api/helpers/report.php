@@ -1,5 +1,6 @@
 <?php
 require_once('../../libraries/fpdf185/fpdf.php');
+require_once('../../models/handler/usuario_handler.php'); // Asegúrate de incluir el archivo que contiene UsuarioHandler
 
 class Report extends FPDF
 {
@@ -12,6 +13,7 @@ class Report extends FPDF
         if (isset($_SESSION['idUsuario'])) {
             $this->title = $title;
             $this->setTitle('pemiparts - Reporte', true);
+     
             $this->setMargins(15, 15, 15);
             $this->addPage('p', 'letter');
             $this->aliasNbPages();
@@ -27,14 +29,14 @@ class Report extends FPDF
 
     public function header()
     {
-        // Mantengo el logo con la ruta original
-        $this->image('../../images/logo.png', 15, 10, 20);
-        
         // Fondo del encabezado con gradiente (simulado con rectángulos superpuestos)
         $this->setFillColor(0, 51, 153); // Azul 
         $this->rect(0, 0, 220, 20, 'F');
         $this->setFillColor(0, 76, 204); // Azul claro
         $this->rect(0, 20, 220, 20, 'F');
+
+        // Coloco la imagen del logo encima del fondo
+        $this->image('../../images/logo.png', 15, 10, 35);
         
         // Título del reporte en blanco, centrado
         $this->setFont('Arial', 'B', 18);
@@ -51,15 +53,23 @@ class Report extends FPDF
     {
         // Fondo azul para el pie
         $this->setY(-25);
-        $this->setFillColor(0, 51, 153); // Azul 
+        $this->setFillColor(0, 51, 163); // Azul 
         $this->rect(0, $this->getY(), 220, 25, 'F');
         
         // Número de página
         $this->setFont('Arial', 'I', 8);
         $this->setTextColor(255, 255, 255); // Texto blanco en el pie
         $this->cell(0, 10, 'Pagina ' . $this->pageNo() . '/{nb}', 0, 0, 'C');
-    }
 
+        // Mostrar nombre de usuario en lugar de correo
+        $usuarioHandler = new UsuarioHandler();
+        $userName = $usuarioHandler->getUserNameById($_SESSION['idUsuario']);
+        if ($userName) {
+            $this->cell(0, 10, 'Descargado por: ' . $this->encodeString($userName), 0, 0, 'R');
+        } else {
+            $this->cell(0, 10, 'Descargado por: Usuario desconocido', 0, 0, 'R');
+        }
+    }
 
     public function addTableHeader($headers)
     {

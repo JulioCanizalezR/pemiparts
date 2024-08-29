@@ -58,6 +58,15 @@ class UsuarioHandler
         }
     }
 
+
+    public function getUserNameById($userId)
+    {
+        $sql = 'SELECT nombre FROM tb_usuarios WHERE id_usuario = ?';
+        $params = array($userId);
+        $data = Database::getRow($sql, $params);
+        return $data ? $data['nombre'] : null;
+    }
+
     public function changePassword()
     {
         $sql = 'UPDATE tb_usuarios
@@ -95,7 +104,7 @@ class UsuarioHandler
         return Database::getRow($sql, $params);
     }
 
-    
+
     // Leer la imagen del administrador que ha iniciado sesion.
     public function readFilenameProfile()
     {
@@ -177,7 +186,7 @@ class UsuarioHandler
 
         return Database::getRow($sql, $params);
     }
-    
+
     public function changePasswordFromEmail()
     {
         $sql = 'UPDATE tb_usuarios SET contraseña = ? WHERE correo_electronico = ?';
@@ -192,7 +201,7 @@ class UsuarioHandler
                 WHERE correo_electronico = ?';
         $params = array($this->correo);
         $result = Database::getRow($sql, $params);
-    
+
         if ($result['count'] > 0) {
             return true; // Hay resultados
         } else {

@@ -197,7 +197,7 @@ var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
 
 const openReport = (id) => {
   // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
-  const PATH = new URL(`${ SERVER_URL } reports / admin / clientes_empresa.php`);
+  const PATH = new URL(`${SERVER_URL}reports/admin/clientes_empresa.php`);
   // Se agrega un parámetro a la ruta con el valor del registro seleccionado.
   PATH.searchParams.append('idEmpresa', id);
   // Se abre el reporte en una nueva pestaña.
@@ -206,7 +206,7 @@ const openReport = (id) => {
 
 const openReport2 = () => {
  
-  const PATH = new URL(`${ SERVER_URL }reports/admin/reporte_general_empresa.php`);
+  const PATH = new URL(`${SERVER_URL}reports/admin/reporte_general_empresa.php`);
  
   window.open(PATH.href);
 }
