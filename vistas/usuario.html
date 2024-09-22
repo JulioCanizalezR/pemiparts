@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuario</title>
+    <link href="../recursos/css/bootstrap.min.css" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="../recursos/css/productos.css" rel="stylesheet">
+</head>
+
+<body>
+    <main>
+        <div id="mainContent">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="d-flex align-items-center">
+                        <!--Texto-->
+                        <div class="col-2">
+                            <h3>Usuarios</h3>
+                        </div>
+
+                        <!-- Boton de informacion-->
+
+                        <button type="button" class="btn me-2 mb-2 me-2" data-bs-toggle="popover"
+                            data-bs-placement="top" data-bs-content="Busca por el nombre, el apellido o el correo">
+                            <img src="../recursos/img/info.svg" width="18px" height="18px">
+                        </button>
+                        <!-- Input con botón de búsqueda -->
+                        <form id="searchForm" class="col-md-5 col-sm-12 me-4">
+                            <input class="form-control me-2 mb-2" type="search" placeholder="Buscar" name="search"
+                                aria-label="Buscar" id="searchInput" />
+                        </form>
+                        <!-- Botón Agregar -->
+                        <button type="button" class="btn btn-custom custom-add-btn me-2"
+                            onclick="openCreate()">Agregar</button>
+
+                        <button type="button" class="btn btn-custom custom-add-btn"
+                            onclick="openReport()">Reporte</button>
+                    </div>
+                </div>
+
+                <!-- Aquí el contenedor de tarjetas -->
+                <div class="container-fluid mt-4">
+                    <div class="row justify-content-center" id="cards">
+                        <!-- Aquí se mostrarán las tarjetas -->
+                    </div>
+                </div>
+
+                <!-- Componente Modal para guardar un registro -->
+                <div class="modal fade" id="saveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                    aria-labelledby="modalTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="modalTitle"></h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <!-- Formulario para crear o actualizar un registro -->
+                            <form id="saveForm">
+                                <div class="modal-body row g-3">
+                                    <!-- Campo oculto para asignar el id del registro al momento de modificar -->
+                                    <input type="number" class="d-none" id="idUsuario" name="idUsuario">
+                                    <div class="col-sm-12 col-md-6">
+                                        <label for="nombreUsuario" class="form-label">Nombre</label>
+                                        <input id="nombreUsuario" type="text" name="nombreUsuario"
+                                            class="form-control rounded-5" placeholder="John" required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <label for="apellidoUsuario" class="form-label">Apellido</label>
+                                        <input id="apellidoUsuario" type="text" name="apellidoUsuario"
+                                            class="form-control rounded-5" placeholder="Doe" required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <label for="correoUsuario" class="form-label">Correo Electrónico</label>
+                                        <input id="correoUsuario" type="email" name="correoUsuario"
+                                            class="form-control rounded-5" placeholder="johndoe@example.com" required>
+                                        </inputs>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <label for="telefonoUsuario" class="form-label">Telefono</label>
+                                        <input id="telefonoUsuario" type="text" name="telefonoUsuario"
+                                            class="form-control rounded-5" placeholder="2454-7777" required>
+                                        </input>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <label for="claveUsuario" class="form-label">Contraseña</label>
+                                        <input id="claveUsuario" type="password" name="claveUsuario"
+                                            class="form-control rounded-5" placeholder="Contraseña"
+                                            aria-label="Contraseña" required>
+                                        </input>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <label for="confirmarClave" class="form-label">Confirmar Contraseña</label>
+                                        <input id="confirmarClave" type="password" name="confirmarClave"
+                                            class="form-control rounded-5" placeholder="Confirmar Contraseña"
+                                            aria-label="Contraseña" required>
+                                        </input>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <label for="cargoUsuario" class="form-label">Cargo</label>
+                                        <select id="cargoUsuario" name="cargoUsuario" class="form-select rounded-3"
+                                            required>
+                                            <option value="0">Gerente</option>
+                                            <option value="1">Empleado</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <label for="imagenUsuario" class="form-label">Imagen</label>
+                                        <input id="imagenUsuario" type="file" name="imagenUsuario"
+                                            class="form-control rounded-5" accept=".png, .jpg">
+                                    </div>
+                                </div>
+                                <div class="modal-footer col-sm-12 col-md-12 col-lg-12 justify-content-center">
+                                    <button type="submit" class="boton btn azul">Guardar</button>
+                                    <button type="reset" class="boton btn azul">Cancelar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Componente Modal para visualizar un registro -->
+                <div class="modal fade" id="seeModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                    aria-labelledby="modalTitle2" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header bg-blue-principal-color">
+                                <h1 class="modal-title fs-5 text-dark" id="modalTitle2"></h1>
+                                <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <!-- Formulario para visualizar un registro -->
+                            <form id="seeForm">
+                                <div class="modal-body row g-3">
+                                    <!-- Mitad izquierda con la imagen -->
+                                    <div class="col-md-6">
+                                        <div class="bg-white">
+                                            <img class="imagen img-fluid" id="imagen"
+                                                src="https://www.arideocean.com/wp-content/themes/arkahost/assets/images/default.png"
+                                                alt="">
+                                        </div>
+                                    </div>
+                                    <!-- Mitad derecha con el contenido -->
+                                    <div class="col-md-6">
+                                        <p class="letter">Nombres: <span class="no-letter" id="nombre">Juan
+                                                Torres</span></P>
+                                        <p class="letter">Apellidos: <span class="no-letter" id="apellido">Campos
+                                                Lopez</span></p>
+                                        <p class="letter">Cargo: <span class="no-letter" id="cargo">Empleado</span></p>
+                                        <p class="letter">Email: <span class="no-letter"
+                                                id="email">Juan@gmail.com</span></p>
+                                        <p class="letter">Telefono: <span class="no-letter"
+                                                id="telefono">7233-2134</span></p>
+                                        <!-- Botones de acciones -->
+                                        <div class="d-flex justify-content-center">
+                                            <button type="button" class="btn azul rounded-5 me-4" title="Actualizar"
+                                                id="Actualizar">
+                                                <i class='bx bx-edit-alt'></i>
+                                            </button>
+                                            <button type="button" class="btn azul rounded-5" title="Eliminar"
+                                                id="Eliminar">
+                                                <i class='bx bx-trash'></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+    <!-- Inclusión de la librería de mascaras. Para más información https://github.com/text-mask/text-mask -->
+    <script type="text/javascript" src="../recursos/js/vanillaTextMask.js"></script>
+    <!-- Llamada al controlador del boostrap bundle javascript -->
+    <script type="text/javascript" src="../recursos/js/bootstrap.bundle.min.js"></script>
+    <!-- Llamada al controlador del componente javascript -->
+    <script type="text/javascript" src="../controladores/utilidades/components.js"></script>
+    <!-- Importación de la librería para generar los gráficos. Para más información https://www.chartjs.org/ -->
+    <script type="text/javascript" src="../recursos/js/sweetalert.min.js"></script>
+    <!-- Llamada al controlador del template javascript -->
+    <script type="text/javascript" src="../controladores/utilidades/template.js"></script>
+    <!-- Llamada al controlador de usuario javascript -->
+    <script type="text/javascript" src="../controladores/privada/usuario.js"></script>
+</body>
+
+</html>

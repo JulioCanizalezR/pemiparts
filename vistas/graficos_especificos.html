@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gráficos</title>
+    <link href="../recursos/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../recursos/css/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="../recursos/css/inicio.css" rel="stylesheet">
+    <link href="../recursos/css/graficos_especificos.css" rel="stylesheet">
+</head>
+
+<body>
+    <main>
+        <div id="mainContent">
+            <div class="container">
+                <div id="chart-wrapper">
+                    <!-- Gráfico 1 -->
+                    <div class="chart-container">
+                        <h3>Distribución por Medios de Envío</h3>
+                        <div class="id-input-container">
+                            <input type="text" id="chartMediosDstCliente-id" class="id-input"
+                                placeholder="ID para gráfico 1">
+                            <button type="button" class="btn me-2 mb-2" data-bs-toggle="popover" data-bs-placement="top"
+                                data-bs-content="Busca los medios de transportes mas usados para un cliente especifico ">
+                                <img src="../recursos/img/info.svg" width="18px" height="18px">
+                            </button>
+                        </div>
+                        <canvas id="chartMediosDstCliente"></canvas>
+                    </div>
+
+                    <!-- Gráfico 2 -->
+                    <div class="chart-container">
+                        <h3>Disponibilidad de Productos por Categoría</h3>
+                        <div class="id-input-container">
+                            <input type="text" id="chartDisponibilidadXcategoria-id" class="id-input"
+                                placeholder="ID para gráfico 2">
+                            <button type="button" class="btn me-2 mb-2" data-bs-toggle="popover" data-bs-placement="top"
+                                data-bs-content="Busca por el indice de la categoria los productos disponibles de esa categoria">
+                                <img src="../recursos/img/info.svg" width="18px" height="18px">
+                            </button>
+                        </div>
+                        <canvas id="chartDisponibilidadXcategoria"></canvas>
+                    </div>
+
+                    <!-- Gráfico 3 -->
+                    <div class="chart-container">
+                        <h3>Comparación de Existencias de Productos</h3>
+                        <div class="id-input-container">
+                            <input type="text" id="chartCompExstProductos-id" class="id-input"
+                                placeholder="ID para gráfico 3">
+                            <button type="button" class="btn me-2 mb-2" data-bs-toggle="popover" data-bs-placement="top"
+                                data-bs-content="Busca la existencia disponible segun el indice de la categoria especificada">
+                                <img src="../recursos/img/info.svg" width="18px" height="18px">
+                            </button>
+                        </div>
+                        <canvas id="chartCompExstProductos"></canvas>
+                    </div>
+
+                    <!-- Gráfico 4 -->
+                    <div class="chart-container">
+                        <h3>Evolución del Costo de Envío por Cliente</h3>
+                        <div class="id-input-container">
+                            <input type="text" id="chartEvoCostoEnvioCliente-id" class="id-input"
+                                placeholder="ID para gráfico 4">
+                            <button type="button" class="btn me-2 mb-2" data-bs-toggle="popover" data-bs-placement="top"
+                                data-bs-content="Busca el costo de un envio especifico segun el indice del cliente especificado">
+                                <img src="../recursos/img/info.svg" width="18px" height="18px">
+                            </button>
+                        </div>
+                        <canvas id="chartEvoCostoEnvioCliente"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="text/javascript" src="../recursos/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="../recursos/js/sweetalert.min.js"></script>
+    <script type="text/javascript" src="../controladores/utilidades/components.js"></script>
+    <script type="text/javascript" src="../recursos/js/chart.umd.min.js"></script>
+    <script type="text/javascript" src="../controladores/utilidades/template.js"></script>
+    <script type="text/javascript" src="../controladores/privada/graficos_especificos.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de sesión</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="../recursos/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../recursos/css/editarperfil.css">
+</head>
+
+<body>
+    <main>
+
+        <!-- Título del contenido principal -->
+
+        <h3 id="mainTitle"></h3>
+
+        <!-- Modal de edición de perfil -->
+        <div class="modal fade" id="seeModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="modalTitle2" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-dark text-white">
+                        <h5 class="modal-title" id="modalTitle2">Editar Perfil</h5>
+                        <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <form id="seeForm">
+                        <div class="modal-body row g-3">
+                            <input type="number" class="d-none" id="idUsuario" name="idUsuario">
+                            <div class="col-sm-12 col-md-6">
+                                <label for="nombreUsuario" class="form-label">Nombre</label>
+                                <input id="nombreUsuario" type="text" name="nombreUsuario"
+                                    class="form-control rounded-5" placeholder="John" required>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="apellidoUsuario" class="form-label">Apellido</label>
+                                <input id="apellidoUsuario" type="text" name="apellidoUsuario"
+                                    class="form-control rounded-5" placeholder="Doe" required>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="correoUsuario" class="form-label">Correo Electrónico</label>
+                                <input id="correoUsuario" type="email" name="correoUsuario"
+                                    class="form-control rounded-5" placeholder="johndoe@example.com" required>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="telefonoUsuario" class="form-label">Teléfono</label>
+                                <input id="telefonoUsuario" type="text" name="telefonoUsuario"
+                                    class="form-control rounded-5" placeholder="2454-7777" required>
+                            </div>
+                            <div class="col-sm-12 col-md-12">
+                                <label for="imagenUsuario" class="form-label">Imagen</label>
+                                <input id="imagenUsuario" type="file" name="imagenUsuario"
+                                    class="form-control rounded-5" accept=".png, .jpg">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary rounded-pill">Guardar</button>
+                            <button type="button" class="btn btn-secondary rounded-pill"
+                                data-bs-dismiss="modal">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de edición de perfil -->
+        <div class="modal fade" id="passwordModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="passwordTitle2" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-dark text-white">
+                        <h5 class="modal-title" id="passwordTitle2">Editar Perfil</h5>
+                        <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <form id="passwordForm">
+                        <div class="modal-body row g-3">
+                            <input type="number" class="d-none" id="idUsuario2" name="idUsuario2">
+                            <div class="col-sm-12 col-md-12">
+                                <label for="claveActual" class="form-label">Contraseña Actual</label>
+                                <input id="claveActual" type="password" name="claveActual"
+                                    class="form-control rounded-5" placeholder="Contraseña" required>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="claveUsuario" class="form-label">Contraseña</label>
+                                <input id="claveUsuario" type="password" name="claveUsuario"
+                                    class="form-control rounded-5" placeholder="Contraseña" required>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="confirmarClave" class="form-label">Confirmar Contraseña</label>
+                                <input id="confirmarClave" type="password" name="confirmarClave"
+                                    class="form-control rounded-5" placeholder="Confirmar Contraseña" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary rounded-pill">Guardar</button>
+                            <button type="button" class="btn btn-secondary rounded-pill"
+                                data-bs-dismiss="modal">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Información del usuario -->
+        <div class="container" id="usuarioCard">
+            <div class="card mt-4">
+                <div class="card-header bg-primary text-white text-center">
+                    <img src="https://via.placeholder.com/100" class="img-fluid rounded-circle profile-image"
+                        alt="Foto de perfil" id="imagen">
+                    <h2 class="mt-2" id="nombre">Juan</h2>
+                    <h2 class="mt-2" id="apellido">Campos</h2>
+                    <h5>Cargo: <span id="cargo">Gerente</span></h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Correo:</strong> <span id="correo">JuanT@Gmail.com</span></p>
+                    <p><strong>Teléfono:</strong> <span id="telefono">12345678</span></p>
+                    <div class="text-center">
+                        <button class="btn btn-primary" onclick="openEdit()">Editar
+                            perfil</button>
+                        <button class="btn btn-primary" onclick="openPassword()">Cambiar
+                            contraseña</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </main>
+
+
+    <script type="text/javascript" src="../controladores/utilidades/template.js"></script>
+    <!-- Llamada al controlador del bootstrap bundle javascript -->
+    <script type="text/javascript" src="../recursos/js/bootstrap.bundle.min.js"></script>
+    <!-- Llamada al controlador del componente javascript -->
+    <script type="text/javascript" src="../recursos/js/vanillaTextMask.js "></script>
+    <script type="text/javascript" src="../controladores/utilidades/components.js"></script>
+    <!-- Importación de la librería para generar los gráficos. Para más información https://www.chartjs.org/ -->
+    <script type="text/javascript" src="../recursos/js/sweetalert.min.js"></script>
+    <!-- Llamada al controlador del componente javascript -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+    <!--    <script type="text/javascript" src="../controladores/privada/usuario.js"></script> -->
+    <script type="text/javascript" src="../controladores/privada/perfil.js"></script>
+</body>
+
+</html>

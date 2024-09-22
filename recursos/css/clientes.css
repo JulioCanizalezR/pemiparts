@@ -1,0 +1,123 @@
+.bodycliente{
+    background-color:rgba(227, 242, 253, 1);
+}
+
+.logo {
+    font-size: 48px;
+    /* Tamaño del icono */
+    color: white;
+    /* Color del icono */
+    text-decoration: none;
+    /* Eliminar subrayado del enlace */
+    margin-bottom: 20px;
+    /* Separación hacia abajo */
+}
+
+.Usuario {
+    font-size: 48px;
+    /* Tamaño del icono */
+    text-decoration: none;
+    /* Eliminar subrayado del enlace */
+    margin-top: auto;
+    /* Empujar al final del contenedor */
+}
+
+.Usuario i {
+    color: white;
+    /* Color del icono */
+}
+
+.marge{
+    margin-top: 14rem;
+}
+
+.celeste {
+    background-color: rgba(25, 118, 210, 1);
+}
+
+.contenedor-uno{
+    max-height: 1000px;
+    min-height: 858px;
+    max-width: 600px;
+    min-width: 400px;
+    border-radius: 25px;
+}
+
+.contenedor-dos{
+    max-height: 600px;
+    min-height: 543px;
+    max-width: 700px;
+    min-width: 400px;
+    border-radius: 25px;
+}
+
+.contenedor-tres{
+    max-height: 200px;
+    min-height: 183px;
+    max-width: 700px;
+    min-width: 400px;
+    border-radius: 25px;
+}
+
+.fondo{
+    background-color: #9BD2FF;
+}
+
+.color-principal{
+   background-color:  #E3F2FD;
+}
+
+.espacio{
+    margin-top: 25rem;
+}
+
+
+
+.tarjetas {
+    background: #F3F3F3;
+    border-radius: 30px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+}
+
+.tarjetas:hover {
+    transform: scale(1.05);
+}
+
+.tarjetas:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.8);
+}
+
+.imagen{
+    border-radius: 30px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+}
+
+.azul{
+    background: #90CAF9;
+}
+
+.letter {
+    font-weight: bold;
+}
+
+.no-letter {
+    font-weight: normal;
+}
+
+.boton{
+    min-width: 200px;
+    color:#fff;
+}
+
+.boton:hover{
+    color:#000;
+}
+
+.botones{
+    color:#fff;
+}
+
+.botones:hover{
+    color:#000;
+}

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inicio de sesión</title>
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link href="../recursos/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../recursos/css/inicio_sesion.css">
+</head>
+
+<body>
+
+  <div class="container col-6">
+    <h1 class="iniciar" id="mainTitle"></h1>
+
+    <div class="form-container">
+      <!--Login form-->
+      <form class="d-none needs-validation" id="loginForm" action="#" method="post" novalidate>
+        <label class="text-start" for="correo">Correo:</label>
+        <input type="email" id="correo" name="correo" class="form-control" placeholder="Tu correo electrónico" required>
+        <div class="invalid-feedback">
+          Por favor ingresa un correo válido.
+        </div>
+
+        <label class="text-start" for="clave">Contraseña:</label>
+        <input type="password" id="clave" name="clave" class="form-control" placeholder="Tu contraseña" required>
+        <div class="invalid-feedback">
+          Por favor ingresa tu contraseña.
+        </div>
+
+        <div class="form-links botones">
+          <a class="h6" href="recuperacion_contraseña.html">¿Olvidaste tu contraseña?</a>
+          <a class="h6" href="registro.html">Registrarse</a>
+        </div>
+        <br>
+
+        <button type="submit" class="btn btn-primary button">Enviar</button>
+      </form>
+
+      <!--Register form-->
+      <form class="d-none needs-validation" id="signupForm" action="#" method="post" novalidate>
+        <div class="input-group container-fluid justify-content-between">
+          <div class="col-5 text-start">
+            <label for="nombreUsuario">Nombre:</label>
+            <input type="text" class="form-control rounded-3" id="nombreUsuario" name="nombreUsuario"
+              placeholder="Nombre" aria-label="Nombre" required pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+">
+            <div class="invalid-feedback">
+              Por favor, ingrese su nombre. Solo se permiten letras
+            </div>
+          </div>
+          <div class="col-5 text-start">
+            <label for="apellidoUsuario">Apellido:</label>
+            <input type="text" class="form-control rounded-3" id="apellidoUsuario" name="apellidoUsuario"
+              placeholder="Apellido" aria-label="Apellido" required pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+">
+            <div class="invalid-feedback">
+              Por favor, ingrese su apellido. Solo se permiten letras
+            </div>
+          </div>
+        </div>
+        <div class="input-group container-fluid justify-content-between">
+          <div class="col-5 text-start">
+            <label for="telefonoUsuario">Teléfono:</label>
+            <input type="text" class="form-control rounded-3" name="telefonoUsuario" id="telefonoUsuario"
+              placeholder="Teléfono" aria-label="Teléfono" required maxlength="9" pattern="[267][0-9]{3}-[0-9]{4}">
+            <div class="invalid-feedback">
+              Por favor, ingrese un teléfono válido (xxxx-xxxx).
+            </div>
+          </div>
+          <div class="col-5 text-start">
+            <label for="correoUsuario">Correo:</label>
+            <input type="email" class="form-control rounded-3" id="correoUsuario" name="correoUsuario"
+              placeholder="Correo" aria-label="Correo" required>
+            <div class="invalid-feedback">
+              Por favor ingresa un correo válido.
+            </div>
+          </div>
+        </div>
+
+
+        <div class="input-group container-fluid justify-content-between">
+          <div class="col-5 text-start">
+            <label for="claveUsuario" class="form-label">Contraseña</label>
+            <input type="password" name="claveUsuario" id="claveUsuario" class="form-control"
+              aria-describedby="passwordHelpBlock" placeholder="Contraseña" aria-label="Contraseña" required>
+            <div class="invalid-feedback">
+              Por favor ingresa una contraseña.
+            </div>
+          </div>
+          <div class="col-5 text-start">
+            <label for="confirmarClave" class="form-label">Confirmar Contraseña</label>
+            <input type="password" name="confirmarClave" id="confirmarClave" class="form-control"
+              aria-describedby="passwordHelpBlock" placeholder="Confirmar Contraseña" aria-label="Confirmar Contraseña"
+              required>
+            <div class="invalid-feedback">
+              Por favor confirma tu contraseña.
+            </div>
+          </div>
+        </div>
+
+        <br>
+
+        <button type="submit" class="btn btn-primary button">Enviar</button>
+      </form>
+    </div>
+  </div>
+
+</body>
+<script type="text/javascript" src="../recursos/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="../recursos/js/sweetalert.min.js"></script>
+<script type="text/javascript" src="../controladores/utilidades/components.js"></script>
+<script type="text/javascript" src="../controladores/utilidades/template.js"></script>
+<script type="text/javascript" src="../controladores/privada/index.js"></script>
+
+</html>

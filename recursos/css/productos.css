@@ -1,0 +1,138 @@
+/* productos.css */
+body {
+    font-family: Arial, sans-serif;
+}
+
+#mainContent {
+    background-color: #E3F2FD;
+    padding: 20px;
+}
+
+.custom-search-btn,
+.custom-search-input,
+.custom-add-btn {
+    border: 0;
+}
+
+.custom-search-btn {
+    border-radius: 5px 0 0 5px;
+    background-color: #1E88E5;
+    color: white;
+}
+
+.custom-search-input {
+    border-radius: 0 5px 5px 0;
+    background-color: #1E88E5 !important;
+    color: white !important;
+}
+
+.custom-search-input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+    opacity: 1;
+}
+
+.custom-add-btn {
+    border-radius: 5px;
+    background-color: #90CAF9;
+    color: white;
+    position: relative;
+    z-index: 10;
+}
+
+.botones-azul {
+    background-color: #90CAF9;
+}
+
+.tarjeta {
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.tarjeta:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.8);
+}
+
+.azul {
+    background: #90CAF9;
+}
+
+.letter {
+    font-weight: bold;
+}
+
+.no-letter {
+    font-weight: normal;
+}
+
+.boton {
+    min-width: 200px;
+    color: #fff;
+    transition: color 0.3s;
+}
+
+.boton:hover {
+    color: #000;
+}
+
+.botones {
+    color: #fff;
+    transition: color 0.3s;
+}
+
+.botones:hover {
+    color: #000;
+}
+
+.offcanvas,
+.offcanvas-lg,
+.offcanvas-md,
+.offcanvas-sm,
+.offcanvas-xl,
+.offcanvas-xxl {
+    --bs-offcanvas-width: 300px;
+}
+
+/* Estilo para cuando haya solo una tarjeta */
+.single-card .tarjeta {
+    width: 50%;
+    max-width: 50%;
+}
+
+/* Opcional: Estilo adicional para mejorar el diseño */
+.tarjeta {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+/* Estilo para cuando solo haya una tarjeta */
+#cards.single-card .col-md-5 {
+    flex: 1 1 100%;
+    /* Forzar a que la tarjeta ocupe todo el ancho */
+    max-width: 100%;
+}
+
+/* Ocultar los botones de incremento y decremento en Chrome, Safari, Edge, y Opera */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.position-relative .input-symbol {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #6c757d;
+}

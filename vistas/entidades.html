@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entidades</title>
+    <link href="../recursos/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../recursos/css/tablas.css" rel="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <main>
+        <div id="mainContent">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="d-flex align-items-center">
+                        <div class="col-md-2 col-sm-4 fs-3 text-dark">Entidades</div>
+                        <!-- Boton de informacion-->
+                        <button type="button" class="btn me-2 mb-2" data-bs-toggle="popover" data-bs-placement="top"
+                            data-bs-content="Busca por el nombre del producto o del contenedor">
+                            <img src="../recursos/img/info.svg" width="18px" height="18px">
+                        </button>
+                        <!-- Input con botón de búsqueda -->
+                        <form id="searchForm" class="col-md-5 col-sm-12 me-4">
+                            <input class="form-control me-2 mb-2" type="search" placeholder="Buscar" name="search"
+                                aria-label="Buscar" id="searchInput" />
+                        </form>
+
+
+                        <!-- Botón Agregar -->
+                        <button type="button" class="btn btn-custom custom-add-btn "
+                            onclick="openCreate()">Agregar</button>
+                    </div>
+                </div>
+
+                <table class="table table-striped rounded-3 overflow-hidden">
+                    <thead class="table-primary">
+                        <tr>
+                            <td colspan="6" id="rowsFound"></td>
+                        </tr>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Contenedor</th>
+                            <th scope="col">Productos</th>
+                            <th scope="col">Existencias</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col">Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                    </tbody>
+                </table>
+
+                <div class="modal fade" id="saveModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 45%">
+                        <div class="modal-content rounded-3">
+                            <div class="modal-header border-0">
+                                <h5 class="modal-title" id="modalTitle"></h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <!-- Formulario para crear o actualizar un registro -->
+                            <form id="saveForm">
+                                <div class="modal-body row g-3">
+                                    <!-- Campo oculto para asignar el id del registro al momento de modificar -->
+                                    <input type="number" class="d-none" id="idEntidad" name="idEntidad">
+                                    <div class="col-sm-12 col-md-6">
+                                        <label for="almacenamiento" class="form-label">Almacenamiento</label>
+                                        <select id="almacenamiento" name="almacenamiento" class="form-select rounded-5"
+                                            required>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <label for="producto" class="form-label">Producto</label>
+                                        <select id="producto" name="producto" class="form-select rounded-5" required>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6" id="existenciassssss">
+                                        <label for="existencia" class="form-label">Existencia</label>
+                                        <input id="existencia" type="number" min="1" step="1" name="existencia"
+                                            class="form-control" required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6" id="modificar">
+                                        <label for="aumentarExistencias" class="form-label">Modificar
+                                            existencias</label>
+                                        <input id="aumentarExistencias" type="number" min="1" step="1"
+                                            name="aumentarExistencias" class="form-control" required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <label for="estado" class="form-label">Estado</label>
+                                        <select class="form-select" id="estado" name="estado">
+                                            <option selected>Seleccionar estado</option>
+                                            <option value="Disponible">Disponible</option>
+                                            <option value="No disponible">No disponible</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Guardar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Llamada al controlador del boostrap bundle javascript -->
+    <script type="text/javascript" src="../recursos/js/bootstrap.bundle.min.js"></script>
+    <!-- Llamada al controlador del componente javascript -->
+    <script type="text/javascript" src="../controladores/utilidades/components.js"></script>
+    <!-- Importación de la librería para generar los gráficos. Para más información https://www.chartjs.org/ -->
+    <script type="text/javascript" src="../recursos/js/sweetalert.min.js"></script>
+    <!-- Llamada al controlador del template javascript -->
+    <script type="text/javascript" src="../controladores/utilidades/template.js"></script>
+    <!-- Llamada al controlador del componente javascript -->
+    <script type="text/javascript" src="../controladores/privada/entidades.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clientes</title>
+    <link href="../recursos/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../recursos/css/tablas.css" rel="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <main>
+        <div id="mainContent">
+            <div class="container ">
+                <div class="row justify-content-center">
+                    <div class="d-flex align-items-center">
+                        <div class="col-md-2 col-sm-4 fs-3 text-dark">Clientes</div>
+                        <!-- Boton de informacion-->
+                        <button type="button" class="btn me-2 mb-2" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Busca por el nombre, el apellido o el correo">
+                            <img src="../recursos/img/info.svg" width="18px" height="18px">
+                            </button>
+                        <!-- Buscador  -->
+                        <form id="searchForm" class="col-md-5 col-sm-12 me-4">
+                            <input class="form-control me-2 mb-2" type="search" placeholder="Buscar" name="search"
+                                aria-label="Buscar" id="searchInput" />
+                        </form>
+                        <button type="button" class="btn btn-custom custom-add-btn me-2"
+                        onclick="openCreate()">Agregar</button>
+                        <button type="button" class="btn btn-custom custom-add-btn me-2"
+                        onclick="openPredicReport()">Predecir</button>
+
+                        <button type="button" class="btn btn-custom custom-add-btn"
+                            onclick="openReport()">Reporte</button>                         
+                    </div>
+                    
+                </div>
+
+                <table class="table table-striped rounded-3 overflow-hidden">
+                    <thead class="table-primary">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Apellido</th>
+                            <th scope="col">Correo</th>
+                            <th scope="col">Teléfono</th>
+                            <th scope="col">Fecha del Registro</th>
+                            <th scope="col">Dirección</th>
+                            <th scope="col">Opciones</th>
+                        </tr>
+                    </thead>
+
+                    <!-- Aqui se cargaran las filas -->
+                    <tbody id="tableBody"></tbody>
+                </table>
+
+                <!-- Modal -->
+                <div class="modal fade" id="saveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                    aria-labelledby="modalTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="modalTitle"></h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form id="saveForm">
+                                <div class="modal-body row g-3">
+                                    <input type="number" class="d-none" id="idCliente" name="idCliente">
+                                    <div class="col-sm-12 col-md-6">
+                                        <label for="nombreCliente" class="form-label">Nombre</label>
+                                        <input id="nombreCliente" type="text" name="nombreCliente"
+                                            class="form-control rounded-5" placeholder="John" required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <label for="apellidoCliente" class="form-label">Apellido</label>
+                                        <input id="apellidoCliente" type="text" name="apellidoCliente"
+                                            class="form-control rounded-5" placeholder="Doe" required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <label for="correoCliente" class="form-label">Correo Electrónico</label>
+                                        <input id="correoCliente" type="email" name="correoCliente"
+                                            class="form-control rounded-5" placeholder="johndoe@example.com" required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <label for="telefonoCliente" class="form-label">Teléfono</label>
+                                        <input id="telefonoCliente" type="text" name="telefonoCliente"
+                                            class="form-control rounded-5" placeholder="2454-7777" required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <label for="nombreEmpresa" class="form-label">Nombre de la empresa</label>
+                                        <select id="nombreEmpresa" name="nombreEmpresa" class="form-select rounded-3"
+                                            required>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <label for="direccionCliente" class="form-label">Dirección</label>
+                                        <input id="direccionCliente" type="text" name="direccionCliente"
+                                            class="form-control rounded-5" placeholder="Dirección" required>
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer col-sm-12 col-md-12 col-lg-12 justify-content-center">
+                                    <button type="reset" class="boton btn azul">Cancelar</button>
+                                    <button type="submit" class="boton btn azul">Guardar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="seeModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                    aria-labelledby="modalTitle2" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header bg-blue-principal-color">
+                                <h1 class="modal-title fs-5 text-dark" id="modalTitle2"></h1>
+                                <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <form id="seeForm">
+                                <div class="modal-body row g-3">
+                                    <div class="col-md-6">
+                                        <div class="bg-white">
+                                            <img class="imagen img-fluid" id="imagen"
+                                                src="https://www.arideocean.com/wp-content/themes/arkahost/assets/images/default.png"
+                                                alt="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="letter">Nombres: <span class="no-letter" id="nombre">Juan
+                                                Torres</span></p>
+                                        <p class="letter">Apellidos: <span class="no-letter" id="apellido">Campos
+                                                Lopez</span></p>
+                                        <p class="letter">Nombre de la empresa: <span class="no-letter" id="nombreEmpresa">ABC
+                                                Ltd.</span></p>
+                                        <p class="letter">Email: <span class="no-letter" id="email">Juan@gmail.com</span></p>
+                                        <p class="letter">Teléfono: <span class="no-letter" id="telefono">7233-2134</span></p>
+                                        <p class="letter">Dirección: <span class="no-letter" id="direccion">Calle Falsa 123</span></p>
+                                        <div class="d-flex justify-content-center">
+                                            <button type="button" class="btn azul rounded-5 me-4" title="Actualizar"
+                                                id="Actualizar">
+                                                <i class='bx bx-edit-alt'></i>
+                                            </button>
+                                            <button type="button" class="btn azul rounded-5" title="Eliminar"
+                                                id="Eliminar">
+                                                <i class='bx bx-trash'></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+    <!-- Bootstrap -->
+    <script type="text/javascript" src="../recursos/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Alertas-->
+    <script type="text/javascript" src="../recursos/js/sweetalert.min.js"></script>
+
+    <!-- Controladores -->
+    <script type="text/javascript" src="../controladores/utilidades/components.js"></script>
+    <script type="text/javascript" src="../controladores/utilidades/template.js"></script>
+    <script type="text/javascript" src="../recursos/js/vanillaTextMask.js"></script>
+    <script type="text/javascript" src="../controladores/privada/clientes.js"></script>
+
+</body>
+
+</html>

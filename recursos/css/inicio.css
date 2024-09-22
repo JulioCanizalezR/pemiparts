@@ -1,0 +1,24 @@
+.custom-card {
+    background-color: #9BD2FF;
+    border: none;
+    border-radius: 15px;
+    padding: 60px;
+    text-align: center;
+}
+
+.notification-icon {
+    font-size: 50px;
+    margin-bottom: 20px;
+}
+
+.chart-container {
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+    margin: auto;
+}
+
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
