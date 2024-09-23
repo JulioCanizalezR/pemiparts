@@ -28,20 +28,69 @@ class UsuarioHandler
      */
     public function checkUser($username, $password)
     {
-        $sql = 'SELECT id_usuario, correo_electronico, contraseña
+        // Obtener información del usuario
+        $sql = 'SELECT id_usuario, correo_electronico, contraseña, fecha_cambio_clave, intentos_fallidos, bloqueado_hasta
                 FROM tb_usuarios
                 WHERE correo_electronico = ?';
         $params = array($username);
-        if (!($data = Database::getRow($sql, $params))) {
-            return false;
-        } elseif (password_verify($password, $data['contraseña'])) {
+        $data = Database::getRow($sql, $params);
+    
+        if (!$data) {
+            return false; // Usuario no encontrado
+        }
+    
+        // Comprobar si la cuenta está bloqueada
+        if ($data['bloqueado_hasta'] && strtotime($data['bloqueado_hasta']) > time()) {
+            // Calcula el tiempo restante para el desbloqueo
+            $tiempo_restante = (strtotime($data['bloqueado_hasta']) - time()) / 3600;
+            return 'bloqueado'; // Cuenta bloqueada
+        }
+    
+        // Verificar la contraseña
+        if (password_verify($password, $data['contraseña'])) {
+            // Restablecer intentos fallidos si el login es correcto
+            $sql = 'UPDATE tb_usuarios SET intentos_fallidos = 0, bloqueado_hasta = NULL WHERE id_usuario = ?';
+            $params = array($data['id_usuario']);
+            Database::executeRow($sql, $params);
+    
+            // Comprobar si la contraseña ha expirado
+            $fechaCambio = strtotime($data['fecha_cambio_clave']);
+            $fechaLimite = $fechaCambio + (90 * 24 * 60 * 60); // 90 días en segundos
+    
+            if (time() > $fechaLimite) {
+                return 'expirada'; // Contraseña expirada
+            }
+    
+            // Autenticación exitosa
             $_SESSION['idUsuario'] = $data['id_usuario'];
             $_SESSION['correoUsuario'] = $data['correo_electronico'];
             return true;
         } else {
-            return false;
+            // Incrementar intentos fallidos
+            $intentos_fallidos = $data['intentos_fallidos'] + 1;
+            $bloqueado_hasta = null;
+    
+            // Si alcanza el límite de 3 intentos fallidos, bloquear la cuenta
+            if ($intentos_fallidos >= 4) {
+                $bloqueado_hasta = date('Y-m-d H:i:s', strtotime('+24 hours')); // Bloqueo por 24 horas
+            }
+    
+            // Actualizar intentos fallidos y posible bloqueo
+            $sql = 'UPDATE tb_usuarios SET intentos_fallidos = ?, bloqueado_hasta = ? WHERE id_usuario = ?';
+            $params = array($intentos_fallidos, $bloqueado_hasta, $data['id_usuario']);
+            Database::executeRow($sql, $params);
+    
+            // Mostrar mensaje si la cuenta ha sido bloqueada
+            if ($bloqueado_hasta) {
+                return 'bloqueado'; // Devuelve el estado de bloqueo
+            }
+    
+            return false; // Contraseña incorrecta
         }
     }
+    
+    
+    
 
     public function checkPassword($password)
     {
@@ -88,11 +137,12 @@ class UsuarioHandler
     public function changePassword()
     {
         $sql = 'UPDATE tb_usuarios
-                SET contraseña = ?
+                SET contraseña = ?, fecha_cambio_clave = ?
                 WHERE id_usuario = ?';
-        $params = array($this->clave, $_SESSION['idUsuario']);
+        $params = array($this->clave, date('Y-m-d H:i:s'), $_SESSION['idUsuario']);
         return Database::executeRow($sql, $params);
     }
+    
 
     public function readProfile()
     {
@@ -149,11 +199,12 @@ class UsuarioHandler
 
     public function createRow()
     {
-        $sql = 'INSERT INTO tb_usuarios(imagen_usuario, nombre, apellido, numero_telefono, cargo, correo_electronico, contraseña )
-                VALUES(?, ?, ?, ?, ?, ?, ?)';
-        $params = array($this->imagen, $this->nombre, $this->apellido, $this->telefono, $this->cargo, $this->correo, $this->clave);
+        $sql = 'INSERT INTO tb_usuarios(imagen_usuario, nombre, apellido, numero_telefono, cargo, correo_electronico, contraseña, fecha_cambio_clave)
+                VALUES(?, ?, ?, ?, ?, ?, ?, ?)';
+        $params = array($this->imagen, $this->nombre, $this->apellido, $this->telefono, $this->cargo, $this->correo, $this->clave, date('Y-m-d H:i:s'));
         return Database::executeRow($sql, $params);
     }
+    
 
     public function readAll()
     {

@@ -2,21 +2,66 @@
 <html lang="es">
 
 <head>
-    <!-- Título del documento -->
-    <title>Gym Infernus  - Acceso prohibido</title>
-    <!-- Metadatos de la página web -->
+    <title>Pemi Parts - Acceso Prohibido</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Llamada de archivos -->
-    <link type="image/png" rel="icon" href="../../resources/img/icon.png">
-    <link type="text/css" rel="stylesheet" href="../../resources/css/bootstrap.min.css">
-    <link type="text/css" rel="stylesheet" href="../../resources/css/bootstrap-icons.min.css">
+    <link type="text/css" rel="stylesheet" href="../../../pemiparts/recursos/css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="../../../pemiparts/recursos/css/bootstrap-icons.min.css">
+    <style>
+        body {
+            background-color: #e2e3e5; /* Fondo suave */
+            color: #495057; /* Color de texto */
+            font-family: Arial, sans-serif; /* Fuente más legible */
+            height: 100vh; /* Altura total de la ventana */
+            display: flex;
+            align-items: center; /* Centrar verticalmente */
+            justify-content: center; /* Centrar horizontalmente */
+            margin: 0; /* Eliminar márgenes por defecto */
+        }
+        .error-container {
+            width: 100%; /* Abarcar todo el ancho */
+            max-width: 600px; /* Ancho máximo */
+            padding: 40px; /* Aumentar padding */
+            border-radius: 15px; /* Bordes más redondeados */
+            background-color: white;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
+            text-align: center;
+        }
+        h4 {
+            margin-bottom: 20px;
+            font-size: 2rem; /* Aumentar tamaño del texto del encabezado */
+        }
+        p {
+            margin-bottom: 15px;
+            font-size: 1.1rem; /* Tamaño de texto de los párrafos */
+        }
+        .btn-home {
+            margin-top: 20px;
+            font-size: 1.2rem; /* Aumentar tamaño del botón */
+            padding: 10px 20px; /* Aumentar padding del botón */
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px; /* Bordes redondeados para el botón */
+            text-decoration: none; /* Sin subrayado */
+        }
+        .btn-home:hover {
+            background-color: #0056b3;
+        }
+        .error-image {
+            max-width: 80%; /* Ajustar el ancho de la imagen */
+            height: auto;
+            margin-bottom: 20px; /* Espacio entre la imagen y el texto */
+        }
+    </style>
 </head>
 
 <body>
-    <div class="text-center py-5">
-        <h4><i class="bi bi-eye-slash-fill"></i> Error 403: Acceso prohibido</h4>
-        <a href="../../views/public/" class="fs-1"><i class="bi bi-arrow-clockwise"></i></a>
+    <div class="error-container">
+        <img src="../../../pemiparts/recursos/img/policestop.jpg" alt="Error 403" class="error-image">
+        <h4><i class="bi bi-eye-slash-fill"></i> Error 403: Acceso Prohibido</h4>
+        <p>Lo sentimos, no tienes permiso para acceder a esta página.</p>
+        <p>Si crees que esto es un error, por favor contacta a soporte.</p>
+        <a href="../../../pemiparts/vistas/index.html" class="btn btn-home"><i class="bi bi-arrow-clockwise"></i> Volver a la página principal</a>
     </div>
 </body>
 

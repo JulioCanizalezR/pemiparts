@@ -1,5 +1,6 @@
 // Constante para completar la ruta de la API.
 const USER_API = 'services/admin/usuario.php';
+const SESSION_CHECK = 'services/admin/session_check.php';
 // Constante para establecer el elemento del contenido principal.
 const MAIN = document.querySelector('main');
 // Se establece el título de la página web.
@@ -116,6 +117,7 @@ const generateSideBarHTML = async () => {
     } else {
         // Redirigir o mostrar mensaje de error si no está autenticado
         sweetAlert(3, "Error no has iniciado sesión", 2);
+        window.location.href = 'index.html'; 
         return '';
     }
 }
@@ -146,6 +148,19 @@ async function loadTemplate() {
         }
     }
 }
+ 
+async function checkSession() {
+    try {
+        const data = await fetchData(USER_API, 'checkSession'); // Puedes incluir la acción si es necesario
+        if (data.status === 'expired') {
+            alert(data.message);
+            window.location.reload();
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
 
 document.addEventListener('DOMContentLoaded', () => {
     Promise.all([
@@ -156,6 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ]).then(loadTemplate).catch((error) => {
         console.error('Error loading CSS files:', error);
     });
-});
 
- 
+    // Ejecuta la verificación de sesión cada 10 minutos = 1 min = 1000milisegundos    600000
+    setInterval(checkSession, 4500);
+});

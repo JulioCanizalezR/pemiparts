@@ -7,19 +7,42 @@ const POST_CNCONTRASEÑA = "usuario_confirmar_nueva_contraseña";
 const POST_CORREO = "usuario_correo";
 const POST_CODIGO_SECRETO_CONTRASEÑA = "codigoSecretoContraseña";
 
+
+session_start();
+define('TIEMPO_INACTIVIDAD', 2); // 600 =  10 minutos
+
+
+
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
-    // Se crea una sesión o se reanuda la actual para poder utilizar variables de sesión en el script.
-    session_start();
-    // Se instancia la clase correspondiente.
+
+
+    $_SESSION['ultima_actividad'] = time(); // Actualiza la última actividad
+
+    // Instanciar la clase correspondiente
     $usuario = new UsuarioData;
     // Se declara e inicializa un arreglo para guardar el resultado que retorna la API.
     $result = array('status' => 0, 'session' => 0, 'message' => null, 'dataset' => null, 'error' => null, 'exception' => null, 'username' => null, 'fileStatus' => null);
     // Se verifica si existe una sesión iniciada como administrador, de lo contrario se finaliza el script con un mensaje de error.
     if (isset($_SESSION['idUsuario'])) {
         $result['session'] = 1;
+
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
+            case 'checkSession':
+                // Verifica si la sesión ha expirado
+                if (isset($_SESSION['ultima_actividad']) && (time() - $_SESSION['ultima_actividad']) > TIEMPO_INACTIVIDAD) {
+                    session_unset();
+                    session_destroy();
+                    $result = [
+                        'status' => 0,
+                        'message' => 'La sesión ha expirado por inactividad.',
+                    ];
+                    header('Content-type: application/json; charset=utf-8');
+                    echo json_encode($result);
+                    exit();
+                }
+                break;
             case 'searchRows':
                 if (!Validator::validateSearch($_POST['search'])) {
                     $result['error'] = Validator::getSearchError();
@@ -227,15 +250,23 @@ if (isset($_GET['action'])) {
                 }
                 break;
 
-            case 'logIn':
-                $_POST = Validator::validateForm($_POST);
-                if ($usuario->checkUser($_POST['correo'], $_POST['clave'])) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Autenticación correcta';
-                } else {
-                    $result['error'] = 'Credenciales incorrectas';
-                }
-                break;
+                case 'logIn':
+                    $_POST = Validator::validateForm($_POST);
+                    $loginResult = $usuario->checkUser($_POST['correo'], $_POST['clave']);
+                
+                    if ($loginResult === 'expirada') {
+                        $result['error'] = 'La contraseña ha expirado. Debe cambiarla.';
+                    } elseif ($loginResult === 'bloqueado') {
+                        $result['error'] = 'Demasiados intentos fallidos. Tu cuenta ha sido bloqueada. Vuelve a intentarlo en 24 horas.';
+                    } elseif ($loginResult) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Autenticación correcta';
+                    } else {
+                        $result['error'] = 'Credenciales incorrectas';
+                    }
+                    break;
+                
+
 
             case 'emailPasswordSender':
                 $_POST = Validator::validateForm($_POST);
@@ -327,6 +358,8 @@ if (isset($_GET['action'])) {
             default:
                 $result['error'] = 'Acción no disponible fuera de la sesión';
         }
+        // Después de una acción exitosa, actualiza el tiempo de la última actividad.
+        //     $_SESSION['ultima_actividad'] = time();
     }
     // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.
     $result['exception'] = Database::getException();
