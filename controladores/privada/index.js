@@ -2,7 +2,7 @@
 const SIGNUP_FORM = document.getElementById('signupForm');
 // Constante para establecer el formulario de inicio de sesión.
 const LOGIN_FORM = document.getElementById('loginForm');
-
+const DOUBLE_CHECK_ENABLED = true; // Cambia a false si deseas que sea opcional.
 // Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', async () => {
     // Llamada a la función para mostrar el encabezado y pie del documento.
@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     } else if (DATA.status) {
         // Se muestra el formulario para iniciar sesión.
         LOGIN_FORM.classList.remove('d-none');
+
         sweetAlert(4, DATA.message, true);
     } else {
         // Se muestra el formulario para registrar el primer usuario.
@@ -63,23 +64,38 @@ SIGNUP_FORM.addEventListener('submit', async (event) => {
     }
 });
 
+ 
 
+ 
 // Método del evento para cuando se envía el formulario de inicio de sesión.
 LOGIN_FORM.addEventListener('submit', async (event) => {
-    // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
-    // Validar el formulario
-    /*if (!LOGIN_FORM.checkValidity()) {
-        event.stopPropagation();
-        LOGIN_FORM.classList.add('was-validated');
-        return;
-    }*/
-    // Constante tipo objeto con los datos del formulario.
+    
     const FORM = new FormData(LOGIN_FORM);
-    // Petición para iniciar sesión.
+
+    // Enviar correo con el código de verificación
+    const DATA = await fetchData(USER_API, 'sendVerificationCode', FORM);
+    if (DATA.status) {
+        sweetAlert(1, "Se ha enviado un código de verificación a tu correo.", true);
+        // Ocultar campos de correo y contraseña
+        LOGIN_FORM.classList.add('d-none'); // Asegúrate de que esto oculte el formulario correctamente
+        // Mostrar el contenedor del código de verificación
+        document.getElementById('doubleCheckContainer').classList.remove('d-none');
+    } else {
+        sweetAlert(2, DATA.error, false);
+    }
+});
+
+
+// Evento para verificar el código de verificación
+document.getElementById('verifyButton').addEventListener('click', async () => {
+    const verificationCode = document.getElementById('verificacion').value;
+    const FORM = new FormData(LOGIN_FORM); // Aquí no necesitas el formulario de login, ya que solo estás verificando
+    FORM.append('verificacion', verificationCode);
+
+    // Petición para iniciar sesión con el código de verificación
     const DATA = await fetchData(USER_API, 'logIn', FORM);
-    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-    console.log(DATA);
+    
     if (DATA.status) {
         sweetAlert(1, DATA.message, true, 'dashboard.html');
     } else {

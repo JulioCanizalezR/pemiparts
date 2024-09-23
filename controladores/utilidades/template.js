@@ -149,17 +149,7 @@ async function loadTemplate() {
     }
 }
  
-async function checkSession() {
-    try {
-        const data = await fetchData(USER_API, 'checkSession'); // Puedes incluir la acción si es necesario
-        if (data.status === 'expired') {
-            alert(data.message);
-            window.location.reload();
-        }
-    } catch (error) {
-        console.error('Error:', error);
-    }
-}
+
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -172,6 +162,5 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Error loading CSS files:', error);
     });
 
-    // Ejecuta la verificación de sesión cada 10 minutos = 1 min = 1000milisegundos    600000
-    setInterval(checkSession, 4500);
+
 });

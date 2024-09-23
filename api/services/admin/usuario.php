@@ -10,7 +10,7 @@ const POST_CODIGO_SECRETO_CONTRASEÑA = "codigoSecretoContraseña";
 
 session_start();
 define('TIEMPO_INACTIVIDAD', 2); // 600 =  10 minutos
-
+const DOUBLE_CHECK_ENABLED = true;
 
 
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
@@ -29,20 +29,6 @@ if (isset($_GET['action'])) {
 
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
-            case 'checkSession':
-                // Verifica si la sesión ha expirado
-                if (isset($_SESSION['ultima_actividad']) && (time() - $_SESSION['ultima_actividad']) > TIEMPO_INACTIVIDAD) {
-                    session_unset();
-                    session_destroy();
-                    $result = [
-                        'status' => 0,
-                        'message' => 'La sesión ha expirado por inactividad.',
-                    ];
-                    header('Content-type: application/json; charset=utf-8');
-                    echo json_encode($result);
-                    exit();
-                }
-                break;
             case 'searchRows':
                 if (!Validator::validateSearch($_POST['search'])) {
                     $result['error'] = Validator::getSearchError();
@@ -249,29 +235,76 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al registrar el usuario';
                 }
                 break;
-
+                case 'sendVerificationCode':
+                    $_POST = Validator::validateForm($_POST);
+                    
+                    if (!$usuario->setCorreo($_POST['correo'])) {
+                        $result['error'] = $usuario->getDataError();
+                    } elseif ($usuario->verifyExistingEmail()) {
+                        $loginResult = $usuario->checkUser($_POST['correo'], $_POST['clave']);
+                        
+                        if ($loginResult === 'expirada') {
+                            $result['error'] = 'La contraseña ha expirado. Debe cambiarla.';
+                        } elseif ($loginResult === 'bloqueado') {
+                            $result['error'] = 'Demasiados intentos fallidos. Tu cuenta ha sido bloqueada. Vuelve a intentarlo en 24 horas.';
+                        } elseif ($loginResult) {
+                            $secret_verification_code = mt_rand(100000, 999999);
+                            $token = Validator::generateRandomString(64);
+                            
+                            $_SESSION['verification_code'] = [
+                                'code' => $secret_verification_code,
+                                'token' => $token,
+                                'expiration_time' => time() + (60 * 10)
+                            ];
+                            
+                            sendVerificationEmail($_POST['correo'], $secret_verification_code);
+                            $result['status'] = 1;
+                            $result['message'] = 'Código de verificación enviado al correo';
+                            $result['dataset'] = $token;  
+                        } else {
+                            $result['error'] = 'Credenciales incorrectas';
+                        }
+                    } else {
+                        $result['error'] = 'El correo indicado no existe';
+                    }
+                    break;
+                
                 case 'logIn':
                     $_POST = Validator::validateForm($_POST);
                     $loginResult = $usuario->checkUser($_POST['correo'], $_POST['clave']);
-                
+                    
                     if ($loginResult === 'expirada') {
                         $result['error'] = 'La contraseña ha expirado. Debe cambiarla.';
                     } elseif ($loginResult === 'bloqueado') {
                         $result['error'] = 'Demasiados intentos fallidos. Tu cuenta ha sido bloqueada. Vuelve a intentarlo en 24 horas.';
                     } elseif ($loginResult) {
-                        $result['status'] = 1;
-                        $result['message'] = 'Autenticación correcta';
+                        if (isset($_POST['verificacion'])) {
+                            $verificationResult = $usuario->verifyCode($_POST['verificacion']);
+                            
+                            if ($verificationResult === 'expired') {
+                                $result['error'] = 'El código ha expirado. Solicita uno nuevo.';
+                            } elseif ($verificationResult === true) {
+                                // Autenticación correcta, asignar sesión
+                                $_SESSION['idUsuario'] = $loginResult['id_usuario']; // Asegúrate de que checkUser retorne el ID
+                                $_SESSION['correoUsuario'] = $loginResult['correo_electronico'];
+                                $result['status'] = 1;
+                                $result['message'] = 'Autenticación correcta';
+                                // Redirigir al dashboard o preparar la sesión
+                            } else {
+                                $result['error'] = 'Código de verificación incorrecto. No se pudo autenticar.';
+                            }
+                        } else {
+                            $result['error'] = 'No se proporcionó un código de verificación.';
+                        }
                     } else {
                         $result['error'] = 'Credenciales incorrectas';
                     }
                     break;
                 
-
-
             case 'emailPasswordSender':
                 $_POST = Validator::validateForm($_POST);
 
-                if (!$usuario->setCorreo($_POST[POST_CORREO])) {
+                if (!$usuario->setCorreo($_POST['correo'])) {
                     $result['error'] = $usuario->getDataError();
                 } elseif ($usuario->verifyExistingEmail()) {
 
@@ -285,11 +318,11 @@ if (isset($_GET['action'])) {
                     ];
 
                     $_SESSION['usuario_correo_vcc'] = [
-                        'correo' => $_POST[POST_CORREO],
+                        'correo' => $_POST['correo'],
                         'expiration_time' => time() + (60 * 25) # (x*y) y=minutos de vida 
                     ];
 
-                    sendVerificationEmail($_POST[POST_CORREO], $secret_change_password_code);
+                    sendVerificationEmail($_POST['correo'], $secret_change_password_code);
                     $result['status'] = 1;
                     $result['message'] = 'Correo enviado';
                     $result['dataset'] = $token;

@@ -19,13 +19,15 @@
       <!--Login form-->
       <form class="d-none needs-validation" id="loginForm" action="#" method="post" novalidate>
         <label class="text-start" for="correo">Correo:</label>
-        <input type="email" id="correo" name="correo" class="form-control" placeholder="Tu correo electrónico" autocomplete="off" required>
+        <input type="email" id="correo" name="correo" class="form-control" placeholder="Tu correo electrónico"
+          autocomplete="off" required>
         <div class="invalid-feedback">
           Por favor ingresa un correo válido.
         </div>
 
         <label class="text-start" for="clave">Contraseña:</label>
-        <input type="password" id="clave" name="clave" class="form-control" placeholder="Tu contraseña" autocomplete="off" required>
+        <input type="password" id="clave" name="clave" class="form-control" placeholder="Tu contraseña"
+          autocomplete="off" required>
         <div class="invalid-feedback">
           Por favor ingresa tu contraseña.
         </div>
@@ -37,6 +39,16 @@
         <br>
 
         <button type="submit" class="btn btn-primary button">Enviar</button>
+      </form>
+
+
+      <!-- Contenedor de verificación adicional, oculto inicialmente -->
+      <form class="d-none" id="doubleCheckContainer" >
+        <label class="text-start" for="verificacion">Verificación adicional:</label>
+        <input type="text" id="verificacion" name="verificacion" class="form-control"
+          placeholder="Código de verificación">
+        <div class="invalid-feedback">Por favor ingresa el código de verificación.</div>
+        <button type="button" id="verifyButton" class="btn btn-secondary mt-2">Verificar</button>
       </form>
 
       <!--Register form-->
@@ -53,7 +65,8 @@
           <div class="col-5 text-start">
             <label for="apellidoUsuario">Apellido:</label>
             <input type="text" class="form-control rounded-3" id="apellidoUsuario" name="apellidoUsuario"
-              placeholder="Apellido" aria-label="Apellido" autocomplete="off" required pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+">
+              placeholder="Apellido" aria-label="Apellido" autocomplete="off" required
+              pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+">
             <div class="invalid-feedback">
               Por favor, ingrese su apellido. Solo se permiten letras
             </div>
@@ -63,7 +76,8 @@
           <div class="col-5 text-start">
             <label for="telefonoUsuario">Teléfono:</label>
             <input type="text" class="form-control rounded-3" name="telefonoUsuario" id="telefonoUsuario"
-              placeholder="Teléfono" aria-label="Teléfono" autocomplete="off" required maxlength="9" pattern="[267][0-9]{3}-[0-9]{4}">
+              placeholder="Teléfono" aria-label="Teléfono" autocomplete="off" required maxlength="9"
+              pattern="[267][0-9]{3}-[0-9]{4}">
             <div class="invalid-feedback">
               Por favor, ingrese un teléfono válido (xxxx-xxxx).
             </div>
@@ -83,7 +97,8 @@
           <div class="col-5 text-start">
             <label for="claveUsuario" class="form-label">Contraseña</label>
             <input type="password" name="claveUsuario" id="claveUsuario" class="form-control"
-              aria-describedby="passwordHelpBlock" placeholder="Contraseña" aria-label="Contraseña" autocomplete="off" required>
+              aria-describedby="passwordHelpBlock" placeholder="Contraseña" aria-label="Contraseña" autocomplete="off"
+              required>
             <div class="invalid-feedback">
               Por favor ingresa una contraseña.
             </div>

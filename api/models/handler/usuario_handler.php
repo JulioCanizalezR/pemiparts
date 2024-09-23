@@ -41,8 +41,6 @@ class UsuarioHandler
     
         // Comprobar si la cuenta está bloqueada
         if ($data['bloqueado_hasta'] && strtotime($data['bloqueado_hasta']) > time()) {
-            // Calcula el tiempo restante para el desbloqueo
-            $tiempo_restante = (strtotime($data['bloqueado_hasta']) - time()) / 3600;
             return 'bloqueado'; // Cuenta bloqueada
         }
     
@@ -61,10 +59,11 @@ class UsuarioHandler
                 return 'expirada'; // Contraseña expirada
             }
     
-            // Autenticación exitosa
-            $_SESSION['idUsuario'] = $data['id_usuario'];
-            $_SESSION['correoUsuario'] = $data['correo_electronico'];
-            return true;
+            // Retornar información del usuario en vez de asignar sesión
+            return [
+                'id_usuario' => $data['id_usuario'],
+                'correo_electronico' => $data['correo_electronico']
+            ];
         } else {
             // Incrementar intentos fallidos
             $intentos_fallidos = $data['intentos_fallidos'] + 1;
@@ -89,8 +88,46 @@ class UsuarioHandler
         }
     }
     
+
+    public function verifyCode($inputCode)
+    {
+        if (isset($_SESSION['verification_code'])) {
+            $storedCode = $_SESSION['verification_code']['code'];
+            $expirationTime = $_SESSION['verification_code']['expiration_time'];
     
+            // Verificar si el código ha expirado
+            if (time() > $expirationTime) {
+                unset($_SESSION['verification_code']);
+                return 'expired'; // El código ha expirado
+            }
     
+            // Verificar si el código proporcionado coincide con el almacenado
+            if ($inputCode == $storedCode) {
+                return true; // El código es correcto
+            } else {
+                return false; // El código es incorrecto
+            }
+        }
+    
+        return false; // No se encontró el código en la sesión
+    }
+    
+    // Método para generar y enviar el código de verificación
+    public function generateVerificationCode($email)
+    {
+        // Generar un código aleatorio de 6 dígitos
+        $verificationCode = rand(100000, 999999);
+
+        // Almacena el código en la sesión
+        $_SESSION['verification_code'] = $verificationCode;
+
+        // Aquí puedes implementar la lógica para enviar el código al correo electrónico
+        // utilizando la función de envío de correo que ya tienes
+        sendEmail($email, "Código de verificación", "Tu código es: $verificationCode");
+
+        return true;
+    }
+
 
     public function checkPassword($password)
     {
@@ -121,7 +158,6 @@ class UsuarioHandler
         $params = array($userId);
         $data = Database::getRow($sql, $params);
         return $data ? $data['nombre'] : null;
-        
     }
 
     public function getEmailById($userId)
@@ -131,7 +167,7 @@ class UsuarioHandler
         $data = Database::getRow($sql, $params);
         return $data ? $data['correo_electronico'] : null; // Retorna null si no hay datos
     }
-    
+
 
 
     public function changePassword()
@@ -142,7 +178,7 @@ class UsuarioHandler
         $params = array($this->clave, date('Y-m-d H:i:s'), $_SESSION['idUsuario']);
         return Database::executeRow($sql, $params);
     }
-    
+
 
     public function readProfile()
     {
@@ -204,7 +240,7 @@ class UsuarioHandler
         $params = array($this->imagen, $this->nombre, $this->apellido, $this->telefono, $this->cargo, $this->correo, $this->clave, date('Y-m-d H:i:s'));
         return Database::executeRow($sql, $params);
     }
-    
+
 
     public function readAll()
     {
