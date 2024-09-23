@@ -77,20 +77,20 @@
                                     <label for="nombreProducto" class="form-label">Nombre del producto</label>
                                     <input id="nombreProducto" type="text" name="nombreProducto"
                                         class="form-control rounded-5" placeholder="Ingresa el nombre del producto"
-                                        required>
+                                        autocomplete="off" required>
                                 </div>
                                 <div class="col-sm-12 col-md-6">
                                     <label for="descripcionProducto" class="form-label">Descripción</label>
                                     <input id="descripcionProducto" type="text" name="descripcionProducto"
                                         class="form-control rounded-5" placeholder="Ingresa la descripción del producto"
-                                        required>
+                                        autocomplete="off" required>
                                 </div>
                                 <div class="col-sm-12 col-md-6">
                                     <label for="impuestoProducto" class="form-label">Impuesto</label>
                                     <div class="position-relative">
                                         <input id="impuestoProducto" type="number" name="impuestoProducto"
                                             class="form-control rounded-5 pr-5"
-                                            placeholder="Ingresa el impuesto (ej. 15)" min="0" step="1" required>
+                                            placeholder="Ingresa el impuesto (ej. 15)" min="0" step="1" autocomplete="off" required>
                                         <span class="position-absolute end-0 top-0 px-3 py-2"
                                             style="pointer-events: none;">%</span>
                                     </div>
@@ -100,7 +100,7 @@
                                     <div class="position-relative">
                                         <input id="costoProducto" type="number" name="costoProducto"
                                             class="form-control rounded-5" step="0.01" min="0.01"
-                                            placeholder="Ingresa el costo (ej. 500.00)" required>
+                                            placeholder="Ingresa el costo (ej. 500.00)" autocomplete="off" required>
                                         <span class="position-absolute end-0 top-0 px-3 py-2"
                                             style="pointer-events: none;">$</span>
                                     </div>
@@ -110,7 +110,7 @@
                                     <div class="position-relative">
                                         <input id="precioProducto" type="number" name="precioProducto"
                                             class="form-control rounded-5" step="0.01" min="0.01"
-                                            placeholder="Ingresa el precio (ej. 1000.00)" required>
+                                            placeholder="Ingresa el precio (ej. 1000.00)" autocomplete="off" required>
                                         <span class="position-absolute end-0 top-0 px-3 py-2"
                                             style="pointer-events: none;">$</span>
                                     </div>
@@ -119,12 +119,12 @@
                                     <label for="codigoProducto" class="form-label">Código</label>
                                     <input id="codigoProducto" type="number" name="codigoProducto"
                                         class="form-control rounded-5" step="0.01" min="0.01"
-                                        placeholder="Ingresa el código del producto" required>
+                                        placeholder="Ingresa el código del producto" autocomplete="off" required>
                                 </div>
                                 <div class="col-sm-12 col-md-6">
                                     <label for="categoriaProducto" class="form-label">Categoría</label>
                                     <select id="categoriaProducto" name="categoriaProducto"
-                                        class="form-select rounded-5" required>
+                                        class="form-select rounded-5" autocomplete="off" required>
                                     </select>
                                 </div>
                                 <div class="col-sm-12 col-md-6">
