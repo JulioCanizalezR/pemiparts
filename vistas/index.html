@@ -34,7 +34,7 @@
 
         <div class="form-links botones">
           <a class="h6" href="recuperacion_contraseña.html">¿Olvidaste tu contraseña?</a>
-          <a class="h6" href="registro.html">Registrarse</a>
+          <a class="h6" href="#" id="registerLink">Registrarse</a>  
         </div>
         <br>
 
@@ -43,81 +43,84 @@
 
 
       <!-- Contenedor de verificación adicional, oculto inicialmente -->
-      <form class="d-none" id="doubleCheckContainer" >
+      <form class="d-none" id="doubleCheckContainer">
         <label class="text-start" for="verificacion">Verificación adicional:</label>
         <input type="text" id="verificacion" name="verificacion" class="form-control"
-          placeholder="Código de verificación" maxlength="8"  pattern="\d{1,8}">
+          placeholder="Código de verificación" maxlength="8" pattern="\d{1,8}">
         <div class="invalid-feedback">Por favor ingresa el código de verificación.</div>
         <button type="button" id="verifyButton" class="btn btn-secondary mt-2">Verificar</button>
       </form>
 
       <!--Register form-->
       <form class="d-none needs-validation" id="signupForm" action="#" method="post" novalidate>
-        <div class="input-group container-fluid justify-content-between">
-          <div class="col-5 text-start">
-            <label for="nombreUsuario">Nombre:</label>
+        <div class="row">
+          <!-- Nombre -->
+          <div class="col-6 mb-3">
+            <label for="nombreUsuario" class="form-label">Nombre:</label>
             <input type="text" class="form-control rounded-3" id="nombreUsuario" name="nombreUsuario"
               placeholder="Nombre" aria-label="Nombre" autocomplete="off" required pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+">
             <div class="invalid-feedback">
-              Por favor, ingrese su nombre. Solo se permiten letras
+              Por favor, ingrese su nombre. Solo se permiten letras.
             </div>
           </div>
-          <div class="col-5 text-start">
-            <label for="apellidoUsuario">Apellido:</label>
+          <!-- Apellido -->
+          <div class="col-6 mb-3">
+            <label for="apellidoUsuario" class="form-label">Apellido:</label>
             <input type="text" class="form-control rounded-3" id="apellidoUsuario" name="apellidoUsuario"
               placeholder="Apellido" aria-label="Apellido" autocomplete="off" required
               pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+">
             <div class="invalid-feedback">
-              Por favor, ingrese su apellido. Solo se permiten letras
+              Por favor, ingrese su apellido. Solo se permiten letras.
             </div>
           </div>
         </div>
-        <div class="input-group container-fluid justify-content-between">
-          <div class="col-5 text-start">
-            <label for="telefonoUsuario">Teléfono:</label>
-            <input type="text" class="form-control rounded-3" name="telefonoUsuario" id="telefonoUsuario"
+
+        <div class="row">
+          <!-- Teléfono -->
+          <div class="col-6 mb-3">
+            <label for="telefonoUsuario" class="form-label">Teléfono:</label>
+            <input type="text" class="form-control rounded-3" id="telefonoUsuario" name="telefonoUsuario"
               placeholder="Teléfono" aria-label="Teléfono" autocomplete="off" required maxlength="9"
               pattern="[267][0-9]{3}-[0-9]{4}">
             <div class="invalid-feedback">
               Por favor, ingrese un teléfono válido (xxxx-xxxx).
             </div>
           </div>
-          <div class="col-5 text-start">
-            <label for="correoUsuario">Correo:</label>
+          <!-- Correo -->
+          <div class="col-6 mb-3">
+            <label for="correoUsuario" class="form-label">Correo:</label>
             <input type="email" class="form-control rounded-3" id="correoUsuario" name="correoUsuario"
               placeholder="Correo" aria-label="Correo" autocomplete="off" required>
             <div class="invalid-feedback">
-              Por favor ingresa un correo válido.
+              Por favor, ingrese un correo válido.
             </div>
           </div>
         </div>
 
-
-        <div class="input-group container-fluid justify-content-between">
-          <div class="col-5 text-start">
-            <label for="claveUsuario" class="form-label">Contraseña</label>
-            <input type="password" name="claveUsuario" id="claveUsuario" class="form-control"
-              aria-describedby="passwordHelpBlock" placeholder="Contraseña" aria-label="Contraseña" autocomplete="off"
-              required>
+        <div class="row">
+          <!-- Contraseña -->
+          <div class="col-6 mb-3">
+            <label for="claveUsuario" class="form-label">Contraseña:</label>
+            <input type="password" class="form-control rounded-3" id="claveUsuario" name="claveUsuario"
+              placeholder="Contraseña" aria-label="Contraseña" autocomplete="off" required>
             <div class="invalid-feedback">
-              Por favor ingresa una contraseña.
+              Por favor, ingrese una contraseña.
             </div>
           </div>
-          <div class="col-5 text-start">
-            <label for="confirmarClave" class="form-label">Confirmar Contraseña</label>
-            <input type="password" name="confirmarClave" id="confirmarClave" class="form-control"
-              aria-describedby="passwordHelpBlock" placeholder="Confirmar Contraseña" aria-label="Confirmar Contraseña"
-              autocomplete="off" required>
+          <!-- Confirmar Contraseña -->
+          <div class="col-6 mb-3">
+            <label for="confirmarClave" class="form-label">Confirmar Contraseña:</label>
+            <input type="password" class="form-control rounded-3" id="confirmarClave" name="confirmarClave"
+              placeholder="Confirmar Contraseña" aria-label="Confirmar Contraseña" autocomplete="off" required>
             <div class="invalid-feedback">
-              Por favor confirma tu contraseña.
+              Por favor, confirme su contraseña.
             </div>
           </div>
         </div>
-
-        <br>
 
         <button type="submit" class="btn btn-primary button">Enviar</button>
       </form>
+
     </div>
   </div>
 

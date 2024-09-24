@@ -4,13 +4,24 @@ const SIGNUP_FORM = document.getElementById('signupForm');
 const LOGIN_FORM = document.getElementById('loginForm');
 const DOUBLE_CHECK_ENABLED = true; // Cambia a false si deseas que sea opcional.
 // Método del evento para cuando el documento ha cargado.
-
+const REGISTER_LINK = document.getElementById('registerLink');
 const verificacionInput = document.getElementById('verificacion');
 
 // Agregar un evento de entrada para filtrar caracteres no numéricos
 verificacionInput.addEventListener('input', (event) => {
     // Reemplaza cualquier carácter que no sea un dígito
     event.target.value = event.target.value.replace(/\D/g, '');
+});
+
+REGISTER_LINK.addEventListener('click', (event) => {
+    event.preventDefault();  // Prevenir el comportamiento predeterminado del enlace.
+    
+    // Ocultar el formulario de inicio de sesión y mostrar el de registro.
+    LOGIN_FORM.classList.add('d-none');
+    SIGNUP_FORM.classList.remove('d-none');
+
+    // Cambiar el título principal a "Registrarse".
+    document.getElementById('mainTitle').textContent = 'Registrarse';
 });
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -63,39 +74,38 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 
 
-// Método del evento para cuando se envía el formulario de registro del primer usuario.
+/// Método del evento para cuando se envía el formulario de registro.
 SIGNUP_FORM.addEventListener('submit', async (event) => {
-    // Se evita recargar la página web después de enviar el formulario.
+    // Evitar la recarga de la página.
     event.preventDefault();
-    // Validar el formulario
+
+    // Validar el formulario.
     if (!SIGNUP_FORM.checkValidity()) {
         event.stopPropagation();
         SIGNUP_FORM.classList.add('was-validated');
         return;
     }
-    // Constante tipo objeto con los datos del formulario.
+
+    // Objeto con los datos del formulario.
     const FORM = new FormData(SIGNUP_FORM);
 
-
-    // Fetch user data
+    // Petición para consultar los usuarios registrados.
     const DATA = await fetchData(USER_API, 'readUsers');
 
-    // Handle response
     if (DATA.session) {
         location.href = 'dashboard.html';
     } else if (DATA.status) {
-        // Show login form
-        MAIN_TITLE.textContent = 'Iniciar sesión';
+        // Mostrar el formulario de inicio de sesión.
+        document.getElementById('mainTitle').textContent = 'Iniciar sesión';
         LOGIN_FORM.classList.remove('d-none');
         sweetAlert(4, "Ya existen usuarios en la base de datos", true, 'index.html');
     } else {
-        // Petición para registrar el primer usuario del sitio privado.
-        const data = await fetchData(USER_API, 'signUp', FORM);
-        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-        if (data.status) {
-            sweetAlert(1, data.message, true, 'index.html');
+        // Petición para registrar al primer usuario.
+        const DATA = await fetchData(USER_API, 'signUp', FORM);
+        if (DATA.status) {
+            sweetAlert(1, DATA.message, true, 'index.html');
         } else {
-            sweetAlert(2, data.error, true);
+            sweetAlert(2, DATA.error, false);
         }
     }
 });
