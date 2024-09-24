@@ -1,4 +1,5 @@
 <?php
+
 // Se incluye la clase del modelo.
 require_once('../../models/data/usuario_data.php');
 const POST_NCONTRASEÑA = "usuario_nueva_contraseña";

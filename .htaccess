@@ -17,16 +17,40 @@ ErrorDocument 404 /pemiparts/recursos/error/404.html
 AddDefaultCharset utf-8
 <IfModule mod_rewrite.c>
 
-<IfModule mod_rewrite.c>
-    RewriteEngine On
+   RewriteEngine On
+  # (1)
+   
+    # (2)
     Options +FollowSymlinks
 
-    # Bloquear el acceso a cualquier archivo dentro de /api/, /recursos/ y /controladores/
-    #RewriteCond %{REQUEST_URI} ^/pemiparts/api/services [NC]
-   # RewriteRule ^.*$ - [F,L]
+    # (3)
+    # Options +SymLinksIfOwnerMatch
+
+    # (4)
+    # RewriteBase /
+
+    # (5)
+    # RewriteOptions <options>
+
+    
+
 </IfModule>
 
+<FilesMatch "\.(js)$">
+    RewriteCond %{HTTP_REFERER} !^http://localhost [NC]
  
+    RewriteCond %{HTTP_REFERER} !^http://www.localhost [NC]  # Nueva línea agregada
+    RewriteRule .* - [F,L]
+</FilesMatch>
+
+# Bloquear acceso a archivos PHP desde referers no permitidos
+<FilesMatch "\.(php)$">
+    RewriteCond %{HTTP_REFERER} !^http://localhost [NC]
+ 
+    RewriteCond %{HTTP_REFERER} !^http://www.localhost [NC]  # Nueva línea agregada
+    RewriteRule .* - [F,L]
+</FilesMatch>
+
 
 
 <IfModule mod_headers.c>
