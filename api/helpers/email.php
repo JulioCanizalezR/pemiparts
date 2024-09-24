@@ -6,19 +6,45 @@ require_once ('../../libraries/phpmailer651/src/Exception.php');
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-function sendVerificationEmail($to, $random) {
-    // Construir el cuerpo del correo
+// Función para enviar correo con un mensaje personalizado
+function sendVerificationEmail($to, $random, $useCase) {
+    // Personalización del asunto y cuerpo del mensaje según el caso de uso
+    switch ($useCase) {
+        case 'login_verification':
+            $subject = 'Verificación de cuenta - Registro';
+            $messageBody = '
+           <h1>Verificación de inicio de sesión</h1>
+            <p>Tu código de verificación para completar el inicio de sesión es:</p>
+            <p><strong>' . $random . '</strong></p>';
+            break;
+
+        case 'password_reset':
+            $subject = 'Código para restablecer tu contraseña';
+            $messageBody = '
+            <h1>Restablecer contraseña</h1>
+            <p>Parece que has solicitado un restablecimiento de contraseña. Usa este código para continuar:</p>
+            <p><strong>' . $random . '</strong></p>';
+            break;
+
+        default:
+            $subject = 'Código de verificación';
+            $messageBody = '
+            <h1>Verificación de seguridad</h1>
+            <p>Tu código de verificación es:</p>
+            <p><strong>' . $random . '</strong></p>';
+            break;
+    }
+
+    // Plantilla de correo común
     $body = '
     <!DOCTYPE html>
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>Verificación de correo electrónico</title>
+        <title>' . $subject . '</title>
         <style>
-            /* Estilos generales */
             body {
                 font-family: Arial, sans-serif;
-                line-height: 1.6;
                 background-color: #f4f4f4;
                 margin: 0;
                 padding: 0;
@@ -41,49 +67,46 @@ function sendVerificationEmail($to, $random) {
     </head>
     <body>
         <div class="container">
-            <h1>Verificación de correo electrónico</h1>
-            <p>Hola,</p>
-            <p>Gracias por registrarte. Tu código de verificación es: <strong>' . $random . '</strong></p>
-            <p>Utiliza este código para cambiar tu contraseña.</p>
+            ' . $messageBody . '
+            <p>Este código es válido por un tiempo limitado. Si no solicitaste este correo, por favor ignóralo.</p>
             <p>Atentamente,</p>
-            <p>El equipo de verificación</p>
+            <p>El equipo de seguridad</p>
         </div>
     </body>
     </html>
     ';
 
-    // Llamar a la función para enviar el correo electrónico
-    sendEmail($to, "Verificación de correo electrónico", $body);
+    // Llamar a la función para enviar el correo
+    sendEmail($to, $subject, $body);
 }
 
+// Función genérica para enviar un correo electrónico
 function sendEmail($to, $subject, $body) {
     $mail = new PHPMailer(true);
 
     try {
-        // Configuración del servidor
+        // Configuración del servidor SMTP
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com'; // Cambia esto al host de tu servidor SMTP
         $mail->SMTPAuth = true;
         $mail->Username = 'partspemi@gmail.com'; // Cambia esto a tu usuario SMTP
         $mail->Password = 'jzlzmwchsqrovpxi'; // Cambia esto a tu contraseña SMTP
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port = 587; // Cambia esto al puerto de tu servidor SMTP
+        $mail->Port = 587;
 
-        // Configuración del remitente y destinatarios
+        // Configuración del remitente y destinatario
         $mail->setFrom('partspemi@gmail.com', 'Mailer');
         $mail->addAddress($to);
 
-        $mail->CharSet = 'UTF-8';
-
-        // Contenido del correo
+        // Configuración del contenido del correo
         $mail->isHTML(true);
+        $mail->CharSet = 'UTF-8';  // Establecer la codificación UTF-8
         $mail->Subject = $subject;
         $mail->Body = $body;
 
+        // Enviar el correo
         $mail->send();
     } catch (Exception $e) {
-        echo "El mensaje no se pudo enviar. Mailer Error: {$mail->ErrorInfo}";
+        echo "El mensaje no se pudo enviar. Error: {$mail->ErrorInfo}";
     }
 }
-
-?>

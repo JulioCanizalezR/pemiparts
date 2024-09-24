@@ -4,9 +4,20 @@ const SIGNUP_FORM = document.getElementById('signupForm');
 const LOGIN_FORM = document.getElementById('loginForm');
 const DOUBLE_CHECK_ENABLED = true; // Cambia a false si deseas que sea opcional.
 // Método del evento para cuando el documento ha cargado.
+
+const verificacionInput = document.getElementById('verificacion');
+
+// Agregar un evento de entrada para filtrar caracteres no numéricos
+verificacionInput.addEventListener('input', (event) => {
+    // Reemplaza cualquier carácter que no sea un dígito
+    event.target.value = event.target.value.replace(/\D/g, '');
+});
+
 document.addEventListener('DOMContentLoaded', async () => {
-    // Llamada a la función para mostrar el encabezado y pie del documento.
+    // Código existente para inicializar el formulario de inicio de sesión.
     loadTemplate();
+
+
     // Petición para consultar los usuarios registrados.
     const DATA = await fetchData(USER_API, 'readUsers');
     // Se comprueba si existe una sesión, de lo contrario se sigue con el flujo normal.
@@ -23,6 +34,31 @@ document.addEventListener('DOMContentLoaded', async () => {
         SIGNUP_FORM.classList.remove('d-none');
         sweetAlert(4, DATA.error, true);
     }
+    // Evento cuando se haga clic en "¿Olvidaste tu contraseña?"
+    document.querySelector('a[href="recuperacion_contraseña.html"]').addEventListener('click', async (event) => {
+        event.preventDefault(); // Prevenir comportamiento por defecto del enlace
+
+        const correo = document.getElementById('correo').value; // Obtener el correo ingresado
+
+        if (!correo) {
+            sweetAlert(2, "Por favor, ingresa tu correo para recuperar la contraseña.", false);
+            return;
+        }
+
+        // Llamar a la API para enviar el correo de recuperación
+        const FORM = new FormData();
+        FORM.append('correo', correo);
+
+        const DATA = await fetchData(USER_API, 'emailPasswordSender', FORM);
+
+        if (DATA.status) {
+            sweetAlert(1, "Se ha enviado un código a tu correo.", true);
+            // Redirigir a la página de recuperación
+            window.location.href = 'recuperacion_contraseña.html?token=' + DATA.dataset; // Pasa el token en la URL
+        } else {
+            sweetAlert(2, DATA.error, false);
+        }
+    });
 });
 
 
@@ -64,13 +100,13 @@ SIGNUP_FORM.addEventListener('submit', async (event) => {
     }
 });
 
- 
 
- 
+
+
 // Método del evento para cuando se envía el formulario de inicio de sesión.
 LOGIN_FORM.addEventListener('submit', async (event) => {
     event.preventDefault();
-    
+
     const FORM = new FormData(LOGIN_FORM);
 
     // Enviar correo con el código de verificación
@@ -95,7 +131,7 @@ document.getElementById('verifyButton').addEventListener('click', async () => {
 
     // Petición para iniciar sesión con el código de verificación
     const DATA = await fetchData(USER_API, 'logIn', FORM);
-    
+
     if (DATA.status) {
         sweetAlert(1, DATA.message, true, 'dashboard.html');
     } else {

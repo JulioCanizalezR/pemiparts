@@ -34,31 +34,31 @@ class UsuarioHandler
                 WHERE correo_electronico = ?';
         $params = array($username);
         $data = Database::getRow($sql, $params);
-    
+
         if (!$data) {
             return false; // Usuario no encontrado
         }
-    
+
         // Comprobar si la cuenta está bloqueada
         if ($data['bloqueado_hasta'] && strtotime($data['bloqueado_hasta']) > time()) {
             return 'bloqueado'; // Cuenta bloqueada
         }
-    
+
         // Verificar la contraseña
         if (password_verify($password, $data['contraseña'])) {
             // Restablecer intentos fallidos si el login es correcto
             $sql = 'UPDATE tb_usuarios SET intentos_fallidos = 0, bloqueado_hasta = NULL WHERE id_usuario = ?';
             $params = array($data['id_usuario']);
             Database::executeRow($sql, $params);
-    
+
             // Comprobar si la contraseña ha expirado
             $fechaCambio = strtotime($data['fecha_cambio_clave']);
             $fechaLimite = $fechaCambio + (90 * 24 * 60 * 60); // 90 días en segundos
-    
+
             if (time() > $fechaLimite) {
                 return 'expirada'; // Contraseña expirada
             }
-    
+
             // Retornar información del usuario en vez de asignar sesión
             return [
                 'id_usuario' => $data['id_usuario'],
@@ -68,39 +68,39 @@ class UsuarioHandler
             // Incrementar intentos fallidos
             $intentos_fallidos = $data['intentos_fallidos'] + 1;
             $bloqueado_hasta = null;
-    
+
             // Si alcanza el límite de 3 intentos fallidos, bloquear la cuenta
             if ($intentos_fallidos >= 4) {
                 $bloqueado_hasta = date('Y-m-d H:i:s', strtotime('+24 hours')); // Bloqueo por 24 horas
             }
-    
+
             // Actualizar intentos fallidos y posible bloqueo
             $sql = 'UPDATE tb_usuarios SET intentos_fallidos = ?, bloqueado_hasta = ? WHERE id_usuario = ?';
             $params = array($intentos_fallidos, $bloqueado_hasta, $data['id_usuario']);
             Database::executeRow($sql, $params);
-    
+
             // Mostrar mensaje si la cuenta ha sido bloqueada
             if ($bloqueado_hasta) {
                 return 'bloqueado'; // Devuelve el estado de bloqueo
             }
-    
+
             return false; // Contraseña incorrecta
         }
     }
-    
+
 
     public function verifyCode($inputCode)
     {
         if (isset($_SESSION['verification_code'])) {
             $storedCode = $_SESSION['verification_code']['code'];
             $expirationTime = $_SESSION['verification_code']['expiration_time'];
-    
+
             // Verificar si el código ha expirado
             if (time() > $expirationTime) {
                 unset($_SESSION['verification_code']);
                 return 'expired'; // El código ha expirado
             }
-    
+
             // Verificar si el código proporcionado coincide con el almacenado
             if ($inputCode == $storedCode) {
                 return true; // El código es correcto
@@ -108,10 +108,10 @@ class UsuarioHandler
                 return false; // El código es incorrecto
             }
         }
-    
+
         return false; // No se encontró el código en la sesión
     }
-    
+
     // Método para generar y enviar el código de verificación
     public function generateVerificationCode($email)
     {
@@ -143,6 +143,14 @@ class UsuarioHandler
             return false;
         }
     }
+    public function getIdByEmail($userEmail)
+    {
+        $sql = 'SELECT id_usuario FROM tb_usuarios WHERE correo_electronico = ?';
+        $params = array($userEmail);
+        $data = Database::getRow($sql, $params);
+        return $data ? $data['id_usuario'] : null; // Retorna null si no hay datos
+    }
+
 
     public function getPasswordHash($userId)
     {
@@ -167,6 +175,7 @@ class UsuarioHandler
         $data = Database::getRow($sql, $params);
         return $data ? $data['correo_electronico'] : null; // Retorna null si no hay datos
     }
+
 
 
 
@@ -295,7 +304,7 @@ class UsuarioHandler
     public function changePasswordFromEmail()
     {
         $sql = 'UPDATE tb_usuarios SET contraseña = ? WHERE correo_electronico = ?';
-        $params = array($this->clave, $_SESSION['correo_vcc']['correo']);
+        $params = array($this->clave, $_SESSION['usuario_correo_vcc']['correo']);
         return Database::executeRow($sql, $params);
     }
 

@@ -328,6 +328,24 @@ class Validator
         }
     }
 
+    public static function validateSessionTime()
+    {
+        $inactivo = 900; //Tiempo en segundos. 
+
+        //Calculamos tiempo de vida inactivo.
+        $vida_session = time() - $_SESSION['tiempo'];
+
+        //Compraración para redirigir página, si la vida de sesión sea mayor a el tiempo insertado en inactivo.
+        if ($vida_session > $inactivo) {
+            //Destruimos sesión.
+            session_destroy();
+            return false;
+        } else { // si no ha caducado la sesion, actualizamos
+            $_SESSION['tiempo'] = time();
+            return true;
+        }
+    }
+
     /*
     *   Método para validar un archivo al momento de subirlo al servidor.
     *   Parámetros: $file (archivo), $path (ruta del archivo) y $name (nombre del archivo).

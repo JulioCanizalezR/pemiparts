@@ -32,7 +32,14 @@ AddDefaultCharset utf-8
     # (5)
     # RewriteOptions <options>
 
+    RewriteCond %{REQUEST_URI} ^/pemiparts/api/ [NC]
+    RewriteCond %{THE_REQUEST} "^[^ ]+ /api/[^ ]+\.php" [NC]
+    RewriteRule ^.*$ - [F,L]
+
 </IfModule>
+
+ 
+
 
 <IfModule mod_headers.c>
   Header set X-Content-Type-Options "nosniff"

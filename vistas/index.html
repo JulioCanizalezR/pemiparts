@@ -46,7 +46,7 @@
       <form class="d-none" id="doubleCheckContainer" >
         <label class="text-start" for="verificacion">Verificación adicional:</label>
         <input type="text" id="verificacion" name="verificacion" class="form-control"
-          placeholder="Código de verificación">
+          placeholder="Código de verificación" maxlength="8"  pattern="\d{1,8}">
         <div class="invalid-feedback">Por favor ingresa el código de verificación.</div>
         <button type="button" id="verifyButton" class="btn btn-secondary mt-2">Verificar</button>
       </form>
