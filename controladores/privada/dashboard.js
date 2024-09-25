@@ -1,5 +1,10 @@
 const PRODUCTO_API = 'services/admin/producto.php';
 const CLIENTE_API = 'services/admin/cliente.php';
+const REGRIS = 'services/admin/registro_inicios.php';
+
+
+const TABLE_BODY = document.getElementById('tableBody');
+const SEARCH_INPUT = document.getElementById('searchInput');
 
 document.addEventListener('DOMContentLoaded', () => {
  graficoLinearVentasPasadas();
@@ -8,7 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
  graficoPastelEnviosPorEstado();
  graficoClientesPorEmpresa();
  graficoPromProductoCategoria();
- graficoClientesXmes(); 
+ graficoClientesXmes();
+ fillTable(); 
 });
 
 const graficoLinearVentasPasadas = async () => {
@@ -160,3 +166,42 @@ const graficoClientesXmes = async () => {
         console.log(DATA.error);
     }
 }
+
+const fillTable = async (form = null) => {
+
+    TABLE_BODY.innerHTML = '';
+    // Se verifica la acción a realizar.
+    let action;
+    form ? (action = "searchRows") : (action = "readAll");
+    // Petición para obtener los registros disponibles.
+    const DATA = await fetchData(REGRIS, action, form);
+    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+    if (DATA.status) {
+      // Se recorre el conjunto de registros (dataset) fila por fila a través del objeto row.
+      DATA.dataset.forEach(row => {
+        // Se crean y concatenan las filas de la tabla con los datos de cada registro.
+        TABLE_BODY.innerHTML +=`
+          <tr>
+            <td>${row.id_registro}</td>
+            <td>${row.correo_electronico}</td>
+            <td>${row.fecha_hora}</td>
+          </tr>
+        `;
+      });
+  
+    } else {
+      sweetAlert(4, DATA.error, true);
+    }
+  }
+
+  SEARCH_INPUT.addEventListener("input", (event) => {
+    // Constante tipo objeto con los datos del formulario.
+    event.preventDefault();
+    const FORM = new FormData();
+    FORM.append("search", SEARCH_INPUT.value);
+    if (SEARCH_INPUT.value == "") {
+      fillTable();
+    }
+    // Llamada a la función para llenar la tabla con los resultados de la búsqueda.
+    fillTable(FORM);
+  });

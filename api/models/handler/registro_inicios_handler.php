@@ -32,7 +32,8 @@ class Registros_inicios_handler
     {
         $sql = 'SELECT ri.id_registro, u.correo_electronico, ri.fecha_hora
                     FROM tb_registro_inicios ri
-                    INNER JOIN tb_usuarios u ON ri.id_usuario = u.id_usuario';
+                    INNER JOIN tb_usuarios u ON ri.id_usuario = u.id_usuario
+                    ORDER BY ri.fecha_hora ASC LIMIT 25';
             return Database::getRows($sql);
     }
 

@@ -13,10 +13,6 @@ class registro_inicios_data extends Registros_inicios_handler
      */
     private $data_error = null;
 
-    /*
-     *  Métodos para validar y establecer los datos.
-     */
-
      
     public function setId($value)
     {
@@ -27,7 +23,7 @@ class registro_inicios_data extends Registros_inicios_handler
             $this->data_error = 'El identificador de la entidad es incorrecto';
             return false;
         }
-
+    }
  
     public function getDataError()
     {

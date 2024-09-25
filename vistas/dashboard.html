@@ -82,10 +82,22 @@
                             <div class="card-body">
                                 <h4>Registro de inicios de sesión</h4>
                                 <div class="row">
-                                    <div class="col-md-4 mb-3">
-                                        <div class="chart-container">
-                                            <canvas id=""></canvas>
-                                        </div>
+                                    <div class="col-md-12 mb-3">
+                                        <table class="table table-striped rounded-3 overflow-hidden">
+                                            <thead class="table-primary">
+                                                <tr>
+                                                    <td colspan="6" id="rowsFound"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Correo </th>
+                                                    <th scope="col">Fecha y hora</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tableBody">
+                                                <!--Aqui se cargaran los datos de la tabla de registro de sesiòn de los usuarios que hayan entrado en el programa -->
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
