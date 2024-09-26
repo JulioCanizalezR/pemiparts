@@ -11,7 +11,7 @@ function sendVerificationEmail($to, $random, $useCase) {
     // Personalización del asunto y cuerpo del mensaje según el caso de uso
     switch ($useCase) {
         case 'login_verification':
-            $subject = 'Verificación de cuenta - 2fa';
+            $subject = 'Verificación de cuenta - 2FA';
             $messageBody = '
            <h1>Verificación de inicio de sesión</h1>
             <p>Tu código de verificación para completar el inicio de sesión es:</p>
