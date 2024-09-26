@@ -103,10 +103,12 @@ const generateSideBarHTML = async () => {
                         <a href="#" class="sidebar-link" onclick="logOut()" aria-label="Cerrar sesión">
                             <i class="lni lni-exit"></i>
                         </a>
+                        <!--
                         <select class="form-select ms-2 ms-md-5 dropup" aria-label="Cambiar Idioma">
                             <option value="en">English</option>
                             <option selected="es">Español</option>
                         </select>
+                        -->
                     </div>
                 </aside>
             `;

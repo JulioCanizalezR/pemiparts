@@ -193,7 +193,7 @@ const fillTable = async (form = null) => {
       sweetAlert(4, DATA.error, true);
     }
   }
-
+/*
   SEARCH_INPUT.addEventListener("input", (event) => {
     // Constante tipo objeto con los datos del formulario.
     event.preventDefault();
@@ -205,3 +205,4 @@ const fillTable = async (form = null) => {
     // Llamada a la función para llenar la tabla con los resultados de la búsqueda.
     fillTable(FORM);
   });
+  */

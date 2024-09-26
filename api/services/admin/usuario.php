@@ -289,7 +289,7 @@ if (isset($_GET['action'])) {
                             $result['error'] = 'El código ha expirado. Solicita uno nuevo.';
                         } elseif ($verificationResult === true) {
                             // Autenticación correcta, asignar sesión
-                            $_SESSION['idUsuario'] = $loginResult['id_usuario']; // Asegúrate de que checkUser retorne el ID
+                            $_SESSION['idUsuario'] = $loginResult['id_usuario'];  
                             $_SESSION['correoUsuario'] = $loginResult['correo_electronico'];
                             $result['status'] = 1;
                             $result['message'] = 'Autenticación correcta';
