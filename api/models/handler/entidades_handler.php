@@ -109,7 +109,8 @@ class EntidadesHandler
         INNER JOIN 
         tb_almacenamientos a ON e.id_almacenamiento = a.id_almacenamiento
         INNER JOIN 
-        tb_productos p ON e.id_producto = p.id_producto';
+        tb_productos p ON e.id_producto = p.id_producto
+        ORDER BY id_entidad ASC';
         return Database::getRows($sql);
     }
 
