@@ -107,7 +107,17 @@ class EmpresaHandler
         $params = array($this->id_empresa);
         return Database::executeRow($sql, $params);
     }
-
+    public function existenciasSegunIdCategoria()
+    {
+        $sql = 'SELECT DISTINCT p.id_categoria, c.nombre AS nombre_categoria
+            FROM tb_entidades e
+            JOIN tb_productos p ON e.id_producto = p.id_producto
+            JOIN tb_almacenamientos a ON e.id_almacenamiento = a.id_almacenamiento
+            JOIN tb_categorias c ON p.id_categoria = c.id_categoria
+            WHERE e.existencias > 0;
+            ';
+        return Database::getRows($sql);
+    }
     // Método para comparar existencias de productos por almacenamiento.
     public function compExistenciasProductos()
     {
@@ -122,7 +132,7 @@ class EmpresaHandler
         $params = array($this->id_categoria);
         return Database::getRows($sql, $params);
     }
-    
+
     // Método para obtener la evolución del costo de envío por cliente.
     public function evoCostoEnvioCliente()
     {
@@ -135,5 +145,15 @@ class EmpresaHandler
         ;';
         $params = array($this->id_cliente);
         return Database::getRows($sql, $params);
+    }
+    public function clientesCompras()
+    {
+        $sql = 'SELECT DISTINCT e.id_cliente, c.nombre_cliente 
+            FROM tb_envios e
+            JOIN tb_detalle_envios de ON e.id_envio = de.id_envio
+            JOIN tb_clientes c ON e.id_cliente = c.id_cliente
+            WHERE de.costo_envio > 0;
+            ';
+        return Database::getRows($sql);
     }
 }

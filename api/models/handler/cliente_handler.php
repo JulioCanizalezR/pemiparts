@@ -138,6 +138,17 @@ class ClienteHandler
         return Database::getRows($sql, $params);
     }
 
+    public function clientesCantPedidos()
+    {
+        $sql = 'SELECT DISTINCT e.id_cliente, c.nombre_cliente AS nombre_cliente
+                FROM tb_envios e
+                JOIN tb_detalle_envios d ON e.id_envio = d.id_envio
+                JOIN tb_clientes c ON e.id_cliente = c.id_cliente
+                WHERE d.medio_envio IS NOT NULL;
+                ';
+        return Database::getRows($sql);
+    }
+
     // Método para obtener la cantidad de clientes registrados por mes en el año actual.
     public function clientesRegistradosXmes()
     {

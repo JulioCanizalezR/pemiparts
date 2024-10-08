@@ -27,7 +27,7 @@ if (isset($_GET['action'])) {
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$Empresa->setNombre_empresa($_POST['nombreEmpresa']) 
+                    !$Empresa->setNombre_empresa($_POST['nombreEmpresa'])
                 ) {
                     $result['error'] = $Empresa->getDataError();
                 } elseif ($Empresa->createRow()) {
@@ -59,7 +59,7 @@ if (isset($_GET['action'])) {
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$Empresa->setId_empresa($_POST['idEmpresa']) or
-                    !$Empresa->setNombre_empresa($_POST['nombreEmpresa']) 
+                    !$Empresa->setNombre_empresa($_POST['nombreEmpresa'])
                 ) {
                     $result['error'] = $Empresa->getDataError();
                 } elseif ($Empresa->updateRow()) {
@@ -83,24 +83,40 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al eliminar la empresa';
                 }
                 break;
-                case 'compExistenciasProductos':
-                    if (!$Empresa->setId_categoria($_POST['idCategoria'])) {
-                        $result['error'] = $Empresa->getDataError();
-                    } elseif ($result['dataset'] = $Empresa->compExistenciasProductos()) {
-                        $result['status'] = 1;
-                    } else {
-                        $result['error'] = 'Categoria inexistente';
-                    }
-                    break;
-                case 'evoCostoEnvioCliente':
-                    if (!$Empresa->setId_cliente($_POST['idCliente'])) {
-                        $result['error'] = $Empresa->getDataError();
-                    } elseif ($result['dataset'] = $Empresa->evoCostoEnvioCliente()) {
-                        $result['status'] = 1;
-                    } else {
-                        $result['error'] = 'Cliente inexistente';
-                    }
-                    break;
+            case 'compExistenciasProductos':
+                if (!$Empresa->setId_categoria($_POST['idCategoria'])) {
+                    $result['error'] = $Empresa->getDataError();
+                } elseif ($result['dataset'] = $Empresa->compExistenciasProductos()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Categoria inexistente';
+                }
+                break;
+            case 'evoCostoEnvioCliente':
+                if (!$Empresa->setId_cliente($_POST['idCliente'])) {
+                    $result['error'] = $Empresa->getDataError();
+                } elseif ($result['dataset'] = $Empresa->evoCostoEnvioCliente()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Cliente inexistente';
+                }
+                break;
+            case 'existenciasSegunIdCategoria':
+                if ($result['dataset'] = $Empresa->existenciasSegunIdCategoria()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
+                } else {
+                    $result['error'] = 'No existen Empresas registradas';
+                }
+                break;
+            case 'clientesCompras':
+                if ($result['dataset'] = $Empresa->clientesCompras()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
+                } else {
+                    $result['error'] = 'No existen clientes registrados';
+                }
+                break;
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }

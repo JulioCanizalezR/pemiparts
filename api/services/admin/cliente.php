@@ -105,29 +105,41 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Correo de cliente indefinido';
                 }
                 break;
-                case 'clientesPorEmpresa':
-                    if ($result['dataset'] = $cliente->clientesPorEmpresa()) {
+            case 'clientesPorEmpresa':
+                if ($result['dataset'] = $cliente->clientesPorEmpresa()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'No hay datos disponibles';
+                }
+                break;
+            case 'clientesRegistradosXmes':
+                if ($result['dataset'] = $cliente->clientesRegistradosXmes()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'No hay datos disponibles';
+                }
+                break;
+                case 'clientesCantPedidos':
+                    if ($result['dataset'] = $cliente->clientesCantPedidos()) {
                         $result['status'] = 1;
+                        $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
                     } else {
-                        $result['error'] = 'No hay datos disponibles';
+                        $result['error'] = 'No existen clientes registrados';
                     }
-                    break;
-                case 'clientesRegistradosXmes':
-                    if ($result['dataset'] = $cliente->clientesRegistradosXmes()) {
+                    break;    
+            case 'graficoDistrubcionCliente':
+                if (!$cliente->setId($_POST['idCliente'])) {
+                    $result['error'] = 'Cliente incorrecto';
+                } else {
+                    $dataset = $cliente->graficoDistrubcionCliente();
+                    if (!empty($dataset)) {
                         $result['status'] = 1;
+                        $result['dataset'] = $dataset;
                     } else {
-                        $result['error'] = 'No hay datos disponibles';
+                        $result['error'] = 'Cliente sin vínculo con empresa';
                     }
-                    break;
-                case 'graficoDistrubcionCliente':
-                    if (!$cliente->setId($_POST['idCliente'])) {
-                        $result['error'] = 'Cliente incorrecto';
-                    } elseif ($result['dataset'] = $cliente->graficoDistrubcionCliente()) {
-                        $result['status'] = 1;
-                    } else {
-                        $result['error'] = 'Cliente inexistente';
-                    }
-                    break;
+                }
+                break;
             case 'logOut':
                 if (session_destroy()) {
                     $result['status'] = 1;

@@ -1,6 +1,8 @@
 const CLIENTE_API = 'services/admin/cliente.php';
 const EMPRESA_API = 'services/admin/empresa.php';
 const PRODUCTO_API = 'services/admin/producto.php';
+const CATEGORIA_API = 'services/admin/categoria.php';
+
 document.addEventListener('DOMContentLoaded', async () => {
     // Seleccionar los campos de entrada
     const idInput = document.getElementById('chartMediosDstCliente-id');
@@ -19,20 +21,25 @@ document.addEventListener('DOMContentLoaded', async () => {
     idDisponibilidadInput.value = defaultIdDisponibilidad;
     idEvoCostoEnvioClienteInput.value = defaultIdEvoCostoEnvioCliente;
 
+
     // Cargar los gráficos con los valores por defecto
     if (defaultIdMediosDstCliente) {
+        fillSelect(CLIENTE_API, 'clientesCantPedidos', 'chartMediosDstCliente-id');
         await graficoMediosDstCliente(defaultIdMediosDstCliente);
     }
 
     if (defaultIdCompExstProductos) {
+        fillSelect(CATEGORIA_API, 'checkEntidadesDisponibles', 'chartDisponibilidadXcategoria-id');
         await graficoCompExstProductos(defaultIdCompExstProductos);
     }
 
     if (defaultIdDisponibilidad) {
+        fillSelect(EMPRESA_API, 'existenciasSegunIdCategoria', 'chartCompExstProductos-id')
         await graficoDisponibilidadXcategoria(defaultIdDisponibilidad);
     }
 
     if (defaultIdEvoCostoEnvioCliente) {
+        fillSelect(EMPRESA_API, 'clientesCompras', 'chartEvoCostoEnvioCliente-id')
         await graficoEvoCostoEnvioCliente(defaultIdEvoCostoEnvioCliente);
     }
 
@@ -103,7 +110,7 @@ const graficoMediosDstCliente = async (idCliente) => {
                 console.error('No se encontró el elemento canvas con ID chartMediosDstCliente');
             }
         } else {
-            await sweetAlert(2, 'Cliente inexistente', false);
+            await sweetAlert(2, DATA.error, false);
         }
     } catch (error) {
         console.error('Error al realizar la solicitud: ', error);

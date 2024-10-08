@@ -86,7 +86,20 @@ class CategoriaHandler
 
         return Database::getRow($sql, $params);
     }
-    
+    public function checkEntidadesDisponibles(){
+        $sql = 'SELECT c.id_categoria, c.nombre
+        FROM tb_categorias c
+        WHERE EXISTS (
+            SELECT 1
+            FROM tb_productos p
+            JOIN tb_entidades e ON p.id_producto = e.id_producto
+            WHERE p.id_categoria = c.id_categoria
+            AND e.estado = "Disponible"
+        )
+        ORDER BY c.id_categoria;
+        ';
+        return Database::getRows($sql);
+    }
     public function productoXcagetoria()
     {
         $sql = 'SELECT p.nombre_producto, p.descripcion_producto, p.precio_producto, c.nombre

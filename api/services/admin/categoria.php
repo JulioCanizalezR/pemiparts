@@ -83,6 +83,14 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al eliminar la categoría';
                 }
                 break;
+                case 'checkEntidadesDisponibles':
+                    if ($result['dataset'] = $categoria->checkEntidadesDisponibles()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
+                    } else {
+                        $result['error'] = 'No existen categorías registradas';
+                    }
+                    break;
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }
