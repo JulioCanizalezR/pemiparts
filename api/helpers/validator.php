@@ -330,7 +330,7 @@ class Validator
 
     public static function validateSessionTime()
     {
-        $inactivo = 301; //Tiempo en segundos. 
+        $inactivo = 3001; //Tiempo en segundos. 
 
         //Calculamos tiempo de vida inactivo.
         $vida_session = time() - $_SESSION['tiempo'];
